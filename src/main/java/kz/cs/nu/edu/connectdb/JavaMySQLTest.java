@@ -14,15 +14,15 @@ public class JavaMySQLTest {
             System.out.println("Connected to the database");
 
             // This code to add into database
-            String addsql = "INSERT INTO guest (idguest, firstname, lastname) VALUES (?, ?, ?)";
-
-            PreparedStatement addstatement = connection.prepareStatement(addsql);
-            addstatement.setInt(1, 100);
-            addstatement.setString(2, "Tima");
-            addstatement.setString(3, "Yuss");
-
-            int rows = addstatement.executeUpdate();
-            System.out.println(rows);
+//            String addsql = "INSERT INTO guest (idguest, firstname, lastname) VALUES (?, ?, ?)";
+//
+//            PreparedStatement addstatement = connection.prepareStatement(addsql);
+//            addstatement.setInt(1, 100);
+//            addstatement.setString(2, "Tima");
+//            addstatement.setString(3, "Yuss");
+//
+//            int rows = addstatement.executeUpdate();
+//            System.out.println(rows);
 
             // This code to iterate through all guests
             String  sql = "SELECT * FROM guest";
