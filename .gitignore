@@ -18,3 +18,16 @@
 .idea/**/dbnavigator.xml
 .idea/**/gradle.xml
 .idea/**/libraries
+
+### Config system files ###
+
+.settings/
+.classpath
+.project
+*.iml
+.DS_Store
+
+### Build ###
+
+target/
+
