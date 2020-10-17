@@ -1,7 +1,9 @@
-FROM ubuntu
-WORKDIR /setup
+FROM tomcat
 
-COPY setup.sh .
-RUN bash setup.sh
+RUN apt-get update && \
+      apt-get install -y net-tools vim
 
-CMD service mysql start && bash
+ADD hotel.war /usr/local/tomcat/webapps
+EXPOSE 8080
+
+CMD bash
