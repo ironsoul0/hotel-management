@@ -1,6 +1,9 @@
 ### IntelliJ IDEA ###
 
 .idea/*
+*.class
+target/*
+*.war
 
 ### Sensitive IDEA files ###
 
