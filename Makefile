@@ -1,7 +1,13 @@
 DOCKER_TAG=swe-project
 
-build: Dockerfile hotel.war
-	docker build -t ${DOCKER_TAG} .
+build: docker-compose.yml Dockerfile hotel.war
+	docker-compose up
+	#docker build -t ${DOCKER_TAG} .
+
+hotel.war: src/ pom.xml
+	mvn compile
+	mvn package
+	mv target/*.war hotel.war
 
 compile: pom.xml
 	mvn compile
