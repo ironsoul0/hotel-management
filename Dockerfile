@@ -6,4 +6,4 @@ RUN apt-get update && \
 ADD hotel.war /usr/local/tomcat/webapps
 EXPOSE 8080
 
-CMD bash
+CMD ["catalina.sh", "run"]
