@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Hotel</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+
+<div class="container mt-5 mb-5">
+    <h1>Add Hotel</h1>
+    <form action="/hotels/add" method="post">
+        <input type="text" name="name" placeholder="Add hotel's name" class="form-control"><br>
+        <input type="text" name="address" placeholder="Add hotel's address" class="form-control"><br>
+        <input type="text" name="phone" placeholder="Add hotel's phone" class="form-control"><br>
+        <button type="submit" class="btn btn-success">Add Hotel</button>
+    </form>
+</div>
+
+<div th:insert="blocks/footer :: footer"></div>
+</body>
+</html>
