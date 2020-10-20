@@ -1,5 +1,6 @@
 package com.example.demo;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -12,31 +13,41 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Qualifier("userDetailsServiceImp")
+    @Qualifier("userDetailsServiceImpl")
     @Autowired
     private UserDetailsService userDetailsService;
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder () { return new BCryptPasswordEncoder(); }
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Override
-    protected void configure (HttpSecurity httpSecurity) throws Exception {
-
-        httpSecurity.authorizeRequests().
-                antMatchers("/resources/**", "/registration").permitAll().anyRequest().authenticated().
-                and().formLogin().loginPage("/login").permitAll().
-                and().logout().permitAll();
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .antMatchers("/resources/**", "/registration").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .permitAll()
+                .and()
+                .logout()
+                .permitAll();
     }
 
     @Bean
-    public AuthenticationManager cAuthenticationManager() throws Exception { return authenticationManager(); }
+    public AuthenticationManager customAuthenticationManager() throws Exception {
+        return authenticationManager();
+    }
 
     @Autowired
-    public void configureGlobal (AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception { authenticationManagerBuilder.
-            userDetailsService(userDetailsService).
-            passwordEncoder(bCryptPasswordEncoder()); }
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+    }
 }

@@ -5,25 +5,34 @@ import java.util.Set;
 
 @Entity
 public class Role {
+    private Long id;
+    private String name;
+    private Set< User > users;
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public Long getId() {
+        return id;
+    }
 
-    private String name;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    @ManyToMany (mappedBy = "roles")
-    private Set<User> users;
+    public String getName() {
+        return name;
+    }
 
-    public Long getID () { return id; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public void setID (Long id) { this.id = id; }
+    @ManyToMany(mappedBy = "roles")
+    public Set < User > getUsers() {
+        return users;
+    }
 
-    public String getName () { return name; }
-
-    public void setName (String name) { this.name = name; }
-
-    public Set <User> getUsers () { return users; }
-
-    public void setUsers (Set <User> users) { this.users = users; }
+    public void setUsers(Set < User > users) {
+        this.users = users;
+    }
 }

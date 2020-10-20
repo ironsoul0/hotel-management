@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class UserController {
-
     @Autowired
     private UserService userService;
 
@@ -25,36 +24,37 @@ public class UserController {
     private UserValidator userValidator;
 
     @GetMapping("/registration")
-    public String registration (Model model) {
-        model.addAttribute("userForm", new User());
+    public String registration(Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+
         return "registration";
     }
 
     @PostMapping("/registration")
-    public String registration (@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
-
+    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
         userValidator.validate(userForm, bindingResult);
 
-        if (bindingResult.hasErrors()) { return "registration"; }
+        if (bindingResult.hasErrors()) {
+            return "registration";
+        }
 
         userService.save(userForm);
 
-        securityService.autoLogin(userForm.getUserName(), userForm.getPasswordConfirm());
+        securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
 
-        return "redirect:/welcome";
+        return "redirect:/hotels";
     }
 
     @GetMapping("/login")
-    public String login (Model model, String error, String logout) {
-
+    public String login(Model model, String error, String logout) {
         if (error != null)
-            model.addAttribute("error", "Your userName or password are not correct.");
+            model.addAttribute("error", "Your username and password is invalid.");
 
         if (logout != null)
-            model.addAttribute("message", "Logout process has been completed successfully... or not?! Boooooom!!!");
+            model.addAttribute("message", "You have been logged out successfully.");
 
         return "login";
     }
 
-    //no need in POST for login; already done by Spring Security
 }
