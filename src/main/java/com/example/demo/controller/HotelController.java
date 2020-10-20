@@ -1,7 +1,7 @@
-package com.example.demo.controllers;
+package com.example.demo.controller;
 
-import com.example.demo.HotelRepository;
-import com.example.demo.models.Hotel;
+import com.example.demo.repository.HotelRepository;
+import com.example.demo.model.Hotel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -81,6 +81,4 @@ public class HotelController {
 
         return "redirect:/hotels";
     }
-
-
 }
