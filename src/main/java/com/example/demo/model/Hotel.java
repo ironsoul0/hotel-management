@@ -1,9 +1,8 @@
-package com.example.demo.models;
+package com.example.demo.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Hotel {
@@ -11,6 +10,9 @@ public class Hotel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
+    private Set<Room> rooms = new HashSet<>();
 
     private String name;
     private String address;
@@ -57,5 +59,9 @@ public class Hotel {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Set<Room> getRooms() {
+        return rooms;
     }
 }
