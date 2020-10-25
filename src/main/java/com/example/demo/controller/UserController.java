@@ -25,14 +25,14 @@ public class UserController {
 
     @GetMapping("/registration")
     public String registration(Model model) {
-        User user = new User();
-        model.addAttribute("user", user);
+//        User user = new User();
+        model.addAttribute("user", new User());
 
         return "registration";
     }
 
     @PostMapping("/registration")
-    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
+    public String registration(@ModelAttribute("user") User userForm, BindingResult bindingResult) {
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
