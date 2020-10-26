@@ -15,6 +15,9 @@ public class Hotel {
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
     private Set<Room> rooms = new HashSet<>();
 
+    @OneToMany(mappedBy = "hotel_id", cascade = CascadeType.ALL)
+    private Set<Room_type> room_types = new HashSet<>();
+
     private String name;
     private String address;
     private String phone;
@@ -65,4 +68,6 @@ public class Hotel {
     public Set<Room> getRooms() {
         return rooms;
     }
+
+    public Set<Room_type> getRoom_types() {return room_types;}
 }
