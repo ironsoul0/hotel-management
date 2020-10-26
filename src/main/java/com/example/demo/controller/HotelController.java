@@ -33,7 +33,7 @@ public class  HotelController {
 
     @PostMapping("/hotels/add")
     public String hotelsPostAdd(@RequestParam String name, @RequestParam String address, @RequestParam String phone, Model model) {
-        Hotel hotel = new Hotel(name, address, phone);
+        Hotel hotel = new Hotel(name, address, phone, "");
         hotelRepository.save(hotel);
         return "redirect:/hotels";
     }

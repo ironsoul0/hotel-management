@@ -21,16 +21,18 @@ public class Hotel {
     private String name;
     private String address;
     private String phone;
+    private String features;
     private int views;
 
     public Hotel() {
     }
 
-    public Hotel(String name, String address, String phone) {
+    public Hotel(String name, String address, String phone, String features) {
         this.name = name;
         this.address = address;
         this.phone = phone;
         this.views = 0;
+        this.features = features;
     }
 
     public Long getId() {
@@ -70,4 +72,9 @@ public class Hotel {
     }
 
     public Set<Room_type> getRoom_types() {return room_types;}
+
+    public String getFeatures() { return features; }
+
+    public void setFeatures(String features) { this.features = features; }
+
 }
