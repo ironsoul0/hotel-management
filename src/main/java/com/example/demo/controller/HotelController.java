@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @Controller
-public class HotelController {
+public class  HotelController {
 
     @Autowired
     private HotelRepository hotelRepository;
