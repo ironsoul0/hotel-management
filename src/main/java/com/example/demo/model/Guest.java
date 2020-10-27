@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "guest")
+public class Guest {
     private Long id;
     private String username;
     private String password;
@@ -48,7 +48,7 @@ public class User {
     }
 
     @ManyToMany
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = "guest_role", joinColumns = @JoinColumn(name = "guest_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     public Set < Role > getRoles() {
         return roles;
     }

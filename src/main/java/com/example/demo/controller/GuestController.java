@@ -1,9 +1,9 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.User;
+import com.example.demo.model.Guest;
+import com.example.demo.service.GuestService;
 import com.example.demo.service.SecurityService;
-import com.example.demo.service.UserService;
-import com.example.demo.validator.UserValidator;
+import com.example.demo.validator.GuestValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,35 +13,35 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
-public class UserController {
+public class GuestController {
     @Autowired
-    private UserService userService;
+    private GuestService guestService;
 
     @Autowired
     private SecurityService securityService;
 
     @Autowired
-    private UserValidator userValidator;
+    private GuestValidator guestValidator;
 
     @GetMapping("/registration")
     public String registration(Model model) {
 //        User user = new User();
-        model.addAttribute("user", new User());
+        model.addAttribute("user", new Guest());
 
         return "registration";
     }
 
     @PostMapping("/registration")
-    public String registration(@ModelAttribute("user") User userForm, BindingResult bindingResult) {
-        userValidator.validate(userForm, bindingResult);
+    public String registration(@ModelAttribute("user") Guest guestForm, BindingResult bindingResult) {
+        guestValidator.validate(guestForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "registration";
         }
 
-        userService.save(userForm);
+        guestService.save(guestForm);
 
-        securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
+        securityService.autoLogin(guestForm.getUsername(), guestForm.getPasswordConfirm());
 
         return "redirect:/hotels";
     }
