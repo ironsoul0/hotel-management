@@ -1,8 +1,11 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Guest;
 import com.example.demo.model.Hotel;
+import com.example.demo.model.Reservation;
 import com.example.demo.model.Room_type;
 import com.example.demo.repository.HotelRepository;
+import com.example.demo.repository.ReservationRepository;
 import com.example.demo.repository.Room_typeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -20,11 +23,24 @@ public class HotelDebugController {
     @Autowired
     private Room_typeRepository roomtyperepo;
 
+    @Autowired
+    private ReservationRepository reservationRepository;
+
     @GetMapping("/debug")
     public String printSecret(Model model){
         model.addAttribute("title", "Hello World");
         return "secret";
     }
+
+//    @GetMapping("/debug/populate-reservations")
+//    public String populateReservations(Model model) {
+//        reservationRepository.deleteAll();
+//
+//        Reservation a = new Reservation("22.10.1251", "22.10.1251", 1250 , 2);
+//
+//        reservationRepository.save(a);
+//        return "redirect:/reservations";
+//    }
 
     @GetMapping("/debug/populate-hotels")
     public String populateHotels(Model model){
@@ -39,7 +55,7 @@ public class HotelDebugController {
         hotelrepo.save(c);
         hotelrepo.save(d);
 
-        return "redirect:/debug/populate-roomtypes";
+        return "redirect:/debug/test-hotels";
     }
 
     @GetMapping("/debug/populate-roomtypes")

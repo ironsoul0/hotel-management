@@ -3,6 +3,8 @@ package com.example.demo.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Room_type")
@@ -21,6 +23,9 @@ public class Room_type {
     @JoinColumn(name = "hotel_id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Hotel hotel_id;
+
+    @OneToMany(mappedBy = "room_type_id", cascade = CascadeType.ALL)
+    private Set<Reservation> reservations = new HashSet<>();
 
     public Room_type() {
 
@@ -81,4 +86,7 @@ public class Room_type {
     public void setHotel_id(Hotel hotel_id) {
         this.hotel_id = hotel_id;
     }
+
+    public Set<Reservation> getReservations() {return reservations;}
+
 }

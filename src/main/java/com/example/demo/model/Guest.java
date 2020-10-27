@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -17,6 +18,11 @@ public class Guest {
     public Long getId() {
         return id;
     }
+
+    @OneToMany(mappedBy = "guest_id_reservation", cascade = CascadeType.ALL)
+    private Set<Reservation> reservations = new HashSet<>();
+
+//    public Set<Reservation> getGuestReservations() {return reservations;}
 
     public void setId(Long id) {
         this.id = id;
