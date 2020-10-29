@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Guest;
+import com.example.demo.model.User;
 import com.example.demo.model.Hotel;
 import com.example.demo.model.Reservation;
 import com.example.demo.model.Room_type;

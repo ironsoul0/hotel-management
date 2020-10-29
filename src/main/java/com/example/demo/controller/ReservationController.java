@@ -1,11 +1,12 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Guest;
+import com.example.demo.model.User;
 import com.example.demo.model.Hotel;
 import com.example.demo.model.Reservation;
 import com.example.demo.model.Room_type;
-import com.example.demo.repository.GuestRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.ReservationRepository;
+import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,7 @@ public class ReservationController {
     private ReservationRepository reservationRepository;
 
     @Autowired
-    private GuestRepository guestRepository;
+    private UserRepository userRepository;
 
     @GetMapping("reservations")
     public List<Reservation> findAllReservations() {

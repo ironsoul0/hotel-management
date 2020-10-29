@@ -28,9 +28,9 @@ public class Reservation {
     private Room_type room_type_id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "guest_id_reservation")
+    @JoinColumn(name = "user_id_reservation")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Guest guest_id;
+    private User user_id;
 
 
     public Reservation() {
@@ -63,12 +63,12 @@ public class Reservation {
         this.room_count = room_count;
     }
 
-    public Guest getGuest_id() {
-        return guest_id;
+    public User getUser_id() {
+        return user_id;
     }
 
-    public void setGuest_id(Guest guest_id) {
-        this.guest_id = guest_id;
+    public void setUser_id(User user_id) {
+        this.user_id = user_id;
     }
 
     public Room_type getRoom_type_id() {
