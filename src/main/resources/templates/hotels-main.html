@@ -1,20 +1,91 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<style>
+    body {
+        font: 16px Arial, Verdana, Tahoma, Sans-serif;
+    }
+
+    .container {
+        width: 852px;
+        background: #ccc;
+        margin: 0 auto;
+        padding: 16px;
+    }
+
+    .wrapper {
+        margin: 8px 0;
+    }
+
+    .search-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-content: stretch;
+        align-items: flex-start;
+    }
+
+    input {
+        min-width: 20px;
+        padding: 8px;
+        margin: 0 4px 0 0;
+        border: 1px solid #666;
+        border-radius: 5px;
+        height: 30px;
+    }
+
+    .button {
+        padding: 8px 16px;
+        min-height: 48px;
+        min-width: 10px;
+        word-wrap: nowrap;
+        background: #000;
+        color: #fff;
+        border: 1px solid #fff;
+        border-radius: 5px;
+    }
+
+    input {
+        order: 0;
+        align-self: auto;
+    }
+
+    .search {
+        flex: 2 1 auto;
+    }
+
+    .date-from {
+        flex: 1 1 auto;
+    }
+
+    .date-to {
+        flex: 1 1 auto;
+    }
+
+    .button {
+        order: 4;
+        flex: 0 1 auto;
+        align-self: auto;
+    }
+</style>
 <head>
-    <title>All Hotels</title>
+    <title th:text="${title}">Main page</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 <header th:insert="blocks/header :: header"></header>
 
+
 <div class="container">
-    <h1>All Hotels</h1>
-    <div th:each="el : ${hotels}" class="alert alert-info mt-2">
-        <h3 th:text="${el.name}"/>
-        <p th:text="${el.address}"/>
-        <a th:href="'/hotels/' + ${el.id}" class="btn btn-warning">More Details</a>
-    </div>
+    <p>Find hotels ANYWHERE</p>
+    <form action="/search-hotels/" method="post">
+        <input type="text" name="city" class="search" placeholder="Location">
+        <input type="text" name="checkInDate" class="date-from" placeholder="Check In (DD.MM.YYYY)">
+        <input type="text" name="checkOutDate" class="date-from" placeholder="Check Out (DD.MM.YYYY)">
+        <input type="text" name="numberOfPeople" class="date-to" placeholder="Number of people">
+        <button type="submit" class="button">Search</button>
+    </form>
 </div>
 
 <div th:insert="blocks/footer :: footer"></div>

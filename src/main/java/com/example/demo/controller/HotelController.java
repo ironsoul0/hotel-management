@@ -19,10 +19,15 @@ public class  HotelController {
     @Autowired
     private HotelRepository hotelRepository;
 
-    @GetMapping("/hotels")
-    public String hotelsMain(Model model) {
-        Iterable<Hotel> hotels = hotelRepository.findAll();
-        model.addAttribute("hotels", hotels);
+//    @GetMapping("/")
+//    public String hotelsMain(Model model) {
+//        Iterable<Hotel> hotels = hotelRepository.findAll();
+//        model.addAttribute("hotels", hotels);
+//        return "home";
+//    }
+
+    @GetMapping("/hotels-main")
+    public String hotelsMain(Model mode) {
         return "hotels-main";
     }
 
