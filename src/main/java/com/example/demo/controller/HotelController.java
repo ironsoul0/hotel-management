@@ -81,4 +81,26 @@ public class  HotelController {
 
         return "redirect:/hotels";
     }
+
+
+    @GetMapping("/search-hotels/{city}")
+    public String hotelSearch(@PathVariable String city, Model model) {
+        Iterable<Hotel> hotelsAll = hotelRepository.findAll();
+        ArrayList<Hotel> resHotels = new ArrayList<>();
+        for (Hotel hotel : hotelsAll) {
+            if (hotel.getAddress().toLowerCase().contains(city.toLowerCase())) {
+                resHotels.add(hotel);
+            }
+        }
+        System.out.println("Hotel");
+        model.addAttribute("hotels", (Iterable<Hotel>)resHotels);
+        return "search-hotels";
+    }
+
+    @PostMapping("/search-hotels/")
+    public String hotelsSearch(@RequestParam String city, @RequestParam String checkInDate, @RequestParam String checkOutDate, @RequestParam String numberOfPeople, Model model) {
+        String url = "redirect:/search-hotels/" + city;
+        return url;
+    }
+
 }

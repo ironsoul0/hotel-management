@@ -9,7 +9,7 @@ public class MainController {
 
     @GetMapping("/")
     public String greeting(Model model) {
-        model.addAttribute("title", "Главная страница");
+        model.addAttribute("title", "Main page");
         return "home";
     }
 
