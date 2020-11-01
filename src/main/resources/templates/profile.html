@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title th:text="${title}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<header th:insert="blocks/header :: header"></header>
+
+<div class="container">
+    <p th:text="${user.username}"/>
+</div>
+
+<div class="container">
+    <ul>
+        <li th:each="reservation: ${reservations}" th:text="${reservation.checkinDate}"/>
+    </ul>
+</div>
+
+
+<div th:insert="blocks/footer :: footer"></div>
+</body>
+</html>
