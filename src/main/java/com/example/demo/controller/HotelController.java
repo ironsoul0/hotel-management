@@ -1,7 +1,12 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Reservation;
+import com.example.demo.model.Room;
+import com.example.demo.model.Room_type;
 import com.example.demo.repository.HotelRepository;
 import com.example.demo.model.Hotel;
+import com.example.demo.repository.ReservationRepository;
+import com.example.demo.repository.Room_typeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,13 +16,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Controller
 public class  HotelController {
 
     @Autowired
     private HotelRepository hotelRepository;
+
+    @Autowired
+    private ReservationRepository reservationRepository;
+
+    @Autowired
+    private Room_typeRepository room_typeRepository;
 
 //    @GetMapping("/")
 //    public String hotelsMain(Model model) {
@@ -108,4 +121,23 @@ public class  HotelController {
         return url;
     }
 
+    @GetMapping("/book-room/{id}")
+    public String showBookRoomPage(@PathVariable Long id, Model model){
+        Hotel h = hotelRepository.findById(id).get();
+        model.addAttribute("hotel", h);
+        Set<Room_type> room_types = h.getRoom_types();
+        Iterable<Room_type> it = room_types;
+        model.addAttribute("roomtypes", it);
+        return "make-reservation";
+    }
+
+    @PostMapping("/book-room")
+    public String bookRoom(@RequestParam Long id, Model model){
+        Room_type rt = room_typeRepository.findById(id).get();
+        Reservation r = new Reservation("", "", 50, 1);
+        r.setRoom_type_id(rt);
+        // add user info into reservation
+        reservationRepository.save(r);
+        return "redirect:/";
+    }
 }
