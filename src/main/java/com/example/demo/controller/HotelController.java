@@ -27,7 +27,7 @@ public class  HotelController {
 //    }
 
     @GetMapping("/hotels-main")
-    public String hotelsMain(Model mode) {
+    public String hotelsMain(Model model) {
         return "hotels-main";
     }
 
