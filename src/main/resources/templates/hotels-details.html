@@ -15,6 +15,7 @@
         <p th:text="${el.phone}"/>
 <!--        <p><b>Views: </b> <span th:text="${el.views}"/></p>-->
         <a th:href="'/hotels/' + ${el.id} + '/edit'" class="btn btn-warning">Edit</a><br><br>
+        <a th:href="'/book-room/' + ${el.id}" class="btn btn-success">Book</a>
         <form th:action="'/hotels/' + ${el.id} + '/remove'" method="post">
             <button class="btn btn-warning" type="submit">Delete</button>
         </form>
