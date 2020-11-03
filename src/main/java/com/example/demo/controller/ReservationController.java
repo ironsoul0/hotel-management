@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.imageio.ImageTranscoder;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -30,9 +32,15 @@ public class ReservationController {
         return (List<Reservation>) reservationRepository.findAll();
     }
 
-//    @GetMapping("/reservations/allGuestReservation")
-//    public Set<Room_type> findAllGuestReservation(@RequestParam Long guestId) {
-//        Guest guest = guestRepository.findById(guestId).orElseThrow();
-//        return guest.getReservations();
+//    @GetMapping("/reservations/{userId}")
+//    public List<Reservation> findAllGuestReservation(@RequestParam Long userId) {
+//        Iterable<Reservation> allReservation = reservationRepository.findAll();
+//        ArrayList<Reservation> userReservation = new ArrayList<>();
+//        for (Reservation reservation : allReservation) {
+//            if (reservation.getUser_id().getId() == userId) {
+//                userReservation.add(reservation);
+//            }
+//        }
+//        return (List<Reservation>) userReservation;
 //    }
 }
