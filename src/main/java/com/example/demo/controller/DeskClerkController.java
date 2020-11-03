@@ -30,7 +30,7 @@ public class DeskClerkController {
     // also could be a function for button, but before pressing button, desk clerk has to enter the hotelId
     // for now it is okay
     // need to separate User and Guest and Employees and change ER model
-    @GetMapping("/allReservations")
+    @GetMapping("/allReservations") // this one works
     public Set<Reservation> showAllReservations (@RequestParam Long hotelId) {
 
         Hotel hotel = hotelRepository.findById(hotelId).orElseThrow();
@@ -53,7 +53,7 @@ public class DeskClerkController {
 
     // this is implemented as a function for button
     // it returns roomId that was set for user
-    @PostMapping("/approveReservation")
+    @PostMapping("/approveReservation") // this one works
     public Long approveReservation (@RequestParam Long reservationId, @RequestParam Long hotelId) {
 
         Reservation reservation = reservationRepository.findById(reservationId).orElseThrow();
@@ -75,11 +75,15 @@ public class DeskClerkController {
             }
         }
 
+        hotelRepository.save(hotel);
+        reservationRepository.delete(reservation);
+
+
         return (long) -1; // specific exception is needed, but for now it is negative value
     }
 
     // this is implemented as a function for button
-    @PostMapping("/removeReservation")
+    @DeleteMapping("/removeReservation") // works
     public void removeReservation (@RequestParam Long reservationId, @RequestParam Long hotelId) {
 
         Reservation reservation = reservationRepository.findById(reservationId).orElseThrow();
@@ -95,25 +99,29 @@ public class DeskClerkController {
 
                 Set <Reservation> reservationSet = r.getReservations();
                 reservationSet.removeIf(rs -> rs.getId().equals(reservation.getId()));
+                reservationRepository.delete(reservation);
                 break;
             }
         }
+        hotelRepository.save(hotel);
+
     }
 
     // does not show in advance if some room type is unavailable for check in date <-- add it later
-    @PostMapping("/createReservation")
+    @PostMapping("/createReservation") // no return
     public Long createReservation (@RequestParam String userName,
                                    @RequestParam Long hotelId,
                                    @RequestParam String checkInDate,
                                    @RequestParam String checkOutDate,
                                    @RequestParam int prePaidPrice,
-                                   @RequestParam int roomCount) {
+                                   @RequestParam int roomCount,
+                                   @RequestParam Long room_typeId) {
 
         Hotel hotel = hotelRepository.findById(hotelId).orElseThrow();
         Set <Room_type> room_types = hotel.getRoom_types();
         User cur_guest = guestRepository.findByUsername(userName).orElseThrow();
 
-        Reservation reservation = new Reservation(checkInDate, checkOutDate, prePaidPrice, roomCount); // так можно делать?
+        Reservation reservation = new Reservation(checkInDate, checkOutDate, prePaidPrice, roomCount);
 
         reservation.setUser_id(cur_guest);
 
@@ -121,14 +129,19 @@ public class DeskClerkController {
 
             if
             (r.getRoom_type_id()
-                    .equals(reservation.getRoom_type_id().getRoom_type_id())
+                    .equals(room_typeId)
             ) {
 
                 r.getReservations().add(reservation);
-
+                reservation.setRoom_type_id(r);
                 break;
             }
         }
+
+        guestRepository.save(cur_guest);
+
+        hotelRepository.save(hotel);
+        reservationRepository.save(reservation);
 
         return reservation.getId();
     }

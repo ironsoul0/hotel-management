@@ -1,11 +1,13 @@
 package com.example.demo.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
 
 @Entity
+@Table(name="deskclerk")
 public class DeskClerk extends User {
 
     public DeskClerk () { }
