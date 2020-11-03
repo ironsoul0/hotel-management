@@ -31,6 +31,14 @@ public class User {
     private String email;
 
     @NotBlank
+    @Size(max = 20)
+    private String name;
+
+    @NotBlank
+    @Size(max = 20)
+    private String surname;
+
+    @NotBlank
     @Size(max = 120)
     private String password;
 
@@ -72,9 +80,11 @@ public class User {
     public User() {
     }
 
-    public User(String username, String email, String password, String mobilePhone, String homePhone, String address, String identificationType, String identificationNumber) {
+    public User(String username, String email, String name, String surname, String password, String mobilePhone, String homePhone, String address, String identificationType, String identificationNumber) {
         this.username = username;
         this.email = email;
+        this.name = name;
+        this.surname = surname;
         this.password = password;
         this.mobilePhone = mobilePhone;
         this.homePhone = homePhone;

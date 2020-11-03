@@ -21,10 +21,15 @@ import api from "../config/api";
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+    <Typography
+      variant="body2"
+      color="textSecondary"
+      align="center"
+      style={{ marginBottom: "20px" }}
+    >
       {"Copyright © "}
       <Link color="inherit" href="https://ironsoul.me/">
-        LoveDogs
+        HMS
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -73,6 +78,14 @@ export default function SignUp({ toggle }) {
     setSuccess("");
   };
 
+  const handleFailClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setFail("");
+  };
+
   const fieldChange = (e) => {
     setFields({ ...fields, [e.target.name]: e.target.value });
   };
@@ -89,6 +102,8 @@ export default function SignUp({ toggle }) {
     const requiredFields = [
       "username",
       "email",
+      "name",
+      "surname",
       "password",
       "mobilePhone",
       "homePhone",
@@ -108,7 +123,7 @@ export default function SignUp({ toggle }) {
     api
       .post("/auth/signup", fields)
       .then(() => {
-        setSuccess("Sexfully registered!");
+        setSuccess("Successfully registered!");
         setTimeout(() => {
           toggle();
         }, 2000);
@@ -153,6 +168,30 @@ export default function SignUp({ toggle }) {
             type="email"
             id="email"
             value={fields["email"]}
+            onChange={fieldChange}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="name"
+            label="First name"
+            name="name"
+            autoComplete="name"
+            autoFocus
+            value={fields["name"]}
+            onChange={fieldChange}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="surname"
+            label="Last name"
+            id="surname"
+            value={fields["surname"]}
             onChange={fieldChange}
           />
           <TextField
@@ -249,8 +288,8 @@ export default function SignUp({ toggle }) {
           {success}
         </Alert>
       </Snackbar>
-      <Snackbar open={fail} autoHideDuration={3000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="error">
+      <Snackbar open={fail} autoHideDuration={3000} onClose={handleFailClose}>
+        <Alert onClose={handleFailClose} severity="error">
           {fail}
         </Alert>
       </Snackbar>

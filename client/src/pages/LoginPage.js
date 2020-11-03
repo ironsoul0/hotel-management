@@ -17,7 +17,7 @@ function LoginPage() {
     <>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="h6">Welcome to LoveDogs</Typography>
+          <Typography variant="h6">Welcome to HMS</Typography>
         </Toolbar>
       </AppBar>
       {login ? (

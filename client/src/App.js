@@ -1,22 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import {
-  Button,
-  Container,
-  AppBar,
-  Toolbar,
-  IconButton,
-  MenuIcon,
-  Typography,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 
 import LoginPage from "./pages/LoginPage";
+import MainPage from "./pages/MainPage";
 
 function App() {
   const token = useSelector((state) => state.auth.token);
 
-  return token ? <div>I LOVE FUCKING DOGS!</div> : <LoginPage />;
+  return token ? <MainPage /> : <LoginPage />;
 }
 
 export default App;
