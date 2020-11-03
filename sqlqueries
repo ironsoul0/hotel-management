@@ -4,9 +4,10 @@ INSERT INTO `hotelmanagement`.`room_type` (`room_type_id`, `capacity`, `name`, `
 INSERT INTO `hotelmanagement`.`room_type` (`room_type_id`, `capacity`, `name`, `size`, `hotel_id`, `features`) VALUES ('4', '2', 'Standard Double Room', '18', '2', 'Air conditioning, Electric kettle, Dining table, Desk, TV, Telephone, Cable channels, Ourdoor furniture, Clothes rack');
 INSERT INTO `hotelmanagement`.`room_type` (`room_type_id`, `capacity`, `name`, `size`, `hotel_id`, `features`) VALUES ('5', '3', 'Suite', '50', '2', 'Electric kettle, Dining table, Sofa, Desk, Sitting area, TV, Telephone, Flat-screen TV, Cable channels, Outdorr furniture');
 INSERT INTO `hotelmanagement`.`room_type` (`room_type_id`, `capacity`, `name`, `size`, `hotel_id`, `features`) VALUES ('6', '1', 'Economy Single Room', '15', '2', 'Refrigerator, Electric kettle, Dining table, Desk, TV, Telephone, Flat-screen TV, Cable channels, Outdoffr furniture, Clothes rack');
+INSERT INTO `hotelmanagement`.`hotel` (`id`, `address`, `name`, `phone`, `views`) VALUES ('1', '1', 'Economy Single Room', '15', '0');
 
 
-
-INSERT INTO `hotelmanagement`.`reservation` (`id`, `checkin_date`, `checkout_date`, `prepaid_price`, `room_count`, `guest_id_reservation`, `room_type_id`) VALUES ('1', '17.11.2020', '18.12.2020', '3500', '2', '53', '45');
+INSERT INTO `hotelmanagement`.`reservation` (`id`, `checkin_date`, `checkout_date`, `prepaid_price`, `room_count`, `guest_id_reservation`, `room_type_id`, `user_id_reservation`) VALUES ('2', '17.11.2020', '18.12.2020', '3500', '2', '53', '1', '1');
 INSERT INTO `hotelmanagement`.`reservation` (`id`, `checkin_date`, `checkout_date`, `prepaid_price`, `room_count`, `guest_id_reservation`, `room_type_id`) VALUES ('2', '13.10.2020', '15.10.2020', '2500', '1', '23', '24');
 
+select * from reservation

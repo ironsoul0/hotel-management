@@ -26,13 +26,19 @@ public class Room {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Hotel hotel;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "room_type_id")                          // idk what column name should be here
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Room_type room_type;
+
     public Room() {
     }
 
-    public Room(Integer number, Hotel hotel) {
+    public Room(Integer number, Hotel hotel, Room_type room_type) {
         this.occupied = false;
         this.number = number;
         this.hotel = hotel;
+        this.room_type = room_type;
     }
 
     public Long getId() {
@@ -58,4 +64,6 @@ public class Room {
     public void setNumber(Integer number) {
         this.number = number;
     }
+
+    public Room_type getRoom_type () { return room_type; }
 }
