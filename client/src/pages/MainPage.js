@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -29,6 +29,12 @@ const useStyles = makeStyles((theme) => ({
 function MainPage() {
   const classes = useStyles();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setTimeout(() => {
+      window.location.replace("http://localhost:8080");
+    }, 2000);
+  }, []);
 
   return (
     <div className={classes.root}>

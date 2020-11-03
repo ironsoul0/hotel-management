@@ -41,7 +41,7 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const idTypes = ["Passport", "National ID", "Drived license"];
+const idTypes = ["Passport", "National ID", "Driver license"];
 
 const useStyles = makeStyles((theme) => ({
   paper: {
