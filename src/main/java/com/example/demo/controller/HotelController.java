@@ -1,13 +1,13 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Reservation;
-import com.example.demo.model.Room;
-import com.example.demo.model.Room_type;
+import com.example.demo.model.*;
 import com.example.demo.repository.HotelRepository;
-import com.example.demo.model.Hotel;
 import com.example.demo.repository.ReservationRepository;
 import com.example.demo.repository.Room_typeRepository;
+import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.*;
 
 @Controller
 public class  HotelController {
@@ -32,12 +32,20 @@ public class  HotelController {
     @Autowired
     private Room_typeRepository room_typeRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
 //    @GetMapping("/")
 //    public String hotelsMain(Model model) {
 //        Iterable<Hotel> hotels = hotelRepository.findAll();
 //        model.addAttribute("hotels", hotels);
 //        return "home";
 //    }
+
+    private String getUsername(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
+    }
 
     @GetMapping("/hotels-main")
     public String hotelsMain(Model model) {
@@ -132,11 +140,13 @@ public class  HotelController {
     }
 
     @PostMapping("/book-room")
-    public String bookRoom(@RequestParam Long id, Model model){
-        Room_type rt = room_typeRepository.findById(id).get();
-        Reservation r = new Reservation("", "", 50, 1);
+    public String bookRoom(@RequestParam Long roomtype, @RequestParam String myDate, @RequestParam String myDate2, Model model) throws ParseException {
+        Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(myDate);
+        Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse(myDate2);
+        User u = userRepository.findByUsername(getUsername()).get();
+        Room_type rt = room_typeRepository.findById(roomtype).get();
+        Reservation r = new Reservation(date1, date2, 50, 1, u);
         r.setRoom_type_id(rt);
-        // add user info into reservation
         reservationRepository.save(r);
         return "redirect:/";
     }

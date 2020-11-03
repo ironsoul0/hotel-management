@@ -17,6 +17,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.example.demo.controller.UserAuthenticatorController;
 
 import java.security.Principal;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -28,8 +33,8 @@ public class ProfileController {
     private ReservationRepository reservationrepo;
 
     private String getUsername(){
-        Principal userDetails = (Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userDetails.getName();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
     }
 
     private User getUser() {
@@ -41,11 +46,33 @@ public class ProfileController {
 
     @GetMapping("/profile")
     public String showProfile(Model model){
+        ArrayList<Reservation> upcoming = new ArrayList<Reservation>();
+        ArrayList<Reservation> current = new ArrayList<Reservation>();
+        ArrayList<Reservation> past = new ArrayList<Reservation>();
+
+        Instant now = LocalDateTime.now().toInstant(ZoneOffset.ofHours(6));
+
         User user = getUser();
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!: " + user.getUsername());
         model.addAttribute("user", user);
         Iterable<Reservation> lst = reservationrepo.findAll();
-        model.addAttribute("reservations", lst);
+
+        for(Reservation r : lst){
+            Instant a = r.getCheckinDate().toInstant();
+            Instant b = r.getCheckoutDate().toInstant();
+
+            if(a.compareTo(now) > 0){
+                upcoming.add(r);
+            } else if(b.compareTo(now) < 0){
+                past.add(r);
+            } else {
+                current.add(r);
+            }
+        }
+
+        model.addAttribute("current_reservations", current);
+        model.addAttribute("past_reservations", past);
+        model.addAttribute("upcoming_reservations", upcoming);
         return "profile";
     }
 }

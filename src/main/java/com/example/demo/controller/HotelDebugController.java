@@ -26,6 +26,11 @@ public class HotelDebugController {
     @Autowired
     private ReservationRepository reservationRepository;
 
+    @GetMapping("/debug/populate")
+    public String populate(Model model){
+        return "redirect:/debug/populate-hotels";
+    }
+
     @GetMapping("/debug")
     public String printSecret(Model model){
         model.addAttribute("title", "Hello World");
@@ -55,7 +60,7 @@ public class HotelDebugController {
         hotelrepo.save(c);
         hotelrepo.save(d);
 
-        return "redirect:/debug/test-hotels";
+        return "redirect:/debug/populate-roomtypes";
     }
 
     @GetMapping("/debug/populate-roomtypes")
@@ -125,9 +130,9 @@ public class HotelDebugController {
 
         lst.forEach((hotel) -> {
             System.out.println(hotel.getName());
-            Room_type a = new Room_type("Standard", hotel, 50, 1, "TV, Bed");
-            Room_type b = new Room_type("HalfLux", hotel, 10, 1, "TV, Bed, Bathroom");
-            Room_type c = new Room_type("Lux", hotel, 5, 2, "Big Bed, Wi-Fi, Bathroom");
+            Room_type a = new Room_type(hotel.getName() + "'s Standard", hotel, 50, 1, "TV, Bed");
+            Room_type b = new Room_type(hotel.getName() + "'s HalfLux", hotel, 10, 1, "TV, Bed, Bathroom");
+            Room_type c = new Room_type(hotel.getName() + "'s Lux", hotel, 5, 2, "Big Bed, Wi-Fi, Bathroom");
             roomtyperepo.save(a);
             roomtyperepo.save(b);
             roomtyperepo.save(c);

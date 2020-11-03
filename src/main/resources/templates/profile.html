@@ -9,13 +9,54 @@
 <header th:insert="blocks/header :: header"></header>
 
 <div class="container">
-    <p th:text="${user.username}"/>
+    <h1 th:text="'Hello, ' + ${user.getName()} + ' ' + ${user.getSurname()}">
 </div>
 
+
 <div class="container">
-    <ul>
-        <li th:each="reservation: ${reservations}" th:text="${reservation.checkinDate}"/>
-    </ul>
+    <p>
+        This is the list of your current reservations:
+        <div class="container-fluid">
+            <ul>
+                <li th:each="reservation: ${current_reservations}">
+                    <p>
+                        Name: <b th:text="${reservation.getRoom_type_id().getName()}"/> <br>
+                        Checkin date: <b th:text="${#dates.format(reservation.getCheckinDate(), 'dd-MM-yyyy')}"/> <br>
+                        Checkout date: <b th:text="${#dates.format(reservation.getCheckoutDate(), 'dd-MM-yyyy')}"/> <br>
+                    </p>
+                </li>
+            </ul>
+        </div> <br>
+        <br>
+        <br>
+        This is the list of your past reservations:
+        <div class="container-fluid">
+            <ul>
+                <li th:each="reservation: ${past_reservations}">
+                    <p>
+                        Name: <b th:text="${reservation.getRoom_type_id().getName()}"/> <br>
+                        Checkin date: <b th:text="${#dates.format(reservation.getCheckinDate(), 'dd-MM-yyyy')}"/> <br>
+                        Checkout date: <b th:text="${#dates.format(reservation.getCheckoutDate(), 'dd-MM-yyyy')}"/> <br>
+                    </p>
+                </li>
+            </ul>
+        </div><br>
+        <br>
+        <br>
+        This is the list of your upcoming reservations:
+        <div class="container-fluid">
+            <ul>
+                <li th:each="reservation: ${upcoming_reservations}">
+                    <p>
+                        Name: <b th:text="${reservation.getRoom_type_id().getName()}"/> <br>
+                        Checkin date: <b th:text="${#dates.format(reservation.getCheckinDate(), 'dd-MM-yyyy')}"/> <br>
+                        Checkout date: <b th:text="${#dates.format(reservation.getCheckoutDate(), 'dd-MM-yyyy')}"/> <br>
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </p>
+
 </div>
 
 

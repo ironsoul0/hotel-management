@@ -81,12 +81,20 @@
     <p>Make reservation in <b th:text="${hotel.name}"/></p> <br>
     Available room types: <br>
     <div class="form-group">
-    <form action="/book-room" method="post">
+    <form action="/book-room" method="post" th:object="${submitForm}">
         <div th:each="roomtype: ${roomtypes}">
         <input class="form-check-input" name="roomtype" type="radio" th:value="${roomtype.getRoom_type_id()}" th:text="${roomtype.name}"/> <br>
         </div>
         <div class="form-check">
-        <button type="submit" class="btn btn-warning">Book</button>
+            <input type="date" th:type="date" class="form-control" th:id="myDate" th:name="myDate"/>
+        </div>
+
+        <div class="form-check">
+            <input type="date" th:type="date" class="form-control" th:id="myDate2" th:name="myDate2"/>
+        </div>
+
+        <div class="form-check">
+        <input type="submit" class="btn btn-warning">Book</input>
         </div>
     </form>
     </div>

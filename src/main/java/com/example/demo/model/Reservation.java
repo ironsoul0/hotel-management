@@ -4,6 +4,7 @@ package com.example.demo.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "reservation")
@@ -13,8 +14,8 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String checkinDate;
-    private String checkoutDate;
+    private Date checkinDate;
+    private Date checkoutDate;
     private int prepaid_price;
     private int room_count;
 
@@ -36,11 +37,12 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(String checkinDate, String checkoutDate, int prepaid_price, int room_count) {
+    public Reservation(Date checkinDate, Date checkoutDate, int prepaid_price, int room_count, User user_id) {
         this.checkinDate = checkinDate;
         this.checkoutDate = checkoutDate;
         this.prepaid_price = prepaid_price;
         this.room_count = room_count;
+        this.user_id = user_id;
     }
 
     public void setId(Long id) {
@@ -79,19 +81,19 @@ public class Reservation {
         this.room_type_id = room_type_id;
     }
 
-    public String getCheckinDate() {
-        return checkinDate;
+    public Date getCheckinDate() {
+        return this.checkinDate;
     }
 
-    public void setCheckinDate(String checkinDate) {
+    public void setCheckinDate(Date checkinDate) {
         this.checkinDate = checkinDate;
     }
 
-    public String getCheckoutDate() {
-        return checkoutDate;
+    public Date getCheckoutDate() {
+        return this.checkoutDate;
     }
 
-    public void setCheckoutDate(String checkoutDate) {
+    public void setCheckoutDate(Date checkoutDate) {
         this.checkoutDate = checkoutDate;
     }
 }

@@ -6,8 +6,10 @@
             <a class="p-2 text-dark" href="/">Home</a>
             <a class="p-2 text-dark" href="/">Hotels</a>
             <a class="p-2 text-dark" href="/hotels/add">Add Hotel</a>
+            <a class="p-2 text-dark" th:href="@{/search-hotels}">Search</a>
 
-            <li sec:authorize="isAuthenticated()"><a th:href="@{/login}">Logout</a></li>
+            <a class="p-2 text-dark" sec:authorize="isAuthenticated()" th:href="@{/login}">Logout</a>
+            <a class="p-2 text-dark" sec:authorize="isAuthenticated()" th:href="@{/profile}">Profile</a>
 <!--            <a class="p-2 text-dark" href="/login">Log In</a>-->
 <!--            <a class="p-2 text-dark" href="/signup">Sign Up</a>-->
         </nav>
