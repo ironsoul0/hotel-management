@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.demo.controller.UserAuthenticatorController;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.security.Principal;
 import java.time.Instant;
@@ -74,5 +75,25 @@ public class ProfileController {
         model.addAttribute("past_reservations", past);
         model.addAttribute("upcoming_reservations", upcoming);
         return "profile";
+    }
+
+    @GetMapping("/profile/delete-book/{id}")
+    public String deleteBooking(@PathVariable Long id){
+        if(!reservationrepo.existsById(id)){
+            return "redirect:/profile";
+        }
+
+        Reservation x = reservationrepo.findById(id).get();
+
+        Instant checkin = x.getCheckinDate().toInstant();
+        Instant checkout = x.getCheckoutDate().toInstant();
+
+        Instant now = LocalDateTime.now().toInstant(ZoneOffset.ofHours(6));
+
+        if(now.compareTo(checkin) < 0 && now.compareTo(checkout) < 0){
+            reservationrepo.deleteById(id);
+        }
+
+        return "redirect:/profile";
     }
 }

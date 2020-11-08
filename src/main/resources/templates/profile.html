@@ -47,11 +47,18 @@
         <div class="container-fluid">
             <ul>
                 <li th:each="reservation: ${upcoming_reservations}">
-                    <p>
-                        Name: <b th:text="${reservation.getRoom_type_id().getName()}"/> <br>
-                        Checkin date: <b th:text="${#dates.format(reservation.getCheckinDate(), 'dd-MM-yyyy')}"/> <br>
-                        Checkout date: <b th:text="${#dates.format(reservation.getCheckoutDate(), 'dd-MM-yyyy')}"/> <br>
-                    </p>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <p>
+                                Name: <b th:text="${reservation.getRoom_type_id().getName()}"/> <br>
+                                Checkin date: <b th:text="${#dates.format(reservation.getCheckinDate(), 'dd-MM-yyyy')}"/> <br>
+                                Checkout date: <b th:text="${#dates.format(reservation.getCheckoutDate(), 'dd-MM-yyyy')}"/> <br>
+                            </p>
+                        </div>
+                        <div class="col-xs-6">
+                            <a th:href="'/profile/delete-book/' + ${reservation.getId()}" class="btn btn-success">Delete Reservation</a>
+                        </div>
+                    </div>
                 </li>
             </ul>
         </div>
