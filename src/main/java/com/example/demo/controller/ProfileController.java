@@ -9,17 +9,21 @@ import com.example.demo.repository.UserRepository;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.demo.controller.UserAuthenticatorController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 import java.text.ParseException;
@@ -29,9 +33,13 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
-@Controller
+//@Controller
+@CrossOrigin(origins = "*", maxAge = 3600)
+@RestController
+@RequestMapping("/api/profile")
 public class ProfileController {
     @Autowired
     private UserRepository userRepository;
@@ -54,8 +62,8 @@ public class ProfileController {
         return user;
     }
 
-    @GetMapping("/profile")
-    public String showProfile(Model model){
+    @GetMapping("/reservations")
+    public HashMap<String, Object> showProfile(Model model){
         ArrayList<Reservation> upcoming = new ArrayList<Reservation>();
         ArrayList<Reservation> current = new ArrayList<Reservation>();
         ArrayList<Reservation> past = new ArrayList<Reservation>();
@@ -86,10 +94,12 @@ public class ProfileController {
             }
         }
 
-        model.addAttribute("current_reservations", current);
-        model.addAttribute("past_reservations", past);
-        model.addAttribute("upcoming_reservations", upcoming);
-        return "profile";
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("upcoming", upcoming);
+        map.put("past", past);
+        map.put("current", current);
+
+        return map;
     }
 
     @GetMapping("/profile/delete-book/{id}")
