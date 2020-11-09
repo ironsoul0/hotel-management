@@ -23,9 +23,14 @@ public class Hotel {
     private String address;
     private String phone;
     private String features;
-    private int views;
 
+    @Lob
+    @Column(name="description", length=2048)
+    private String description;
+
+    private int views;
     public Hotel() {
+
     }
 
     public Hotel(String name, String address, String phone, String features) {
@@ -34,6 +39,16 @@ public class Hotel {
         this.phone = phone;
         this.views = 0;
         this.features = features;
+        this.description = description;
+    }
+
+    public Hotel(String name, String address, String phone, String features, String description) {
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.views = 0;
+        this.features = features;
+        this.description = description;
     }
 
     public Long getId() {
@@ -77,5 +92,13 @@ public class Hotel {
     public String getFeatures() { return features; }
 
     public void setFeatures(String features) { this.features = features; }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
 }

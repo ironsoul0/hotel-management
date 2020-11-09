@@ -41,6 +41,13 @@ public class Room {
         this.room_type = room_type;
     }
 
+    public Room(Integer number, Hotel hotel, Room_type room_type, boolean occupied) {
+        this.occupied = occupied;
+        this.number = number;
+        this.hotel = hotel;
+        this.room_type = room_type;
+    }
+
     public Long getId() {
         return id;
     }

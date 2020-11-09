@@ -1,11 +1,9 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.User;
-import com.example.demo.model.Hotel;
-import com.example.demo.model.Reservation;
-import com.example.demo.model.Room_type;
+import com.example.demo.model.*;
 import com.example.demo.repository.HotelRepository;
 import com.example.demo.repository.ReservationRepository;
+import com.example.demo.repository.RoomRepository;
 import com.example.demo.repository.Room_typeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -22,6 +20,9 @@ public class HotelDebugController {
 
     @Autowired
     private Room_typeRepository roomtyperepo;
+
+    @Autowired
+    private RoomRepository roomrepo;
 
     @Autowired
     private ReservationRepository reservationRepository;
@@ -49,16 +50,49 @@ public class HotelDebugController {
 
     @GetMapping("/debug/populate-hotels")
     public String populateHotels(Model model){
+//        hotelrepo.deleteAll();
+//        Hotel a = new Hotel("Radison Blue", "Astana", "+77718255241", "Pool, bar, Wi-Fi");
+//        Hotel b = new Hotel("Sky Lion", "Astana", "+77712158212", "Pool, Wi-Fi, Tennis Court");
+//        Hotel c = new Hotel("Harajuku Plaza", "Almaty", "+77011212121", "Pool, Fashion Hall, Wi-Fi");
+//        Hotel d = new Hotel("Sky Castle", "Almaty", "+77718878764", "Wi-Fi, Open Roof, Free lunch");
+//
+//        hotelrepo.save(a);
+//        hotelrepo.save(b);
+//        hotelrepo.save(c);
+//        hotelrepo.save(d);
+//
+//        return "redirect:/debug/populate-roomtypes";
         hotelrepo.deleteAll();
-        Hotel a = new Hotel("Radison Blue", "Astana", "+77718255241", "Pool, bar, Wi-Fi");
-        Hotel b = new Hotel("Sky Lion", "Astana", "+77712158212", "Pool, Wi-Fi, Tennis Court");
-        Hotel c = new Hotel("Harajuku Plaza", "Almaty", "+77011212121", "Pool, Fashion Hall, Wi-Fi");
-        Hotel d = new Hotel("Sky Castle", "Almaty", "+77718878764", "Wi-Fi, Open Roof, Free lunch");
 
-        hotelrepo.save(a);
-        hotelrepo.save(b);
-        hotelrepo.save(c);
-        hotelrepo.save(d);
+        Hotel almaty1 = new Hotel("Kazakhstan Hotel", "Almaty", "+77718255241", "City view, Mountain view, Quiet street view, Landmark view", "" +
+                "Overlooking Almaty and the Alatau Mountains, the rooms and suites at the 4-star Kazakhstan Hotel feature satellite TV, air conditioning, and soundproofed windows.");
+
+        Hotel almaty2 = new Hotel("Almaty Hotel", "Almaty", "+77777777777", "Spa, Non-smoking rooms, Restaurant, Room service", "" +
+                "Located in the heart of Almaty city, this hotel comes with a restaurant, sauna and massage service. It features a 24-hour reception and free Wi-Fi." +
+                "Decorated in modern style, rooms at Almaty Hotel are equipped with a mini-bar, flat-screen TV and fridge." +
+                "Guests can enjoy European, Italian and Japanese cuisine in Issyk restaurant, or relax with a cocktail at the bar.");
+
+        Hotel astana1 = new Hotel("Rixos President Hotel Astana", "Astana", "+777777777", "swimming pool, airport shuttle, restaurant", "Located in Astana’s government district, this 5-star hotel has 2 elegant restaurants and a large Anjana SPA with a swimming pool. Its air-conditioned rooms and suites include a spa bath and free WiFi." +
+                "The bright rooms and suites of the Rixos President Astana also feature flat-screen TVs and in-room safety deposit boxes. The hotel features free international phone calls.");
+
+        Hotel astana2 = new Hotel("Hampton By Hilton Astana Triumphal Arch", "Astana", "+7777777777","Airport shuttle, Free Wifi, Fitness center","Hampton By Hilton Astana Triumphal Arch is located in the business district of Astana. A 17-minute walk from Expo 2017 Astana, the property is also 1.9 mi away from Bayterek Monument. The hotel features a fitness center and a 24-hour front desk.");
+
+        Hotel london1 = new Hotel("Park Plaza Westminster Bridge London", "London", "+95465421321", "Restaurant, Bar, Spa", "Located on the South Bank of the Thames, Park Plaza Westminster Bridge London is set opposite the Houses of Parliament and Big Ben, on the South Bank. It is less than a 5-minute walk from the London Eye, the Aquarium, restaurants and theaters.");
+
+        Hotel london2 = new Hotel("Park Plaza County Hall London", "London", "+9435645613", "Spa, Fitness Center, Bar", "Located on London's South Bank, this modern and family-friendly hotel is just a few minutes’ walk from the River Thames and London Eye. The Park Plaza County Hall London offers a bar, gym, and a restaurant.");
+
+        Hotel munich1 = new Hotel("Maritim Hotel München", "Munich", "+9565421354", "Bar, Good Breakfast, Non-smoking rooms", "A large indoor pool with panoramic rooftop views of Munich, an international restaurant and air-conditioned rooms are offered at this hotel. Maritim Hotel München is centrally located, just 300 m away from Munich Main Station.");
+
+        Hotel munich2 = new Hotel("Vier Jahreszeiten Kempinski München", "Munich", "+946541231456", "Spa, Bar, Restaurant", "An elegant spa with pool and panoramic city views are featured at this 5-star hotel. It is centrally located in Munich, a 5-minute walk from Marienplatz Squar");
+
+        hotelrepo.save(almaty1);
+        hotelrepo.save(almaty2);
+        hotelrepo.save(astana1);
+        hotelrepo.save(astana2);
+        hotelrepo.save(london1);
+        hotelrepo.save(london2);
+        hotelrepo.save(munich1);
+        hotelrepo.save(munich2);
 
         return "redirect:/debug/populate-roomtypes";
     }
@@ -66,110 +100,198 @@ public class HotelDebugController {
     @GetMapping("/debug/populate-roomtypes")
     public String populateRoomTypes(Model model){
         roomtyperepo.deleteAll();
-
+        roomrepo.deleteAll();
         Iterable<Hotel> lst = hotelrepo.findAll();
 
-        lst.forEach(hotel -> {
-            System.out.println(hotel.getId());
-        });
-//
-//        hotelrepo.findById(new Long(1)).map(hotel -> {
-//            b.setHotel(hotel);
-//            return b;
-//        });
-//
-//        hotelrepo.findById(new Long(1)).map(hotel -> {
-//            c.setHotel(hotel);
-//            return c;
-//        });
-//
-//        hotelrepo.findById(new Long(2)).map(hotel -> {
-//            d.setHotel(hotel);
-//            return d;
-//        });
-//
-//        hotelrepo.findById(new Long(2)).map(hotel -> {
-//            e.setHotel(hotel);
-//            return e;
-//        });
-//
-//        hotelrepo.findById(new Long(2)).map(hotel -> {
-//            f.setHotel(hotel);
-//            return f;
-//        });
-//
-//        hotelrepo.findById(new Long(3)).map(hotel -> {
-//            g.setHotel(hotel);
-//            return g;
-//        });
-//
-//        hotelrepo.findById(new Long(3)).map(hotel -> {
-//            h.setHotel(hotel);
-//            return h;
-//        });
-//
-//        hotelrepo.findById(new Long(3)).map(hotel -> {
-//            i.setHotel(hotel);
-//            return i;
-//        });
-//
-//        hotelrepo.findById(new Long(4)).map(hotel -> {
-//            a.setHotel(hotel);
-//            return l;
-//        });
-//
-//        hotelrepo.findById(new Long(4)).map(hotel -> {
-//            b.setHotel(hotel);
-//            return k;
-//        });
-//
-//        hotelrepo.findById(new Long(4)).map(hotel -> {
-//            c.setHotel(hotel);
-//            return l;
-//        });
-
         lst.forEach((hotel) -> {
-            System.out.println(hotel.getName());
-            Room_type a = new Room_type(hotel.getName() + "'s Standard", hotel, 50, 1, "TV, Bed");
-            Room_type b = new Room_type(hotel.getName() + "'s HalfLux", hotel, 10, 1, "TV, Bed, Bathroom");
-            Room_type c = new Room_type(hotel.getName() + "'s Lux", hotel, 5, 2, "Big Bed, Wi-Fi, Bathroom");
-            roomtyperepo.save(a);
-            roomtyperepo.save(b);
-            roomtyperepo.save(c);
-        });
-//        Room_type a = new Room_type("Standard", hotel_a, 50, 1, "TV, Bed");
-//        Room_type b = new Room_type("HalfLux", hotel_a, 10, 1, "TV, Bed, Bathroom");
-//        Room_type c = new Room_type("Lux", hotel_a, 5, 2, "Big Bed, Wi-Fi, Bathroom");
-//
-//        Room_type d = new Room_type("Standard", hotel_b, 20, 1, "TV, Bed");
-//        Room_type e = new Room_type("HalfLux", hotel_b, 10, 1, "TV, Bed, Bathroom");
-//        Room_type f = new Room_type("Lux", hotel_b, 5, 2, "Big Bed, Wi-Fi, Bathroom");
-//
-//        Room_type g = new Room_type("Standard", hotel_c, 20, 1, "TV, Bed");
-//        Room_type h = new Room_type("HalfLux", hotel_c, 10, 1, "TV, Bed, Bathroom");
-//        Room_type i = new Room_type("Lux", hotel_c, 5, 2, "Big Bed, Wi-Fi, Bathroom");
-//
-//        Room_type j = new Room_type("Standard", hotel_d, 20, 1, "TV, Bed");
-//        Room_type k = new Room_type("HalfLux", hotel_d, 10, 1, "TV, Bed, Bathroom");
-//        Room_type l = new Room_type("Lux", hotel_d, 5, 2, "Big Bed, Wi-Fi, Bathroom");
 
-//        hotelrepo.findById(new Long(2)).map(hotel -> {
-//            d.setHotel(hotel);
-//            e.setHotel(hotel);
-//            f.setHotel(hotel);
-//        });
-//
-//        hotelrepo.findById(new Long(3)).map(hotel -> {
-//            g.setHotel(hotel);
-//            h.setHotel(hotel);
-//            i.setHotel(hotel);
-//        });
-//
-//        hotelrepo.findById(new Long(4)).map(hotel -> {
-//            j.setHotel(hotel);
-//            k.setHotel(hotel);
-//            l.setHotel(hotel);
-//        });
+            if (hotel.getName().equals("Kazakhstan Hotel")) {
+                Room_type a = new Room_type("Standard Double", hotel, 2, 25, "Mountain view, Air Conditioning, Flat-screen TV, Minibar", 45000);
+                Room_type b = new Room_type("Queen Suite", hotel, 4, 47, "Soundproof, Coffee machine, Landmark view", 88200);
+                Room_type c = new Room_type("Presedential Suite", hotel, 2, 64, "Mountain view, City view, Minibar, Spa tub", 162000);
+
+                roomtyperepo.save(a);
+                roomtyperepo.save(b);
+                roomtyperepo.save(c);
+
+                Room room1 = new Room( 201, hotel, a);
+                Room room2 = new Room( 202, hotel, a);
+
+
+                Room room3 = new Room( 302, hotel, b);
+                Room room4 = new Room( 301, hotel, b);
+
+                Room room5 = new Room( 402, hotel, c);
+                Room room6 = new Room( 401, hotel, c);
+
+                roomrepo.save(room1);
+                roomrepo.save(room2);
+                roomrepo.save(room3);
+                roomrepo.save(room4);
+                roomrepo.save(room5);
+                roomrepo.save(room6);
+            }
+
+            if (hotel.getName().equals("Almaty Hotel")) {
+                Room_type a = new Room_type("Superior Double Room", hotel, 2, 25, "Mountain view, Air Conditioning, Flat-screen TV, Minibar", 50000);
+                Room_type b = new Room_type("Premium Suite", hotel, 3, 36, "Soundproof, Coffee machine, Landmark view", 70000);
+                Room_type c = new Room_type("Deluxe Single Room", hotel, 1, 30, "Mountain view, City view, Minibar, Spa tub", 40000);
+
+                roomtyperepo.save(a);
+                roomtyperepo.save(b);
+                roomtyperepo.save(c);
+
+                Room room1 = new Room( 201, hotel, a, false);
+                Room room2 = new Room( 202, hotel, a, false);
+
+
+                Room room3 = new Room( 302, hotel, b, false);
+                Room room4 = new Room( 301, hotel, b, false);
+
+                Room room5 = new Room( 402, hotel, c, false);
+                Room room6 = new Room( 401, hotel, c, false);
+
+                roomrepo.save(room1);
+                roomrepo.save(room2);
+                roomrepo.save(room3);
+                roomrepo.save(room4);
+                roomrepo.save(room5);
+                roomrepo.save(room6);
+            }
+
+            if (hotel.getName().equals("Rixos President Hotel Astana")) {
+                Room_type a = new Room_type("Deluxe Twin Room", hotel, 2, 32, "Mountain view, Air Conditioning, Flat-screen TV, Minibar", 114000);
+                Room_type b = new Room_type("Premium King Room", hotel, 2, 30, "Soundproof, Coffee machine, Landmark view", 134000);
+                Room_type c = new Room_type("Premium Twin Room", hotel, 2, 30, "Mountain view, City view, Minibar, Spa tub", 150000);
+
+                roomtyperepo.save(a);
+                roomtyperepo.save(b);
+                roomtyperepo.save(c);
+
+                Room room1 = new Room( 201, hotel, a, false);
+                Room room2 = new Room( 202, hotel, a, false);
+
+
+                Room room3 = new Room( 302, hotel, b, false);
+                Room room4 = new Room( 301, hotel, b, false);
+
+                Room room5 = new Room( 402, hotel, c, false);
+                Room room6 = new Room( 401, hotel, c, false);
+
+                roomrepo.save(room1);
+                roomrepo.save(room2);
+                roomrepo.save(room3);
+                roomrepo.save(room4);
+                roomrepo.save(room5);
+                roomrepo.save(room6);
+            }
+
+            if (hotel.getName().equals("Hampton By Hilton Astana Triumphal Arch")) {
+                Room_type a = new Room_type("Queen Room", hotel, 2, 21, "Mountain view, Air Conditioning, Flat-screen TV, Minibar", 36300);
+                Room_type b = new Room_type("Twin Room", hotel, 2, 21, "Soundproof, Coffee machine, Landmark view", 36300);
+                Room_type c = new Room_type("Superior Queen Room", hotel, 2, 21, "Mountain view, City view, Minibar, Spa tub", 36500);
+
+                roomtyperepo.save(a);
+                roomtyperepo.save(b);
+                roomtyperepo.save(c);
+
+                Room room1 = new Room( 201, hotel, a, false);
+                Room room2 = new Room( 202, hotel, a, false);
+
+
+                Room room3 = new Room( 302, hotel, b, false);
+                Room room4 = new Room( 301, hotel, b, false);
+
+                Room room5 = new Room( 402, hotel, c, false);
+                Room room6 = new Room( 401, hotel, c, false);
+
+                roomrepo.save(room1);
+                roomrepo.save(room2);
+                roomrepo.save(room3);
+                roomrepo.save(room4);
+                roomrepo.save(room5);
+                roomrepo.save(room6);
+            }
+
+            if (hotel.getName().equals("Park Plaza Westminster Bridge London")) {
+                Room_type a = new Room_type("Double Room", hotel, 2, 21, "Mountain view, Air Conditioning, Flat-screen TV, Minibar", 135000);
+                Room_type b = new Room_type("Studio King", hotel, 2, 34, "Soundproof, Coffee machine, Landmark view", 188000);
+                Room_type c = new Room_type("Studio Triple", hotel, 3, 45, "Mountain view, City view, Minibar, Spa tub", 216000);
+
+                roomtyperepo.save(a);
+                roomtyperepo.save(b);
+                roomtyperepo.save(c);
+
+                Room room1 = new Room( 201, hotel, a, false);
+
+
+                Room room3 = new Room( 302, hotel, b, false);
+
+                Room room5 = new Room( 402, hotel, c, false);
+
+                roomrepo.save(room1);
+                roomrepo.save(room3);
+                roomrepo.save(room5);
+            }
+
+            if (hotel.getName().equals("Park Plaza County Hall London")) {
+                Room_type a = new Room_type("Double Room", hotel, 2, 20, "Mountain view, Air Conditioning, Flat-screen TV, Minibar", 135000);
+                Room_type b = new Room_type("Twin King", hotel, 2, 20, "Soundproof, Coffee machine, Landmark view", 150000);
+                Room_type c = new Room_type("Studio Double", hotel, 3, 30, "Mountain view, City view, Minibar, Spa tub", 170000);
+
+                roomtyperepo.save(a);
+                roomtyperepo.save(b);
+                roomtyperepo.save(c);
+
+                Room room1 = new Room( 201, hotel, a, false);
+                Room room3 = new Room( 302, hotel, b, false);
+                Room room5 = new Room( 402, hotel, c, false);
+
+                roomrepo.save(room1);
+                roomrepo.save(room3);
+                roomrepo.save(room5);
+            }
+
+            if (hotel.getName().equals("Maritim Hotel München")) {
+                Room_type a = new Room_type("Double Classic", hotel, 2, 20, "Mountain view, Air Conditioning, Flat-screen TV, Minibar", 100000);
+                Room_type b = new Room_type("Comfort Double", hotel, 2, 20, "Soundproof, Coffee machine, Landmark view", 120000);
+                Room_type c = new Room_type("Comfort Family", hotel, 4, 30, "Mountain view, City view, Minibar, Spa tub", 175000);
+
+                roomtyperepo.save(a);
+                roomtyperepo.save(b);
+                roomtyperepo.save(c);
+                Room room1 = new Room( 201, hotel, a, true);
+                Room room3 = new Room( 302, hotel, b, true);
+                Room room5 = new Room( 402, hotel, c, true);
+
+                roomrepo.save(room1);
+                roomrepo.save(room3);
+                roomrepo.save(room5);
+            }
+
+            if (hotel.getName().equals("Vier Jahreszeiten Kempinski München")) {
+                Room_type a = new Room_type("Double Deluxe", hotel, 2, 35, "Mountain view, Air Conditioning, Flat-screen TV, Minibar", 360000);
+                Room_type b = new Room_type("Grand Deluxe", hotel, 3, 35, "Soundproof, Coffee machine, Landmark view", 480000);
+                Room_type c = new Room_type("Junior Suite", hotel, 3, 50, "Mountain view, City view, Minibar, Spa tub", 700000);
+
+                roomtyperepo.save(a);
+                roomtyperepo.save(b);
+                roomtyperepo.save(c);
+                Room room1 = new Room( 201, hotel, a, true);
+                Room room3 = new Room( 302, hotel, b, true);
+                Room room5 = new Room( 402, hotel, c, true);
+
+                roomrepo.save(room1);
+                roomrepo.save(room3);
+                roomrepo.save(room5);
+            }
+        });
+
+        return "redirect:/debug/populate-rooms";
+    }
+
+    @GetMapping("/debug/populate-rooms")
+    public String populateRooms(Model model){
 
         return "redirect:/debug/test-hotels";
     }
