@@ -58,7 +58,13 @@ public class ProfileController {
         model.addAttribute("user", user);
         Iterable<Reservation> lst = reservationrepo.findAll();
 
+        List<Reservation> res = new ArrayList<Reservation>();
+
         for(Reservation r : lst){
+            if(r.getUser_id() == user) res.add(r);
+        }
+
+        for(Reservation r : res){
             Instant a = r.getCheckinDate().toInstant();
             Instant b = r.getCheckoutDate().toInstant();
 
