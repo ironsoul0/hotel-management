@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Reservation;
+import com.example.demo.model.Room_type;
 import com.example.demo.model.User;
 import com.example.demo.repository.ReservationRepository;
+import com.example.demo.repository.Room_typeRepository;
 import com.example.demo.repository.UserRepository;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +18,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.demo.controller.UserAuthenticatorController;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -29,6 +35,9 @@ import java.util.List;
 public class ProfileController {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private Room_typeRepository room_typeRepository;
 
     @Autowired
     private ReservationRepository reservationrepo;
@@ -89,17 +98,30 @@ public class ProfileController {
             return "redirect:/profile";
         }
 
-        Reservation x = reservationrepo.findById(id).get();
+        reservationrepo.deleteById(id);
+        return "redirect:/profile";
+    }
 
-        Instant checkin = x.getCheckinDate().toInstant();
-        Instant checkout = x.getCheckoutDate().toInstant();
+    @GetMapping("/profile/edit-book/{id}")
+    public String editBooking(@PathVariable Long id, Model model){
+        Reservation r = reservationrepo.findById(id).get();
+        Iterable<Room_type> lst = r.getRoom_type_id().getHotel_id().getRoom_types();
+        model.addAttribute("reservation", r);
+        model.addAttribute("roomtypes", lst);
+        return "edit-reservation";
+    }
 
-        Instant now = LocalDateTime.now().toInstant(ZoneOffset.ofHours(6));
-
-        if(now.compareTo(checkin) < 0 && now.compareTo(checkout) < 0){
-            reservationrepo.deleteById(id);
-        }
-
+    @PostMapping("/profile/edit-book/{id}")
+    public String bookRoom(@PathVariable Long id, @RequestParam Long roomtype, @RequestParam String myDate, @RequestParam String myDate2, Model model) throws ParseException {
+        Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(myDate);
+        Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse(myDate2);
+        User u = userRepository.findByUsername(getUsername()).get();
+        Room_type rt = room_typeRepository.findById(roomtype).get();
+        Reservation r = reservationrepo.findById(id).get();
+        r.setCheckinDate(date1);
+        r.setCheckoutDate(date2);
+        r.setRoom_type_id(rt);
+        reservationrepo.save(r);
         return "redirect:/profile";
     }
 }
