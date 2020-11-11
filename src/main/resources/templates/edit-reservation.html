@@ -80,6 +80,8 @@
 <div class="container">
     <p>Edit your reservation</p> <br>
 
+    <p>Your previous selection was: <b th:text="${reservation.getRoom_type_id().getName()}"/></p> <br>
+
     Available room types: <br>
     <div class="form-group">
         <form th:action="${'/profile/edit-book/' + reservation.getId()}" method="post" th:object="${submitForm}">
@@ -87,15 +89,15 @@
                 <input class="form-check-input" name="roomtype" type="radio" th:value="${roomtype.getRoom_type_id()}" th:text="${roomtype.name}"/> <br>
             </div>
             <div class="form-check">
-                <input type="date" th:type="date" class="form-control" th:placeholder="${reservation.getCheckinDate()}" th:id="myDate" th:name="myDate"/>
+                <input type="date" th:type="date" class="form-control" th:value="${reservation.getCheckinDateToString()}" th:id="myDate" th:name="myDate"/>
             </div>
 
             <div class="form-check">
-                <input type="date" th:type="date" class="form-control" th:placeholder="${reservation.getCheckoutDate()}" th:id="myDate2" th:name="myDate2"/>
+                <input type="date" th:type="date" class="form-control" th:value="${reservation.getCheckoutDateToString()}" th:id="myDate2" th:name="myDate2"/>
             </div>
 
             <div class="form-check">
-                <input type="submit" class="btn btn-warning">Edit</input>
+                <input type="submit" class="btn btn-warning" value="Edit">
             </div>
         </form>
     </div>

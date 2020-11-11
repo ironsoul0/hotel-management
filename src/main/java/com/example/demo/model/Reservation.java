@@ -4,6 +4,7 @@ package com.example.demo.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -95,5 +96,18 @@ public class Reservation {
 
     public void setCheckoutDate(Date checkoutDate) {
         this.checkoutDate = checkoutDate;
+    }
+
+    private String formatDate(Date date){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        return format.format(date);
+    }
+
+    public String getCheckinDateToString(){
+        return formatDate(this.checkinDate);
+    }
+
+    public String getCheckoutDateToString(){
+        return formatDate(this.checkoutDate);
     }
 }
