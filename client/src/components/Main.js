@@ -14,6 +14,7 @@ import { logout } from "../store/reducers/authSlice";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    paddingBottom: theme.spacing(5),
   },
   menuButton: {
     marginRight: theme.spacing(2),

@@ -20,13 +20,16 @@ const useStyles = makeStyles((theme) => ({
   bold: {
     fontWeight: "bold",
   },
+  booking: {
+    marginBottom: theme.spacing(5),
+  },
 }));
 
 function ProfilePage() {
   const classes = useStyles();
   const [reservations, setReservations] = useState(null);
 
-  useState(() => {
+  useEffect(() => {
     api.get("/profile/reservations").then((result) => {
       setReservations(result.data);
     });
@@ -51,7 +54,7 @@ function ProfilePage() {
                   <p>Nothing to display here</p>
                 )}
                 {reservations[target].map((data) => (
-                  <>
+                  <div className={classes.booking}>
                     <p>
                       <span className={classes.bold}>Date:</span>{" "}
                       {data.checkinDate} - {data.checkoutDate}
@@ -64,7 +67,7 @@ function ProfilePage() {
                       <span className={classes.bold}>Rooms number:</span>{" "}
                       {data.room_count}
                     </p>
-                  </>
+                  </div>
                 ))}
               </>
             );
