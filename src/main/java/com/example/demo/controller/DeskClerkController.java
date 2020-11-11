@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -115,13 +117,17 @@ public class DeskClerkController {
                                    @RequestParam String checkOutDate,
                                    @RequestParam int prePaidPrice,
                                    @RequestParam int roomCount,
-                                   @RequestParam Long room_typeId) {
+                                   @RequestParam Long room_typeId) throws ParseException {
 
         Hotel hotel = hotelRepository.findById(hotelId).orElseThrow();
         Set <Room_type> room_types = hotel.getRoom_types();
         User cur_guest = guestRepository.findByUsername(userName).orElseThrow();
 
-        Reservation reservation = new Reservation(checkInDate, checkOutDate, prePaidPrice, roomCount);
+        Reservation reservation = new Reservation(
+                new SimpleDateFormat("yyyy-MM-dd").parse(checkInDate),
+                new SimpleDateFormat("yyyy-MM-dd").parse(checkOutDate),
+                prePaidPrice, roomCount, cur_guest
+        );
 
         reservation.setUser_id(cur_guest);
 

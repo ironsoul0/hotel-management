@@ -12,8 +12,18 @@ public class DeskClerk extends User {
 
     public DeskClerk () { }
 
-    public DeskClerk(String username, String email, String password, String mobilePhone, String homePhone, String address, String identificationType, String identificationNumber) {
-
+    public DeskClerk(
+            String username,
+            String email,
+            String name,
+            String surname,
+            String password,
+            String mobilePhone,
+            String homePhone,
+            String address,
+            String identificationType,
+            String identificationNumber
+    ) {
         super(username, email, password, mobilePhone, homePhone, address, identificationType, identificationNumber);
 
         Set <Role> roles = new HashSet<>();
