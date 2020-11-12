@@ -19,6 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 public class  HotelController {
@@ -108,6 +109,10 @@ public class  HotelController {
         return "redirect:/hotels";
     }
 
+    @GetMapping("/search-hotels/")
+    public String hotelSearch(){
+        return "redirect:/hotels-main";
+    }
 
     @GetMapping("/search-hotels/{city}")
     public String hotelSearch(@PathVariable String city, Model model) {
@@ -139,15 +144,61 @@ public class  HotelController {
         return "make-reservation";
     }
 
-    @PostMapping("/book-room")
-    public String bookRoom(@RequestParam Long roomtype, @RequestParam String myDate, @RequestParam String myDate2, Model model) throws ParseException {
+    private long calculatePrice(Date d1, Date d2, int bp){
+        long diffInMils = Math.abs(d2.getTime() - d1.getTime());
+        long diff = TimeUnit.DAYS.convert(diffInMils, TimeUnit.MILLISECONDS);
+        return diff * bp;
+    }
+
+    @GetMapping("/test-page")
+    public String testPage(Model model){
+        return "test-page";
+    }
+
+    @GetMapping("/book-room")
+    public String fromBookToMain(){
+        return "redirect:/";
+    }
+
+    @PostMapping("/test-page")
+    public String testPagePost(Model model){
+        return "test-page";
+    }
+
+    @PostMapping("/confirm-price")
+    public String confirmPrice(Model model){
+        return "confirm-price";
+    }
+
+    @PostMapping("book-room-real")
+    public String bookRoomReal(@RequestParam Long roomtype, @RequestParam String myDate, @RequestParam String myDate2, Model model) throws ParseException {
         Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(myDate);
         Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse(myDate2);
         User u = userRepository.findByUsername(getUsername()).get();
         Room_type rt = room_typeRepository.findById(roomtype).get();
-        Reservation r = new Reservation(date1, date2, 50, 1, u);
+        long price = calculatePrice(date1, date2, rt.getBase_price());
+        Reservation r = new Reservation(date1, date2, (int) price, 1, u);
         r.setRoom_type_id(rt);
         reservationRepository.save(r);
+        return "redirect:/";
+    }
+
+    @PostMapping("/book-room")
+    public String bookRoom(@RequestParam Long roomtype, @RequestParam String myDate, @RequestParam String myDate2, Model model) throws ParseException {
+        Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(myDate);
+        Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse(myDate2);
+        Room_type rt = room_typeRepository.findById(roomtype).get();
+        long price = calculatePrice(date1, date2, rt.getBase_price());
+        model.addAttribute("name", "Oracle");
+        model.addAttribute("price", price);
+        model.addAttribute("date1", myDate);
+        model.addAttribute("date2", myDate2);
+        model.addAttribute("roomtype", roomtype);
+        return "forward:/confirm-price";
+    }
+
+    @GetMapping("/confirm-price")
+    public String redirectToHotels(){
         return "redirect:/";
     }
 }
