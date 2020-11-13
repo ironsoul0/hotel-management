@@ -28,11 +28,8 @@ public class DeskClerkController {
     @Autowired
     private HotelRepository hotelRepository;
 
-    // I'm not sure if we have to request hotelId, but for now I think it is okay
-    // also could be a function for button, but before pressing button, desk clerk has to enter the hotelId
-    // for now it is okay
-    // need to separate User and Guest and Employees and change ER model
-    @GetMapping("/allReservations") // this one works
+    // parameter and inside code could change depending on front end for desk clerk page
+    @GetMapping("/") // this one works
     public Set<Reservation> showAllReservations (@RequestParam Long hotelId) {
 
         Hotel hotel = hotelRepository.findById(hotelId).orElseThrow();
@@ -85,6 +82,7 @@ public class DeskClerkController {
     }
 
     // this is implemented as a function for button
+    // parameter hotelId and inside code could change depending on front end for desk clerk page
     @DeleteMapping("/removeReservation") // works
     public void removeReservation (@RequestParam Long reservationId, @RequestParam Long hotelId) {
 
@@ -110,7 +108,7 @@ public class DeskClerkController {
     }
 
     // does not show in advance if some room type is unavailable for check in date <-- add it later
-    @PostMapping("/createReservation") // no return
+    @PostMapping("/createReservation") // works
     public Long createReservation (@RequestParam String userName,
                                    @RequestParam Long hotelId,
                                    @RequestParam String checkInDate,
@@ -123,7 +121,11 @@ public class DeskClerkController {
         Set <Room_type> room_types = hotel.getRoom_types();
         User cur_guest = guestRepository.findByUsername(userName).orElseThrow();
 
-        Reservation reservation = new Reservation(new SimpleDateFormat("yyyy-MM-dd").parse(checkInDate), new SimpleDateFormat("yyyy-MM-dd").parse(checkOutDate), prePaidPrice, roomCount, cur_guest);
+        Reservation reservation = new Reservation(
+                new SimpleDateFormat("yyyy-MM-dd").parse(checkInDate),
+                new SimpleDateFormat("yyyy-MM-dd").parse(checkOutDate),
+                prePaidPrice, roomCount, cur_guest
+        );
 
         reservation.setUser_id(cur_guest);
 
@@ -148,4 +150,48 @@ public class DeskClerkController {
         return reservation.getId();
     }
 
+    // does not show in advance if some room type is unavailable for check in date <-- add it later
+    @PostMapping("/editReservation")
+    public Long editReservation (@RequestParam Long reservationId,
+                                 @RequestParam Long hotelId,
+                                 @RequestParam String checkInDate,
+                                 @RequestParam String checkOutDate,
+                                 @RequestParam int roomCount,
+                                 @RequestParam Long room_typeId) throws ParseException {
+
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow();
+
+        Hotel hotel = hotelRepository.findById(hotelId).orElseThrow();
+        Set <Room_type> room_types = hotel.getRoom_types();
+
+        if (checkInDate != null) {
+            reservation.setCheckinDate(
+                    new SimpleDateFormat("yyyy-MM-dd")
+                            .parse(checkInDate)
+            );
+        }
+
+        if (checkOutDate != null) {
+            reservation.setCheckoutDate(
+                    new SimpleDateFormat("yyyy-MM-dd")
+                            .parse(checkOutDate)
+            );
+        }
+
+        if (room_typeId != null) {
+            for (Room_type r : room_types)
+                if (r.getRoom_type_id().equals(room_typeId)) {
+                    reservation.setRoom_type_id(r);
+                    break;
+                }
+        }
+
+        if (roomCount > 0)
+            reservation.setRoom_count(roomCount);
+
+        reservationRepository.save(reservation);
+        hotelRepository.save(hotel);
+
+        return reservationId;
+    }
 }

@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import com.example.demo.model.DeskClerk;
 import com.example.demo.model.ERole;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
@@ -14,6 +15,7 @@ import com.example.demo.payload.request.LoginRequest;
 import com.example.demo.payload.request.SignupRequest;
 import com.example.demo.payload.response.JwtResponse;
 import com.example.demo.payload.response.MessageResponse;
+import com.example.demo.repository.DeskClerkRepository;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.jwt.JwtUtils;
@@ -40,6 +42,9 @@ public class AuthController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    DeskClerkRepository deskClerkRepository;
 
     @Autowired
     RoleRepository roleRepository;
@@ -101,16 +106,25 @@ public class AuthController {
         Set<Role> roles = new HashSet<>();
 
         if (strRoles == null) {
+
             Role userRole = roleRepository.findByName(ERole.ROLE_USER)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
+
+            user.setRoles(roles);
+            userRepository.save(user);
+
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
                     case "admin":
+
                         Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(adminRole);
+
+                        user.setRoles(roles);
+                        deskClerkRepository.save(user);
 
                         break;
                     case "mod":
@@ -118,17 +132,21 @@ public class AuthController {
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(modRole);
 
+                        user.setRoles(roles);
+                        deskClerkRepository.save(user);
+
                         break;
+
                     default:
                         Role userRole = roleRepository.findByName(ERole.ROLE_USER)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(userRole);
+
+                        user.setRoles(roles);
+                        userRepository.save(user);
                 }
             });
         }
-
-        user.setRoles(roles);
-        userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }

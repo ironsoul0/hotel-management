@@ -18,7 +18,10 @@ public class Hotel {
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
     private Set<Room> rooms = new HashSet<>();
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7b035eedd198f0af8e8660260f76a12e4412a852
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToMany(mappedBy = "hotel_id", cascade = CascadeType.ALL)
     private Set<Room_type> room_types = new HashSet<>();
