@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -25,10 +26,11 @@ public class Room_type {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Hotel hotel_id;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToMany(mappedBy = "room_type_id", cascade = CascadeType.ALL)
     private Set<Reservation> reservations = new HashSet<>();
 
-
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToMany(mappedBy = "room_type", cascade = CascadeType.ALL)
     private Set<Room> rooms = new HashSet<>();
 
