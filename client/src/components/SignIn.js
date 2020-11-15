@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -15,8 +16,8 @@ import Container from "@material-ui/core/Container";
 
 import api from "../config/api";
 
-import { useDispatch } from "react-redux";
 import { login } from "../store/reducers/authSlice";
+import { updateAlert } from "../store/reducers/alertSlice";
 
 function Copyright() {
   return (
@@ -78,10 +79,13 @@ export default function SignIn({ toggle }) {
       .post("/auth/signin", fields)
       .then((result) => {
         const token = result.data.accessToken;
+        dispatch(updateAlert({ target: "success", newValue: "Welcome!" }));
         dispatch(login(token));
       })
       .catch(() => {
-        alert("Invalid credentials");
+        dispatch(
+          updateAlert({ target: "error", newValue: "Invalid credentials" })
+        );
       });
   };
 

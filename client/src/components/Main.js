@@ -45,7 +45,7 @@ function Main({ children }) {
             className={classes.title}
             variant="h6"
           >
-            HMS Advanced 2.0
+            HMS 2.0
           </Typography>
           <Button
             className={classes.menuButton}

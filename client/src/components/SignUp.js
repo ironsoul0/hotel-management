@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+
+import { useDispatch } from "react-redux";
+
 import MenuItem from "@material-ui/core/MenuItem";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -18,6 +21,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import MuiPhoneNumber from "material-ui-phone-number";
 
 import api from "../config/api";
+import { updateAlert } from "../store/reducers/alertSlice";
 
 function Copyright() {
   return (
@@ -65,27 +69,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp({ toggle }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const [fields, setFields] = useState({});
-  const [success, setSuccess] = useState("");
-  const [fail, setFail] = useState("");
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setSuccess("");
-  };
-
-  const handleFailClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setFail("");
-  };
-
   const fieldChange = (e) => {
     setFields({ ...fields, [e.target.name]: e.target.value });
   };
@@ -123,14 +109,19 @@ export default function SignUp({ toggle }) {
     api
       .post("/auth/signup", fields)
       .then(() => {
-        setSuccess("Successfully registered!");
+        dispatch(
+          updateAlert({
+            target: "success",
+            newValue: "Successfully registered!",
+          })
+        );
         setTimeout(() => {
           toggle();
         }, 2000);
       })
       .catch((err) => {
         const errorMessage = err.response.data.message;
-        setFail(errorMessage);
+        dispatch(updateAlert({ target: "error", newValue: errorMessage }));
       });
   };
 
@@ -283,16 +274,6 @@ export default function SignUp({ toggle }) {
       <Box mt={8}>
         <Copyright />
       </Box>
-      <Snackbar open={success} autoHideDuration={3000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success">
-          {success}
-        </Alert>
-      </Snackbar>
-      <Snackbar open={fail} autoHideDuration={3000} onClose={handleFailClose}>
-        <Alert onClose={handleFailClose} severity="error">
-          {fail}
-        </Alert>
-      </Snackbar>
     </Container>
   );
 }

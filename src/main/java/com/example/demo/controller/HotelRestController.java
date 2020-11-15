@@ -5,10 +5,9 @@ import com.example.demo.repository.HotelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -17,6 +16,18 @@ public class HotelRestController {
 
     @Autowired
     private HotelRepository hotelRepository;
+
+    @GetMapping("/{city}")
+    public Iterable<Hotel> hotelSearch(@PathVariable String city, Model model) {
+        Iterable<Hotel> hotelsAll = hotelRepository.findAll();
+        ArrayList<Hotel> resHotels = new ArrayList<>();
+        for (Hotel hotel : hotelsAll) {
+            if (hotel.getAddress().toLowerCase().contains(city.toLowerCase())) {
+                resHotels.add(hotel);
+            }
+        }
+        return resHotels;
+    }
 
     @GetMapping("/")
     public Iterable<Hotel> mainPage(Model model) {
