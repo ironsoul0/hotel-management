@@ -5,7 +5,11 @@
 target/*
 *.war
 
+src/main/resources/application.properties
+
 ### Sensitive IDEA files ###
+
+*.pdf
 
 .idea/**/workspace.xml
 .idea/**/tasks.xml
