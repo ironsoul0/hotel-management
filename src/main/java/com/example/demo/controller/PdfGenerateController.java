@@ -155,10 +155,10 @@ public class PdfGenerateController {
         p.add(checkout_date);
         p.add("\n");
 
-        Text price_template = getAsHelvetica("Price: $");
+        Text price_template = getAsHelvetica("Price: ");
         p.add(price_template);
 
-        Text price = getAsHelveticaBold(Integer.toString(r.getPrepaid_price()));
+        Text price = getAsHelveticaBold(Integer.toString(r.getPrepaid_price()) + " KZT");
         p.add(price);
         p.add("\n\n\n\n\n\n\nPlease enjoy your stay with us!");
 
