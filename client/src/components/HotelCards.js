@@ -26,37 +26,47 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function HotelCard({ hotels }) {
+function HotelCards({ hotels }) {
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
 
-  return hotels.map((hotel) => (
+  if (hotels.length === 0) {
+    return <Typography>No hotels found</Typography>;
+  }
+
+  return (
     <>
-      <Card className={classes.root}>
-        <CardContent>
-          <Typography
-            className={classes.title}
-            color="textSecondary"
-            gutterBottom
-          >
-            {hotel.address}
-          </Typography>
-          <Typography variant="h5" component="h2">
-            {hotel.name}
-          </Typography>
-          <Typography className={classes.pos} color="textSecondary">
-            {hotel.phone}
-          </Typography>
-          <Typography variant="body2" component="p">
-            {hotel.features}
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button size="small">Learn More</Button>
-        </CardActions>
-      </Card>
+      <Typography variant="h3" className={classes.bookingName}>
+        Hotels
+      </Typography>
+      {hotels.map((hotel) => (
+        <>
+          <Card className={classes.root}>
+            <CardContent>
+              <Typography
+                className={classes.title}
+                color="textSecondary"
+                gutterBottom
+              >
+                {hotel.address}
+              </Typography>
+              <Typography variant="h5" component="h2">
+                {hotel.name}
+              </Typography>
+              <Typography className={classes.pos} color="textSecondary">
+                {hotel.phone}
+              </Typography>
+              <Typography variant="body2" component="p">
+                {hotel.features}
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small">Learn More</Button>
+            </CardActions>
+          </Card>
+        </>
+      ))}
     </>
-  ));
+  );
 }
 
-export default HotelCard;
+export default HotelCards;

@@ -194,7 +194,7 @@ public class  HotelController {
         model.addAttribute("date1", myDate);
         model.addAttribute("date2", myDate2);
         model.addAttribute("roomtype", roomtype);
-        return "forward:/confirm-price";
+        return "confirm-price";
     }
 
     @GetMapping("/confirm-price")

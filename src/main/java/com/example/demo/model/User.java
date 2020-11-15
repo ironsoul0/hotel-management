@@ -113,6 +113,8 @@ public class User {
         return email;
     }
 
+    public String getMobilePhone(){ return mobilePhone; }
+
     public void setEmail(String email) {
         this.email = email;
     }
