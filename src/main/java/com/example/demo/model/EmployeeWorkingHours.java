@@ -20,6 +20,7 @@ public class EmployeeWorkingHours {
     private String time_end;
     private int payment;
     private boolean is_extra;
+    private int total_hours;
     private Date date_work; // if is_extra true, we don't need this
 
     public EmployeeWorkingHours () {
@@ -28,7 +29,7 @@ public class EmployeeWorkingHours {
 
 
     public EmployeeWorkingHours (Long employeeId, String weekday, String time_start, String time_end, int payment, boolean is_extra,
-                                Date date_work) {
+                                Date date_work, int total_hours) {
         this.employeeId = employeeId;
         this.weekday = weekday;
         this.time_start = time_start;
@@ -36,6 +37,7 @@ public class EmployeeWorkingHours {
         this.payment = payment;
         this.is_extra = is_extra;
         this.date_work = date_work;
+        this.total_hours = total_hours;
     }
 
 

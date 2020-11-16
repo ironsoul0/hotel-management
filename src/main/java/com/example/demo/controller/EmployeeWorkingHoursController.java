@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -95,10 +96,11 @@ public class EmployeeWorkingHoursController {
 //        return "hotels-add";
 //    }
 
-    @PostMapping("/add/schedule") // does not work
-    public String schedulePostAdd(@RequestParam Long employeeId,  @RequestParam String weekday, @RequestParam Date datework, @RequestParam boolean is_extra, @RequestParam String time_start, @RequestParam String time_end, @RequestParam int payment) throws ParseException {
+    @PostMapping("/add/schedule") // works
+    public String schedulePostAdd(@RequestParam Long employeeId,  @RequestParam String weekday, @RequestParam String datework, @RequestParam boolean is_extra,
+                                  @RequestParam String time_start, @RequestParam String time_end, @RequestParam int payment, @RequestParam int totalhours) throws ParseException {
         EmployeeWorkingHours schedule = new EmployeeWorkingHours(employeeId, weekday, time_start, time_end,
-                payment, is_extra, datework);
+                payment, is_extra, new SimpleDateFormat("yyyy-MM-dd").parse(datework), totalhours);
         employeeWorkingHoursRepository.save(schedule);
         return "Schedule registered successfully!";
     }
