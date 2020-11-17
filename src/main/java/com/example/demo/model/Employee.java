@@ -84,14 +84,6 @@ public class Employee {
         this.surname = surname;
     }
 
-    public Hotel getHotel() {
-        return hotel_id_employee;
-    }
-
-    public void setHotel(Hotel hotel) {
-        this.hotel_id_employee = hotel;
-    }
-
     public Set<EmployeeWorkingHours> getEmployeeWorkingHours() {
         return employeeWorkingHours;
     }

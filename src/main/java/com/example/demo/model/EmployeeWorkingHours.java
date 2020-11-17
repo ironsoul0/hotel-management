@@ -16,9 +16,9 @@ public class EmployeeWorkingHours {
 
     private String time_start;
     private String time_end;
-    private int payment;
+    private int total_payment;
     private int total_hours;
-    private Date date_work; // if is_extra true, we don't need this
+    private Date date_work;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "employee")
@@ -30,12 +30,12 @@ public class EmployeeWorkingHours {
     }
 
 
-    public EmployeeWorkingHours (Employee employee, String weekday, String time_start, String time_end, int payment, boolean is_extra,
+    public EmployeeWorkingHours (Employee employee, String time_start, String time_end, int total_payment,
                                 Date date_work, int total_hours) {
         this.employee = employee;
         this.time_start = time_start;
         this.time_end = time_end;
-        this.payment = payment;
+        this.total_payment = total_payment;
         this.date_work = date_work;
         this.total_hours = total_hours;
     }
@@ -49,7 +49,7 @@ public class EmployeeWorkingHours {
         this.id = id;
     }
 
-    public String getTime_start(String time_start) {
+    public String getTime_start() {
         return this.time_start;
     }
 
@@ -57,7 +57,7 @@ public class EmployeeWorkingHours {
         this.time_start = time_start;
     }
 
-    public String getTime_end(String time_end) {
+    public String getTime_end() {
         return this.time_end;
     }
 
@@ -65,12 +65,12 @@ public class EmployeeWorkingHours {
         this.time_end = time_end;
     }
 
-    public int getPayment() {
-        return payment;
+    public int getTotal_Payment() {
+        return total_payment;
     }
 
-    public void setPayment(int payment) {
-        this.payment = payment;
+    public void setTotal_Payment(int total_payment) {
+        this.total_payment = total_payment;
     }
 
     public Employee getEmployee() {
@@ -89,4 +89,11 @@ public class EmployeeWorkingHours {
         this.date_work = date_work;
     }
 
+    public int getTotal_hours() {
+        return total_hours;
+    }
+
+    public void setTotal_hours(int total_hours) {
+        this.total_hours = total_hours;
+    }
 }

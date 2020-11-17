@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -23,7 +24,8 @@ public class Hotel {
     @OneToMany(mappedBy = "hotel_id", cascade = CascadeType.ALL)
     private Set<Room_type> room_types = new HashSet<>();
 
-    @OneToMany(targetEntity = Employee.class, mappedBy = "hotel_id_employee", cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "hotel_id_employee", cascade = CascadeType.ALL)
     private Set<Employee> employees = new HashSet<>();
 
     private String name;
