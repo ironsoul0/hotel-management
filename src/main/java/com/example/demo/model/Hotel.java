@@ -23,20 +23,23 @@ public class Hotel {
     @OneToMany(mappedBy = "hotel_id", cascade = CascadeType.ALL)
     private Set<Room_type> room_types = new HashSet<>();
 
+    @OneToMany(targetEntity = Employee.class, mappedBy = "hotel_id_employee", cascade = CascadeType.ALL)
+    private Set<Employee> employees = new HashSet<>();
+
     private String name;
+
     private String address;
     private String phone;
     private String features;
-
     @Lob
     @Column(name="description", length=2048)
     private String description;
 
     private int views;
+
     public Hotel() {
 
     }
-
     public Hotel(String name, String address, String phone, String features) {
         this.name = name;
         this.address = address;
@@ -85,6 +88,10 @@ public class Hotel {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Set<Employee> getEmployees() {
+        return employees;
     }
 
     public Set<Room> getRooms() {

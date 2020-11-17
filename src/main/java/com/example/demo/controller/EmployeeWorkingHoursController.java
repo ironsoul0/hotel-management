@@ -22,41 +22,41 @@ public class EmployeeWorkingHoursController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/allemployees")
-    private List<User> showAllEmployees() {
-        List<User> employees = new ArrayList<>();
-        List<User> allUsers = (List<User>) userRepository.findAll();
-        for (User user : allUsers) {
-            Set<Role> roles = user.getRoles();
-            for (Role role : roles) {
-                if (role.getName().toString().toLowerCase().contains("mod")){
-                    System.out.println(role.getName());
-                    employees.add(user);
-                    break;
-                }
-            }
-        }
-        return (List<User>) employees;
-    }
+//    @GetMapping("/allemployees")
+//    private List<User> showAllEmployees() {
+//        List<User> employees = new ArrayList<>();
+//        List<User> allUsers = (List<User>) userRepository.findAll();
+//        for (User user : allUsers) {
+//            Set<Role> roles = user.getRoles();
+//            for (Role role : roles) {
+//                if (role.getName().toString().toLowerCase().contains("mod")){
+//                    System.out.println(role.getName());
+//                    employees.add(user);
+//                    break;
+//                }
+//            }
+//        }
+//        return (List<User>) employees;
+//    }
+//
+//    @GetMapping("/schedules")
+//    private List<EmployeeWorkingHours> showAllschedules() {
+//        return (List<EmployeeWorkingHours>) employeeWorkingHoursRepository.findAll();
+//    }
 
-    @GetMapping("/schedules")
-    private List<EmployeeWorkingHours> showAllschedules() {
-        return (List<EmployeeWorkingHours>) employeeWorkingHoursRepository.findAll();
-    }
-
-    @GetMapping("/schedule")
-    private List<EmployeeWorkingHours> showEmployeeschedules(@RequestParam Long employeeid ) {
-        List<EmployeeWorkingHours> allschedules = (List<EmployeeWorkingHours>) employeeWorkingHoursRepository.findAll();
-
-        List<EmployeeWorkingHours> employeeschedules = new ArrayList<>();
-
-        for (EmployeeWorkingHours schedule : allschedules) {
-            if (schedule.getEmployeeId() == employeeid) {
-                employeeschedules.add(schedule);
-            }
-        }
-        return (List<EmployeeWorkingHours>) employeeschedules;
-    }
+//    @GetMapping("/schedule")
+//    private List<EmployeeWorkingHours> showEmployeeschedules(@RequestParam Long employeeid ) {
+//        List<EmployeeWorkingHours> allschedules = (List<EmployeeWorkingHours>) employeeWorkingHoursRepository.findAll();
+//
+//        List<EmployeeWorkingHours> employeeschedules = new ArrayList<>();
+//
+//        for (EmployeeWorkingHours schedule : allschedules) {
+//            if (schedule.getEmployeeId() == employeeid) {
+//                employeeschedules.add(schedule);
+//            }
+//        }
+//        return (List<EmployeeWorkingHours>) employeeschedules;
+//    }
 
 //    @GetMapping("/schedule/{id}/edit")
 //    public List<EmployeeWorkingHours> scheduleEdit(@PathVariable(value = "id") long id, Model model) {
@@ -96,14 +96,14 @@ public class EmployeeWorkingHoursController {
 //        return "hotels-add";
 //    }
 
-    @PostMapping("/add/schedule") // works
-    public String schedulePostAdd(@RequestParam Long employeeId,  @RequestParam String weekday, @RequestParam String datework, @RequestParam boolean is_extra,
-                                  @RequestParam String time_start, @RequestParam String time_end, @RequestParam int payment, @RequestParam int totalhours) throws ParseException {
-        EmployeeWorkingHours schedule = new EmployeeWorkingHours(employeeId, weekday, time_start, time_end,
-                payment, is_extra, new SimpleDateFormat("yyyy-MM-dd").parse(datework), totalhours);
-        employeeWorkingHoursRepository.save(schedule);
-        return "Schedule registered successfully!";
-    }
+//    @PostMapping("/add/schedule") // works
+//    public String schedulePostAdd(@RequestParam Long employeeId,  @RequestParam String weekday, @RequestParam String datework, @RequestParam boolean is_extra,
+//                                  @RequestParam String time_start, @RequestParam String time_end, @RequestParam int payment, @RequestParam int totalhours) throws ParseException {
+//        EmployeeWorkingHours schedule = new EmployeeWorkingHours(employeeId, weekday, time_start, time_end,
+//                payment, is_extra, new SimpleDateFormat("yyyy-MM-dd").parse(datework), totalhours);
+//        employeeWorkingHoursRepository.save(schedule);
+//        return "Schedule registered successfully!";
+//    }
 }
 
 

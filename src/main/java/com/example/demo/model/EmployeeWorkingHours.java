@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -12,30 +14,28 @@ public class EmployeeWorkingHours {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Long employeeId;
-
-
-    private String weekday; // if is_extra false, we don't need this
     private String time_start;
     private String time_end;
     private int payment;
-    private boolean is_extra;
     private int total_hours;
     private Date date_work; // if is_extra true, we don't need this
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "employee")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Employee employee;
 
     public EmployeeWorkingHours () {
 
     }
 
 
-    public EmployeeWorkingHours (Long employeeId, String weekday, String time_start, String time_end, int payment, boolean is_extra,
+    public EmployeeWorkingHours (Employee employee, String weekday, String time_start, String time_end, int payment, boolean is_extra,
                                 Date date_work, int total_hours) {
-        this.employeeId = employeeId;
-        this.weekday = weekday;
+        this.employee = employee;
         this.time_start = time_start;
         this.time_end = time_end;
         this.payment = payment;
-        this.is_extra = is_extra;
         this.date_work = date_work;
         this.total_hours = total_hours;
     }
@@ -47,22 +47,6 @@ public class EmployeeWorkingHours {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(Long employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public String getWeekday() {
-        return weekday;
-    }
-
-    public void setWeekday(String weekday) {
-        this.weekday = weekday;
     }
 
     public String getTime_start(String time_start) {
@@ -89,12 +73,12 @@ public class EmployeeWorkingHours {
         this.payment = payment;
     }
 
-    public boolean isIs_extra() {
-        return is_extra;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setIs_extra(boolean is_extra) {
-        this.is_extra = is_extra;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     public Date getDate_work() {

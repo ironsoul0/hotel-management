@@ -13,10 +13,7 @@ import com.example.demo.payload.request.LoginRequest;
 import com.example.demo.payload.request.SignupRequest;
 import com.example.demo.payload.response.JwtResponse;
 import com.example.demo.payload.response.MessageResponse;
-import com.example.demo.repository.DeskClerkRepository;
-import com.example.demo.repository.EmployeeRepository;
-import com.example.demo.repository.RoleRepository;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.*;
 import com.example.demo.security.jwt.JwtUtils;
 import com.example.demo.security.service.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +44,9 @@ public class AuthController {
 
     @Autowired
     EmployeeRepository employeeRepository;
+
+    @Autowired
+    HotelRepository hotelRepository;
 
     @Autowired
     RoleRepository roleRepository;
@@ -136,8 +136,9 @@ public class AuthController {
                         Random rn = new Random(); // Generate random payment
                         int range = 3001;
                         int payment = rn.nextInt(range) + 1000;
+                        List<Hotel> hotels = (List<Hotel>) hotelRepository.findAll();
                         Employee deskclerk = new Employee(user.getUsername(), user.getEmail(), user.getName(),
-                                                      user.getSurname(), user.getPassword(), user.getMobilePhone(), payment);
+                                                      user.getSurname(), user.getPassword(), user.getMobilePhone(), payment, "deskclerk", hotels.get(0));
 
 //                        user.setRoles(roles);
 //                        userRepository.save(user);
