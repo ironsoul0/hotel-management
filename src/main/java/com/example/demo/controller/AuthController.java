@@ -2,20 +2,19 @@ package com.example.demo.controller;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import com.example.demo.model.DeskClerk;
-import com.example.demo.model.ERole;
-import com.example.demo.model.Role;
-import com.example.demo.model.User;
+import com.example.demo.model.*;
 import com.example.demo.payload.request.LoginRequest;
 import com.example.demo.payload.request.SignupRequest;
 import com.example.demo.payload.response.JwtResponse;
 import com.example.demo.payload.response.MessageResponse;
 import com.example.demo.repository.DeskClerkRepository;
+import com.example.demo.repository.EmployeeRepository;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.jwt.JwtUtils;
@@ -45,6 +44,9 @@ public class AuthController {
 
     @Autowired
     DeskClerkRepository deskClerkRepository;
+
+    @Autowired
+    EmployeeRepository employeeRepository;
 
     @Autowired
     RoleRepository roleRepository;
@@ -124,16 +126,22 @@ public class AuthController {
                         roles.add(adminRole);
 
                         user.setRoles(roles);
-                        deskClerkRepository.save(user);
+                        userRepository.save(user);
 
                         break;
                     case "mod":
                         Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
+//                        roles.add(modRole);
+                        Random rn = new Random(); // Generate random payment
+                        int range = 3001;
+                        int payment = rn.nextInt(range) + 1000;
+                        Employee deskclerk = new Employee(user.getUsername(), user.getEmail(), user.getName(),
+                                                      user.getSurname(), user.getPassword(), user.getMobilePhone(), payment);
 
-                        user.setRoles(roles);
-                        deskClerkRepository.save(user);
+//                        user.setRoles(roles);
+//                        userRepository.save(user);
+                        employeeRepository.save(deskclerk);
 
                         break;
 
