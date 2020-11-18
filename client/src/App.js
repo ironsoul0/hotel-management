@@ -10,6 +10,7 @@ import MainPage from "./pages/MainPage";
 import ProfilePage from "./pages/ProfilePage";
 import HotelPage from "./pages/HotelPage";
 import ManagerPage from "./pages/ManagerPage";
+import EmployeePage from "./pages/EmployeePage";
 
 function App() {
   const auth = useSelector((state) => state.auth);
@@ -34,7 +35,8 @@ function App() {
     } else if (auth.role === "manager") {
       content = (
         <Main>
-          <ManagerPage />
+          <Route exact path="/" component={ManagerPage} />
+          <Route exact path="/employee/:id" component={EmployeePage} />
         </Main>
       );
     }

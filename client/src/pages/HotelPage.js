@@ -16,6 +16,13 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
+
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+
 import { useParams } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
@@ -82,17 +89,33 @@ function HotelPage() {
     });
   }, []);
 
+  const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
   const [error, setError] = React.useState(false);
+  const [price, setPrice] = React.useState(0);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleRadioChange = (event) => {
     setValue(event.target.value);
-    setError(false);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
+    const params = new URLSearchParams();
+    params.append("roomtype", parseInt(value));
+    params.append("myDate", fields["check-in"]);
+    params.append("myDate2", fields["check-out"]);
+
+    const { data } = await api.post("/hotels/book-room-price", params);
+    setPrice(data);
+    setOpen(true);
+  };
+
+  const onConfirmPay = () => {
     const params = new URLSearchParams();
     params.append("roomtype", parseInt(value));
     params.append("myDate", fields["check-in"]);
@@ -108,6 +131,8 @@ function HotelPage() {
           newValue: `Successfully booked!`,
         })
       );
+
+      setOpen(false);
     });
   };
 
@@ -218,6 +243,28 @@ function HotelPage() {
           <CircularProgress />
         </div>
       )}
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Are you sure?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            This hotel is extremely good because it is full of tigers. Are you
+            sure you want to pay {price} tenge?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Disagree
+          </Button>
+          <Button onClick={onConfirmPay} color="primary" autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 }

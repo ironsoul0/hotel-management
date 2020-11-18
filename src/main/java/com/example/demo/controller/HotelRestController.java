@@ -73,6 +73,15 @@ public class HotelRestController {
         return "Success";
     }
 
+    @PostMapping("/book-room-price")
+    public Long bookRoom(@RequestParam Long roomtype, @RequestParam String myDate, @RequestParam String myDate2, Model model) throws ParseException {
+        Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(myDate);
+        Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse(myDate2);
+        Room_type rt = room_typeRepository.findById(roomtype).get();
+        long price = calculatePrice(date1, date2, rt.getBase_price());
+        return price;
+    }
+
     @GetMapping("/")
     public Iterable<Hotel> mainPage(Model model) {
         Iterable<Hotel> hotels = hotelRepository.findAll();
