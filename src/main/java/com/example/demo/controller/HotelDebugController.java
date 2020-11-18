@@ -1,15 +1,14 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.*;
-import com.example.demo.repository.HotelRepository;
-import com.example.demo.repository.ReservationRepository;
-import com.example.demo.repository.RoomRepository;
-import com.example.demo.repository.Room_typeRepository;
+import com.example.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Optional;
 
 @Controller
@@ -26,6 +25,14 @@ public class HotelDebugController {
 
     @Autowired
     private ReservationRepository reservationRepository;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private EmployeeWorkingHoursRepository employeeWorkingHoursRepository;
+
+
 
     @GetMapping("/debug/populate")
     public String populate(Model model){
@@ -47,6 +54,8 @@ public class HotelDebugController {
 //        reservationRepository.save(a);
 //        return "redirect:/reservations";
 //    }
+
+
 
     @GetMapping("/debug/populate-hotels")
     public String populateHotels(Model model){
@@ -98,9 +107,11 @@ public class HotelDebugController {
     }
 
     @GetMapping("/debug/populate-roomtypes")
-    public String populateRoomTypes(Model model){
+    public String populateRoomTypes(Model model) throws ParseException {
         roomtyperepo.deleteAll();
         roomrepo.deleteAll();
+        employeeRepository.deleteAll();
+        employeeWorkingHoursRepository.deleteAll();
         Iterable<Hotel> lst = hotelrepo.findAll();
 
         lst.forEach((hotel) -> {
@@ -130,6 +141,40 @@ public class HotelDebugController {
                 roomrepo.save(room4);
                 roomrepo.save(room5);
                 roomrepo.save(room6);
+
+                Employee e1 = new Employee("sherkhan", "sherkhanazim@gmail.com", "Sherkhan", "Azimov", "sherkhan", "+7 77541111", 7000, "deskclerk", hotel);
+                Employee e2 = new Employee("rustem", "rustem", "Rustem", "Turtayev", "rustem", "+7 56123", 6000, "deskclerk", hotel);
+
+                employeeRepository.save(e1);
+                employeeRepository.save(e2);
+
+                try {
+                    EmployeeWorkingHours ew11 = new EmployeeWorkingHours(e1, "06:00", "12:00",  new SimpleDateFormat("yyyy-MM-dd").parse("2020-11-15"), 6);
+                    employeeWorkingHoursRepository.save(ew11);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    EmployeeWorkingHours ew12 = new EmployeeWorkingHours(e1, "12:00", "20:00", new SimpleDateFormat("yyyy-MM-dd").parse("2020-11-16"), 8);
+                    employeeWorkingHoursRepository.save(ew12);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    EmployeeWorkingHours ew21 = new EmployeeWorkingHours(e2, "08:00", "14:00",  new SimpleDateFormat("yyyy-MM-dd").parse("2020-11-15"), 6);
+                    employeeWorkingHoursRepository.save(ew21);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    EmployeeWorkingHours ew22 = new EmployeeWorkingHours(e2, "10:00", "20:00", new SimpleDateFormat("yyyy-MM-dd").parse("2020-11-16"), 8);
+                    employeeWorkingHoursRepository.save(ew22);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+
             }
 
             if (hotel.getName().equals("Almaty Hotel")) {
@@ -157,6 +202,36 @@ public class HotelDebugController {
                 roomrepo.save(room4);
                 roomrepo.save(room5);
                 roomrepo.save(room6);
+
+                Employee e1 = new Employee("danel", "danel", "Danel", "Batyrbek", "danel", "+7 715541111", 5500, "deskclerk", hotel);
+
+                employeeRepository.save(e1);
+
+                try {
+                    EmployeeWorkingHours ew11 = new EmployeeWorkingHours(e1, "06:00", "12:00",  new SimpleDateFormat("yyyy-MM-dd").parse("2020-10-15"), 6);
+                    employeeWorkingHoursRepository.save(ew11);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    EmployeeWorkingHours ew12 = new EmployeeWorkingHours(e1, "12:00", "20:00", new SimpleDateFormat("yyyy-MM-dd").parse("2020-10-16"), 8);
+                    employeeWorkingHoursRepository.save(ew12);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    EmployeeWorkingHours ew21 = new EmployeeWorkingHours(e1, "08:00", "14:00",  new SimpleDateFormat("yyyy-MM-dd").parse("2020-10-15"), 6);
+                    employeeWorkingHoursRepository.save(ew21);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    EmployeeWorkingHours ew22 = new EmployeeWorkingHours(e1, "10:00", "20:00", new SimpleDateFormat("yyyy-MM-dd").parse("2020-10-16"), 8);
+                    employeeWorkingHoursRepository.save(ew22);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
 
             if (hotel.getName().equals("Rixos President Hotel Astana")) {
@@ -184,6 +259,35 @@ public class HotelDebugController {
                 roomrepo.save(room4);
                 roomrepo.save(room5);
                 roomrepo.save(room6);
+                Employee e1 = new Employee("temirzhan", "temirzhan", "Temirzhan", "Yussupov", "temirzhan", "+7 775113111", 6000, "deskclerk", hotel);
+
+                employeeRepository.save(e1);
+
+                try {
+                    EmployeeWorkingHours ew11 = new EmployeeWorkingHours(e1, "06:00", "12:00",  new SimpleDateFormat("yyyy-MM-dd").parse("2020-12-15"), 6);
+                    employeeWorkingHoursRepository.save(ew11);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    EmployeeWorkingHours ew12 = new EmployeeWorkingHours(e1, "12:00", "20:00", new SimpleDateFormat("yyyy-MM-dd").parse("2020-12-16"), 8);
+                    employeeWorkingHoursRepository.save(ew12);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    EmployeeWorkingHours ew21 = new EmployeeWorkingHours(e1, "08:00", "14:00",  new SimpleDateFormat("yyyy-MM-dd").parse("2020-12-15"), 6);
+                    employeeWorkingHoursRepository.save(ew21);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    EmployeeWorkingHours ew22 = new EmployeeWorkingHours(e1, "10:00", "20:00", new SimpleDateFormat("yyyy-MM-dd").parse("2020-12-16"), 8);
+                    employeeWorkingHoursRepository.save(ew22);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
 
             if (hotel.getName().equals("Hampton By Hilton Astana Triumphal Arch")) {
