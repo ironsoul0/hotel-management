@@ -143,7 +143,6 @@ public class AuthController {
 //                        user.setRoles(roles);
 //                        userRepository.save(user);
                         employeeRepository.save(deskclerk);
-
                         break;
 
                     default:

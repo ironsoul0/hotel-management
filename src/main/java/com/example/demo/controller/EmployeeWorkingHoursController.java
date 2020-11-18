@@ -37,7 +37,6 @@ public class EmployeeWorkingHoursController {
     @GetMapping("/schedule")
     private Set<EmployeeWorkingHours> showEmployeeschedules(@RequestParam Long employeeid ) {
         Employee employee = employeeRepository.findById(employeeid).orElseThrow();
-
         return employee.getEmployeeWorkingHours();
     }
 
@@ -49,12 +48,15 @@ public class EmployeeWorkingHoursController {
 
     @PostMapping("/schedule/{id}/edit")
     public String schedulePostUpdate(@PathVariable long id, @RequestParam String datework,
-                                     @RequestParam String time_start, @RequestParam String time_end, @RequestParam int total_payment) throws ParseException {
+                                     @RequestParam String time_start, @RequestParam String time_end,
+                                     @RequestParam(required = false, defaultValue = "0") int total_payment) throws ParseException {
         EmployeeWorkingHours schedule = employeeWorkingHoursRepository.findById(id).orElseThrow();
 
         schedule.setTime_start(time_start);
         schedule.setTime_end(time_end);
-        schedule.setTotal_Payment(total_payment);
+        if (total_payment != 0) {
+            schedule.setTotal_Payment(total_payment);
+        }
         schedule.setDate_work(new SimpleDateFormat("yyyy-MM-dd").parse(datework));
         employeeWorkingHoursRepository.save(schedule);
         return "Changes done!";
@@ -78,6 +80,13 @@ public class EmployeeWorkingHoursController {
         }
         employeeWorkingHoursRepository.save(schedule);
         return "Schedule registered successfully!";
+    }
+
+    @PostMapping("/schedule/{id}/delete")
+    public String scheduleDelete(@PathVariable(value = "id") long id) {
+        EmployeeWorkingHours schedule = employeeWorkingHoursRepository.findById(id).orElseThrow();
+        employeeWorkingHoursRepository.delete(schedule);
+        return "Schedule Deleted";
     }
 }
 
