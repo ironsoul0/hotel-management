@@ -102,14 +102,14 @@ public class ProfileController {
         return map;
     }
 
-    @GetMapping("/profile/delete-book/{id}")
+    @GetMapping("/delete-book/{id}")
     public String deleteBooking(@PathVariable Long id){
         if(!reservationrepo.existsById(id)){
-            return "redirect:/profile";
+            return "Fail";
         }
 
         reservationrepo.deleteById(id);
-        return "redirect:/profile";
+        return "Success";
     }
 
     @GetMapping("/profile/edit-book/{id}")

@@ -4,6 +4,7 @@ export const authSlice = createSlice({
   name: "auth",
   initialState: {
     token: localStorage.getItem("token"),
+    role: "manager",
   },
   reducers: {
     login: (state, action) => {

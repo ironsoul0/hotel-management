@@ -4,7 +4,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Container from "@material-ui/core/Container";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
 
+import { useDispatch } from "react-redux";
+
+import { updateAlert } from "../store/reducers/alertSlice";
 import api from "../config/api";
 
 const useStyles = makeStyles((theme) => ({
@@ -22,18 +29,47 @@ const useStyles = makeStyles((theme) => ({
   },
   booking: {
     marginBottom: theme.spacing(5),
+    "&:last-of-type": {
+      marginBottom: theme.spacing(2),
+    },
+  },
+  card: {
+    marginBottom: "40px",
+  },
+  button: {
+    marginRight: "20px",
   },
 }));
 
 function ProfilePage() {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const [reservations, setReservations] = useState(null);
 
-  useEffect(() => {
+  const getReservations = () => {
     api.get("/profile/reservations").then((result) => {
       setReservations(result.data);
     });
+  };
+
+  useEffect(() => {
+    getReservations();
   }, []);
+
+  const openReservation = (id) => {
+    window.open(`http://localhost:8080/generate-pdf/${id}`, "_blank");
+  };
+
+  const deleteReservation = async (id) => {
+    await api.get(`/profile/delete-book/${id}`);
+    dispatch(
+      updateAlert({
+        target: "success",
+        newValue: "Deleted!",
+      })
+    );
+    getReservations();
+  };
 
   const bookingTypes = ["current", "past", "upcoming"];
 
@@ -46,30 +82,51 @@ function ProfilePage() {
           </Typography>
           {bookingTypes.map((target) => {
             return (
-              <>
-                <Typography variant="h4" className={classes.bookingName}>
-                  {target}
-                </Typography>
-                {reservations[target].length === 0 && (
-                  <p>Nothing to display here</p>
-                )}
-                {reservations[target].map((data) => (
-                  <div className={classes.booking}>
-                    <p>
-                      <span className={classes.bold}>Date:</span>{" "}
-                      {data.checkinDate} - {data.checkoutDate}
-                    </p>
-                    <p>
-                      <span className={classes.bold}>Prepaid price:</span>{" "}
-                      {data.prepaid_price}$
-                    </p>
-                    <p>
-                      <span className={classes.bold}>Rooms number:</span>{" "}
-                      {data.room_count}
-                    </p>
-                  </div>
-                ))}
-              </>
+              <Card className={classes.card}>
+                <CardContent>
+                  <Typography variant="h4" className={classes.bookingName}>
+                    {target}
+                  </Typography>
+                  {reservations[target].length === 0 && (
+                    <p>Nothing to display here</p>
+                  )}
+                  {reservations[target].map((data) => (
+                    <div className={classes.booking}>
+                      <p>
+                        <span className={classes.bold}>Date:</span>{" "}
+                        {data.checkinDate} - {data.checkoutDate}
+                      </p>
+                      <p>
+                        <span className={classes.bold}>Prepaid price:</span>{" "}
+                        {data.prepaid_price} ₸
+                      </p>
+                      <p>
+                        <span className={classes.bold}>Rooms number:</span>{" "}
+                        {data.room_count}
+                      </p>
+                      <Grid container>
+                        <Button
+                          className={classes.button}
+                          color="primary"
+                          variant="outlined"
+                          onClick={() => openReservation(data.id)}
+                        >
+                          Get PDF
+                        </Button>
+                        <Button
+                          className={classes.button}
+                          color="secondary"
+                          variant="outlined"
+                          onClick={() => deleteReservation(data.id)}
+                        >
+                          Delete
+                        </Button>
+                        {/* <Button variant="outlined">Edit</Button> */}
+                      </Grid>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
             );
           })}
         </>

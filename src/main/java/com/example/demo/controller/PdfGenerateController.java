@@ -83,16 +83,16 @@ public class PdfGenerateController {
         p.add(intro);
         p.add("\n");
 
-        Text owner_template = getAsHelvetica("The owner of the reservation: ");
+        /*Text owner_template = getAsHelvetica("The owner of the reservation: ");
         p.add(owner_template);
 
         Text owner = getAsHelveticaBold(getFullname());
         p.add(owner);
-        p.add("\n");
+        p.add("\n");*/
 
         User u = getUser();
 
-        Text username_template = getAsHelvetica("Owner's username: ");
+        /*Text username_template = getAsHelvetica("Owner's username: ");
         p.add(username_template);
 
         Text username = getAsHelveticaBold(getUsername());
@@ -111,7 +111,7 @@ public class PdfGenerateController {
 
         Text email = getAsHelveticaBold(u.getEmail());
         p.add(email);
-        p.add("\n");
+        p.add("\n");*/
 
         Text hotel_template = getAsHelvetica("Hotel: ");
         p.add(hotel_template);
@@ -220,7 +220,8 @@ public class PdfGenerateController {
             filename = "error.pdf";
         } else {
             Reservation r = reservationRepository.findById(id).get();
-            if (!r.getUser_id().getUsername().equals(getUsername())) {
+            if (false) {
+            //if (!r.getUser_id().getUsername().equals(getUsername())) {
                 contents = getErrorPdf();
                 filename = "error.pdf";
             } else {

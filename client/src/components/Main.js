@@ -6,7 +6,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import { logout } from "../store/reducers/authSlice";
@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 function Main({ children }) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
 
   const history = useHistory();
 
@@ -47,13 +48,15 @@ function Main({ children }) {
           >
             HMS 2.0
           </Typography>
-          <Button
-            className={classes.menuButton}
-            color="inherit"
-            onClick={() => history.push("/profile")}
-          >
-            Profile
-          </Button>
+          {auth.role === "user" && (
+            <Button
+              className={classes.menuButton}
+              color="inherit"
+              onClick={() => history.push("/profile")}
+            >
+              Profile
+            </Button>
+          )}
           <Button
             className={classes.menuButton}
             color="inherit"

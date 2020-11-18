@@ -8,6 +8,8 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
+import { useHistory } from "react-router-dom";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     minWidth: 275,
@@ -28,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 function HotelCards({ hotels }) {
   const classes = useStyles();
+  const history = useHistory();
 
   if (hotels.length === 0) {
     return <Typography>No hotels found</Typography>;
@@ -53,14 +56,19 @@ function HotelCards({ hotels }) {
                 {hotel.name}
               </Typography>
               <Typography className={classes.pos} color="textSecondary">
-                {hotel.phone}
+                {hotel.features}
               </Typography>
               <Typography variant="body2" component="p">
-                {hotel.features}
+                {hotel.description}
               </Typography>
             </CardContent>
             <CardActions>
-              <Button size="small">Learn More</Button>
+              <Button
+                size="small"
+                onClick={() => history.push(`/hotel/${hotel.id}`)}
+              >
+                Learn More
+              </Button>
             </CardActions>
           </Card>
         </>
