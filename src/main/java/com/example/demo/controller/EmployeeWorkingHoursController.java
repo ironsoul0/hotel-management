@@ -2,13 +2,14 @@ package com.example.demo.controller;
 
 
 import com.example.demo.model.*;
-import com.example.demo.repository.EmployeeRepository;
-import com.example.demo.repository.EmployeeWorkingHoursRepository;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.validation.constraints.Null;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,6 +18,15 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/manager/")
 public class EmployeeWorkingHoursController {
+
+    @Autowired
+    private SeasonRepository seasonRepository;
+
+    @Autowired
+    private TakesPlaceInRepository takesPlaceInRepository;
+
+    @Autowired
+    private HotelRepository hotelRepository;
 
     @Autowired
     private EmployeeWorkingHoursRepository employeeWorkingHoursRepository;
@@ -87,6 +97,131 @@ public class EmployeeWorkingHoursController {
         EmployeeWorkingHours schedule = employeeWorkingHoursRepository.findById(id).orElseThrow();
         employeeWorkingHoursRepository.delete(schedule);
         return "Schedule Deleted";
+    }
+
+    public Set <Long> parseHotelIDs (String hotelIds) {
+
+        Set <Long> hotels = new HashSet<>();
+        StringBuilder t = new StringBuilder();
+
+        for (int i = 0; i < hotelIds.length(); ++i) {
+
+
+            if (hotelIds.charAt(i) == ',') {
+                hotels.add(Long.parseLong(t.toString()));
+                t = new StringBuilder();
+            } else {
+                t.append(hotelIds.charAt(i));
+            }
+        }
+        hotels.add(Long.parseLong(t.toString()));
+
+        return hotels;
+    }
+
+    @PostMapping("/addSeason") // return id of season, which is name of season
+    public String createSeason (
+            @RequestParam String hotelIds,
+            @RequestParam String name,
+            @RequestParam String startDate,
+            @RequestParam String endDate,
+            @RequestParam String weekdayPrice
+    ) {
+
+        Season season = new Season(name, startDate, endDate);
+        Set <TakesPlaceIn> takesPlaceIns = new HashSet<>();
+        Set <Long> hotelIDs = parseHotelIDs(hotelIds);
+
+        for (Long i : hotelIDs) {
+
+            TakesPlaceIn t = new TakesPlaceIn(weekdayPrice);
+            Hotel h = hotelRepository.findById(i).orElseThrow();
+
+            t.setHotel(h);
+            t.setSeason(season);
+
+            Set <TakesPlaceIn> st = h.getTakesPlaceIns();
+            st.add(t);
+            h.setTakesPlaceIns(st);
+
+            takesPlaceInRepository.save(t);
+            hotelRepository.save(h);
+
+            takesPlaceIns.add(t);
+        }
+
+        season.setTakesPlaceIns(takesPlaceIns);
+        seasonRepository.save(season);
+
+        try { sendNotificationOnNewSeason(name); }
+        catch (MessagingException e) { e.printStackTrace(); }
+
+        return name;
+    }
+
+    public void sendNotificationOnNewSeason (
+            String seasonName
+    ) throws MessagingException {
+
+        Season season = seasonRepository.findBySeasonName(seasonName).orElseThrow();
+
+        Set <TakesPlaceIn> takesPlaceIns = season.getTakesPlaceIns();
+        Set <Hotel> hotels = new HashSet<>();
+        for (TakesPlaceIn t : takesPlaceIns) { hotels.add(t.getHotel()); }
+
+        Properties prop = System.getProperties();
+        prop.put("mail.smtp.host", "smtp.gmail.com");
+        prop.put("mail.smtp.port", "465");
+        prop.put("mail.smtp.ssl.enable", "true");
+        prop.put("mail.smtp.auth", "true");
+
+        String email = "manahotel3system@gmail.com";
+
+        Session session = Session.getInstance(prop, new javax.mail.Authenticator() {
+
+            protected PasswordAuthentication getPasswordAuthentication() {
+
+                return new PasswordAuthentication(email, "98765hotel");
+
+            }
+
+        });
+
+        session.setDebug(true);
+
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(email));
+
+        List<Address> as = new ArrayList<>();
+
+        for (Hotel h : hotels) {
+
+            Set <Employee> employees = h.getEmployees();
+
+            for (Employee e : employees) {
+
+                as.add(new InternetAddress(e.getEmail()));
+            }
+
+            Set <Room_type> room_types = h.getRoom_types();
+
+            for (Room_type rt : room_types) {
+
+                Set <Reservation> reservations = rt.getReservations();
+
+                for (Reservation r : reservations) {
+
+                    as.add(new InternetAddress(r.getUser_id().getEmail()));
+                }
+            }
+        }
+
+        message.addRecipients(Message.RecipientType.TO, (Address[]) as.toArray());
+        //message.addRecipient(Message.RecipientType.TO, new InternetAddress("rustem.turtayev@nu.edu.kz"));
+        message.setSubject("New season!");
+        message.setText("Wow! Here is the new season coming next Sunday from Frogs!");
+
+        Transport.send(message);
     }
 }
 

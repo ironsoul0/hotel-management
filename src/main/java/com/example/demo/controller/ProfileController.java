@@ -131,6 +131,7 @@ public class ProfileController {
         r.setCheckinDate(date1);
         r.setCheckoutDate(date2);
         r.setRoom_type_id(rt);
+        r.setApproved(false);
         reservationrepo.save(r);
         return "redirect:/profile";
     }

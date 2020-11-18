@@ -19,6 +19,7 @@ public class Reservation {
     private Date checkoutDate;
     private int prepaid_price;
     private int room_count;
+    private boolean approved;
 
     public Long getId() {
         return id;
@@ -38,12 +39,13 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(Date checkinDate, Date checkoutDate, int prepaid_price, int room_count, User user_id) {
+    public Reservation(Date checkinDate, Date checkoutDate, int prepaid_price, int room_count, User user_id, boolean approved) {
         this.checkinDate = checkinDate;
         this.checkoutDate = checkoutDate;
         this.prepaid_price = prepaid_price;
         this.room_count = room_count;
         this.user_id = user_id;
+        this.approved = approved;
     }
 
     public void setId(Long id) {
@@ -110,4 +112,8 @@ public class Reservation {
     public String getCheckoutDateToString(){
         return formatDate(this.checkoutDate);
     }
+
+    public void setApproved (boolean approved) { this.approved = approved; }
+
+    public boolean getApproved () { return approved; }
 }

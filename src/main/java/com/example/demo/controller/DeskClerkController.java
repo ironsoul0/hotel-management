@@ -29,7 +29,7 @@ public class DeskClerkController {
     private HotelRepository hotelRepository;
 
     // parameter and inside code could change depending on front end for desk clerk page
-    @GetMapping("/") // this one works
+    @GetMapping("/allReserves") // this one works
     public Set<Reservation> showAllReservations (@RequestParam Long hotelId) {
 
         Hotel hotel = hotelRepository.findById(hotelId).orElseThrow();
@@ -52,10 +52,10 @@ public class DeskClerkController {
 
     // this is implemented as a function for button
     // it returns roomId that was set for user
-    @PostMapping("/approveReservation") // this one works
-    public Long approveReservation (@RequestParam Long reservationId, @RequestParam Long hotelId) {
+    @PostMapping("/allReserves/{id}/approve") // this one works
+    public Long approveReservation (@PathVariable long id, @RequestParam Long hotelId) {
 
-        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow();
+        Reservation reservation = reservationRepository.findById(id).orElseThrow();
 
         Hotel hotel = hotelRepository.findById(hotelId).orElseThrow();
         Set <Room> rooms = hotel.getRooms();
@@ -69,8 +69,8 @@ public class DeskClerkController {
             ) {
 
                 r.setOccupied(true);
+                reservation.setApproved(true);
                 hotelRepository.save(hotel);
-                reservationRepository.delete(reservation);
                 return r.getId();
             }
         }
@@ -83,10 +83,10 @@ public class DeskClerkController {
 
     // this is implemented as a function for button
     // parameter hotelId and inside code could change depending on front end for desk clerk page
-    @DeleteMapping("/removeReservation") // works
-    public void removeReservation (@RequestParam Long reservationId, @RequestParam Long hotelId) {
+    @PostMapping("/allReserves/{id}/delete") // works
+    public void removeReservation (@PathVariable long id, @RequestParam Long hotelId) {
 
-        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow();
+        Reservation reservation = reservationRepository.findById(id).orElseThrow();
         Hotel hotel = hotelRepository.findById(hotelId).orElseThrow();
         Set <Room_type> room_types = hotel.getRoom_types();
 
@@ -108,7 +108,7 @@ public class DeskClerkController {
     }
 
     // does not show in advance if some room type is unavailable for check in date <-- add it later
-    @PostMapping("/createReservation") // works
+    @PostMapping("/allReserves/create") // works
     public Long createReservation (@RequestParam String userName,
                                    @RequestParam Long hotelId,
                                    @RequestParam String checkInDate,
@@ -124,10 +124,8 @@ public class DeskClerkController {
         Reservation reservation = new Reservation(
                 new SimpleDateFormat("yyyy-MM-dd").parse(checkInDate),
                 new SimpleDateFormat("yyyy-MM-dd").parse(checkOutDate),
-                prePaidPrice, roomCount, cur_guest
+                prePaidPrice, roomCount, cur_guest, false
         );
-
-        reservation.setUser_id(cur_guest);
 
         for (Room_type r : room_types) {
 
@@ -151,15 +149,15 @@ public class DeskClerkController {
     }
 
     // does not show in advance if some room type is unavailable for check in date <-- add it later
-    @PostMapping("/editReservation")
-    public Long editReservation (@RequestParam Long reservationId,
+    @PostMapping("/allReserves/{id}/edit")
+    public Long editReservation (@PathVariable long id,
                                  @RequestParam Long hotelId,
                                  @RequestParam String checkInDate,
                                  @RequestParam String checkOutDate,
                                  @RequestParam int roomCount,
                                  @RequestParam Long room_typeId) throws ParseException {
 
-        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow();
+        Reservation reservation = reservationRepository.findById(id).orElseThrow();
 
         Hotel hotel = hotelRepository.findById(hotelId).orElseThrow();
         Set <Room_type> room_types = hotel.getRoom_types();
@@ -192,6 +190,6 @@ public class DeskClerkController {
         reservationRepository.save(reservation);
         hotelRepository.save(hotel);
 
-        return reservationId;
+        return id;
     }
 }

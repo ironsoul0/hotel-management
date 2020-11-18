@@ -20,6 +20,8 @@ public class Hotel {
     @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
     private Set<Room> rooms = new HashSet<>();
 
+    @OneToMany (mappedBy = "hotel", cascade = CascadeType.ALL)
+    private Set <TakesPlaceIn> takesPlaceIns; // sorry... I know, it looks weird and ugly
 
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -115,5 +117,9 @@ public class Hotel {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public Set <TakesPlaceIn> getTakesPlaceIns () { return takesPlaceIns; }
+
+    public void setTakesPlaceIns (Set <TakesPlaceIn> takesPlaceIns) { this.takesPlaceIns = takesPlaceIns; }
 
 }
