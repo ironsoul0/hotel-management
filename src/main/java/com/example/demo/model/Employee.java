@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -22,7 +23,8 @@ public class Employee {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "hotel_id_employee")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.READ_WRITE)
+    @JsonBackReference
     private Hotel hotel_id_employee;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
@@ -122,6 +124,14 @@ public class Employee {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getHotelName() {
+        return this.hotel_id_employee.getName();
+    }
+
+    public String getHotelAddress() {
+        return this.hotel_id_employee.getAddress();
     }
 
 }

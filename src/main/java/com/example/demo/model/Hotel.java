@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -20,11 +21,12 @@ public class Hotel {
     private Set<Room> rooms = new HashSet<>();
 
 
+
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToMany(mappedBy = "hotel_id", cascade = CascadeType.ALL)
     private Set<Room_type> room_types = new HashSet<>();
 
-
+    @JsonManagedReference
     @OneToMany(mappedBy = "hotel_id_employee", cascade = CascadeType.ALL)
     private Set<Employee> employees = new HashSet<>();
 
