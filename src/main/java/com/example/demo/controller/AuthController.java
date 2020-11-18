@@ -54,6 +54,7 @@ public class AuthController {
     @Autowired
     PasswordEncoder encoder;
 
+
     @Autowired
     JwtUtils jwtUtils;
 
@@ -107,6 +108,7 @@ public class AuthController {
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
 
+
         if (strRoles == null) {
 
             Role userRole = roleRepository.findByName(ERole.ROLE_USER)
@@ -138,7 +140,7 @@ public class AuthController {
                         int payment = rn.nextInt(range) + 1000;
                         List<Hotel> hotels = (List<Hotel>) hotelRepository.findAll();
                         Employee deskclerk = new Employee(user.getUsername(), user.getEmail(), user.getName(),
-                                                      user.getSurname(), user.getPassword(), user.getMobilePhone(), payment, "deskclerk", hotels.get(0));
+                                                      user.getSurname(), signUpRequest.getPassword(), user.getMobilePhone(), payment, "deskclerk", hotels.get(0));
 
 //                        user.setRoles(roles);
 //                        userRepository.save(user);
@@ -157,5 +159,21 @@ public class AuthController {
         }
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+
+    @PostMapping("/signinemployee")
+    public String authenticateEmployee(@Valid @RequestBody LoginRequest loginRequest) {
+
+
+        Employee employee = employeeRepository.findByUsername(loginRequest.getUsername()).orElseThrow();
+
+        if (employee.getRole().equals("deskclerk") && employee.getPassword().equals(loginRequest.getPassword())){
+            return "deskclerk " +  employee.getHotelId().toString();
+        }
+        else if (employee.getPassword().equals(loginRequest.getPassword())) {
+            return "manager";
+        }
+
+        return "Invalid Input";
     }
 }

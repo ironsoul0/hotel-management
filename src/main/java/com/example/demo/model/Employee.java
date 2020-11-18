@@ -134,4 +134,8 @@ public class Employee {
         return this.hotel_id_employee.getAddress();
     }
 
+    public Long getHotelId() {
+        return this.hotel_id_employee.getId();
+    }
+
 }
