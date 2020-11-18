@@ -68,7 +68,7 @@ function ManagerPage() {
                     color="textSecondary"
                     gutterBottom
                   >
-                    {employee.email}
+                    {employee.hotelName}
                   </Typography>
                   <Typography variant="h5" component="h2">
                     {employee.name} {employee.surname}

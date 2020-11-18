@@ -58,17 +58,18 @@ public class EmployeeWorkingHoursController {
     }
 
     @PostMapping("/schedule/{id}/edit")
-    public String schedulePostUpdate(@PathVariable long id, @RequestParam String datework,
+    public String schedulePostUpdate(@PathVariable long id, @RequestParam String date_work,
                                      @RequestParam String time_start, @RequestParam String time_end,
-                                     @RequestParam(required = false, defaultValue = "0") int total_payment) throws ParseException {
+                                     @RequestParam(required = false, defaultValue = "0") int total_Payment, @RequestParam int total_hours) throws ParseException {
         EmployeeWorkingHours schedule = employeeWorkingHoursRepository.findById(id).orElseThrow();
 
         schedule.setTime_start(time_start);
         schedule.setTime_end(time_end);
-        if (total_payment != 0) {
-            schedule.setTotal_Payment(total_payment);
+        schedule.setTotal_hours(total_hours);
+        if (total_Payment != 0) {
+            schedule.setTotal_Payment(total_Payment);
         }
-        schedule.setDate_work(new SimpleDateFormat("yyyy-MM-dd").parse(datework));
+        schedule.setDate_work(new SimpleDateFormat("yyyy-MM-dd").parse(date_work));
         employeeWorkingHoursRepository.save(schedule);
         return "Changes done!";
     }
@@ -79,15 +80,15 @@ public class EmployeeWorkingHoursController {
 //    }
 
     @PostMapping("/schedule/add") // works
-    public String schedulePostAdd(@RequestParam Long employeeId, @RequestParam String datework, @RequestParam String time_start, @RequestParam String time_end,
-                                  @RequestParam(required = false, defaultValue = "0") int total_payment, @RequestParam int totalhours) throws ParseException {
+    public String schedulePostAdd(@RequestParam Long employeeId, @RequestParam String date_work, @RequestParam String time_start, @RequestParam String time_end,
+                                  @RequestParam(required = false, defaultValue = "0") int total_Payment, @RequestParam int total_hours) throws ParseException {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow();
         EmployeeWorkingHours schedule;
-        if (total_payment == 0)
-            schedule = new EmployeeWorkingHours(employee, time_start, time_end, new SimpleDateFormat("yyyy-MM-dd").parse(datework), totalhours);
+        if (total_Payment == 0)
+            schedule = new EmployeeWorkingHours(employee, time_start, time_end, new SimpleDateFormat("yyyy-MM-dd").parse(date_work), total_hours);
         else {
             schedule = new EmployeeWorkingHours(employee, time_start, time_end,
-                    total_payment, new SimpleDateFormat("yyyy-MM-dd").parse(datework), totalhours);
+                    total_Payment, new SimpleDateFormat("yyyy-MM-dd").parse(date_work), total_hours);
         }
         employeeWorkingHoursRepository.save(schedule);
         return "Schedule registered successfully!";

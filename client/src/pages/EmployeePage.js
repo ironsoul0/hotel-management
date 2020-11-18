@@ -5,17 +5,11 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
 import { useParams } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
@@ -50,14 +44,14 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3),
   },
   button: {
-    margin: theme.spacing(1, 1, 0, 0),
+    margin: "25px 0px 0px 0",
+    width: "100px",
   },
   grid: {
     marginTop: "20px",
   },
   textField: {
-    marginRight: "15px",
-    marginBottom: "20px",
+    marginRight: "30px",
   },
 }));
 
@@ -67,10 +61,74 @@ function EmployeePage() {
   const [employee, setEmployee] = useState(null);
   const [schedule, setSchedule] = useState(null);
   const { id } = useParams();
-  const [fields, setFields] = useState({});
 
-  const fieldChange = (e) => {
-    setFields({ ...fields, [e.target.name]: e.target.value });
+  const isValid = (index) => {
+    const fields = schedule[index];
+
+    const requiredFields = [
+      "date_work",
+      "time_start",
+      "time_end",
+      "total_Payment",
+      "total_hours",
+    ];
+
+    const invalidEntry = requiredFields.find((field) => {
+      return !fields[field];
+    });
+
+    return !invalidEntry;
+  };
+
+  const fieldChange = (index) => {
+    return (event) => {
+      const { name, value } = event.target;
+      const updatedSchedule = [...schedule];
+      updatedSchedule[index][name] = value;
+      setSchedule(updatedSchedule);
+    };
+  };
+
+  const getSchedule = () => {
+    api.get(`/manager/schedule?employeeid=${id}`).then((result) => {
+      setSchedule([...result.data, {}]);
+    });
+  };
+
+  const saveHours = (index, isLast) => {
+    const newValues = schedule[index];
+
+    const params = new URLSearchParams();
+    params.append("date_work", newValues.date_work);
+    params.append("time_start", newValues.time_start);
+    params.append("time_end", newValues.time_end);
+    params.append("total_Payment", newValues.total_Payment);
+    params.append("total_hours", newValues.total_hours);
+
+    if (!isLast) {
+      api
+        .post(`/manager/schedule/${schedule[index].id}/edit`, params)
+        .then(() => {
+          dispatch(
+            updateAlert({
+              target: "success",
+              newValue: `Successfully updated!`,
+            })
+          );
+        });
+    } else {
+      params.append("employeeId", id);
+      api.post("/manager/schedule/add", params).then(() => {
+        dispatch(
+          updateAlert({
+            target: "success",
+            newValue: `Successfully created!`,
+          })
+        );
+
+        getSchedule();
+      });
+    }
   };
 
   useEffect(() => {
@@ -78,27 +136,98 @@ function EmployeePage() {
       setEmployee(result.data.find((current) => current.id === parseInt(id)));
     });
 
-    api.get(`/manager/schedule?employeeid=${id}`).then((result) => {
-      setSchedule(result.data);
-    });
+    getSchedule();
   }, []);
 
   return (
     <Container fixed>
       {employee && schedule ? (
         <>
-          <Typography variant="h4" component="h2">
+          <Typography variant="h4" component="h4">
             {employee.name}
           </Typography>
-          {schedule.map((piece) => (
+          <Typography variant="p2" component="p">
+            Working hours
+          </Typography>
+          {schedule.map((piece, index) => (
             <Card className={classes.root}>
               <CardContent>
-                {/* <Typography className={classes.pos} color="textSecondary"> */}
-                {/*   {hotel.features} */}
-                {/* </Typography> */}
-                {/* <Typography variant="body2" component="p"> */}
-                {/*   {hotel.description} */}
-                {/* </Typography> */}
+                <Grid container>
+                  <TextField
+                    name="time_start"
+                    label="Time start"
+                    type="time"
+                    defaultValue={piece.time_start}
+                    className={classes.textField}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    value={schedule[index].time_start}
+                    onChange={fieldChange(index)}
+                  />
+                  <TextField
+                    name="time_end"
+                    label="Time end"
+                    type="time"
+                    defaultValue={piece.time_end}
+                    className={classes.textField}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    value={schedule[index].time_end}
+                    onChange={fieldChange(index)}
+                  />
+                  <TextField
+                    name="date_work"
+                    label="Date work"
+                    type="date"
+                    defaultValue={piece.date_work}
+                    className={classes.textField}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    value={schedule[index].date_work}
+                    onChange={fieldChange(index)}
+                  />
+                  <TextField
+                    name="total_Payment"
+                    label="Total payment"
+                    type="number"
+                    defaultValue={piece.total_Payment}
+                    className={classes.textField}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    value={schedule[index].total_Payment}
+                    onChange={fieldChange(index)}
+                  />
+                  <TextField
+                    name="total_hours"
+                    label="Total hours"
+                    type="number"
+                    defaultValue={piece.total_hours}
+                    className={classes.textField}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    value={schedule[index].total_hours}
+                    onChange={fieldChange(index)}
+                  />
+                </Grid>
+                <Button
+                  className={classes.button}
+                  type="submit"
+                  variant={
+                    index === schedule.length - 1 ? "contained" : "outlined"
+                  }
+                  color="primary"
+                  onClick={() =>
+                    saveHours(index, index === schedule.length - 1)
+                  }
+                  disabled={!isValid(index)}
+                >
+                  {index === schedule.length - 1 ? "Create" : "Save"}
+                </Button>
               </CardContent>
             </Card>
           ))}
