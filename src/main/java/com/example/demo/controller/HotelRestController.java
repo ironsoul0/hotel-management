@@ -67,7 +67,7 @@ public class HotelRestController {
         User u = userRepository.findByUsername(getUsername()).get();
         Room_type rt = room_typeRepository.findById(roomtype).get();
         long price = calculatePrice(date1, date2, rt.getBase_price());
-        Reservation r = new Reservation(date1, date2, (int) price, 1, u);
+        Reservation r = new Reservation(date1, date2, (int) price, 1, u, false);
         r.setRoom_type_id(rt);
         reservationRepository.save(r);
         return "Success";
