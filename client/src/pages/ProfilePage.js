@@ -12,7 +12,7 @@ import Button from "@material-ui/core/Button";
 import { useDispatch } from "react-redux";
 
 import { updateAlert } from "../store/reducers/alertSlice";
-import api from "../config/api";
+import api, { base } from "../config/api";
 
 const useStyles = makeStyles((theme) => ({
   loader: {
@@ -57,7 +57,7 @@ function ProfilePage() {
   }, []);
 
   const openReservation = (id) => {
-    window.open(`http://localhost:8080/generate-pdf/${id}`, "_blank");
+    window.open(`${base}/generate-pdf/${id}`, "_blank");
   };
 
   const deleteReservation = async (id) => {
