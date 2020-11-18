@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Null;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -66,10 +67,15 @@ public class EmployeeWorkingHoursController {
 
     @PostMapping("/schedule/add") // works
     public String schedulePostAdd(@RequestParam Long employeeId, @RequestParam String datework, @RequestParam String time_start, @RequestParam String time_end,
-                                  @RequestParam int total_payment, @RequestParam int totalhours) throws ParseException {
+                                  @RequestParam(required = false, defaultValue = "0") int total_payment, @RequestParam int totalhours) throws ParseException {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow();
-        EmployeeWorkingHours schedule = new EmployeeWorkingHours(employee, time_start, time_end,
-                total_payment, new SimpleDateFormat("yyyy-MM-dd").parse(datework), totalhours);
+        EmployeeWorkingHours schedule;
+        if (total_payment == 0)
+            schedule = new EmployeeWorkingHours(employee, time_start, time_end, new SimpleDateFormat("yyyy-MM-dd").parse(datework), totalhours);
+        else {
+            schedule = new EmployeeWorkingHours(employee, time_start, time_end,
+                    total_payment, new SimpleDateFormat("yyyy-MM-dd").parse(datework), totalhours);
+        }
         employeeWorkingHoursRepository.save(schedule);
         return "Schedule registered successfully!";
     }

@@ -29,6 +29,16 @@ public class EmployeeWorkingHours {
 
     }
 
+    public EmployeeWorkingHours (Employee employee, String time_start, String time_end,
+                                 Date date_work, int total_hours) {
+        this.employee = employee;
+        this.time_start = time_start;
+        this.time_end = time_end;
+        this.total_payment = employee.getPayment() * total_hours;
+        this.date_work = date_work;
+        this.total_hours = total_hours;
+    }
+
 
     public EmployeeWorkingHours (Employee employee, String time_start, String time_end, int total_payment,
                                 Date date_work, int total_hours) {
