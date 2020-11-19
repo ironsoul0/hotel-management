@@ -123,12 +123,16 @@ public class AuthController {
                 switch (role) {
                     case "admin":
 
-                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(adminRole);
+                        Random rn = new Random(); // Generate random payment
+                        int range = 3001;
+                        int payment = rn.nextInt(range) + 1000;
+                        List<Hotel> hotels = (List<Hotel>) hotelRepository.findAll();
+                        Employee deskclerk = new Employee(user.getUsername(), user.getEmail(), user.getName(),
+                                user.getSurname(), signUpRequest.getPassword(), user.getMobilePhone(), payment, "manager", hotels.get(0));
 
-                        user.setRoles(roles);
-                        userRepository.save(user);
+//                        user.setRoles(roles);
+//                        userRepository.save(user);
+                        employeeRepository.save(deskclerk);
 
                         break;
                     case "mod":

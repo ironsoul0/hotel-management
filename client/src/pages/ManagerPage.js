@@ -85,7 +85,7 @@ function ManagerPage() {
                     size="small"
                     onClick={() => history.push(`/employee/${employee.id}`)}
                   >
-                    Punish the bitch
+                    Edit hours
                   </Button>
                 </CardActions>
               </Card>
