@@ -4,13 +4,11 @@ package com.example.demo.controller;
 import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.validation.constraints.Null;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -121,7 +119,7 @@ public class EmployeeWorkingHoursController {
         return hotels;
     }
 
-    @PostMapping("/addSeason") // return id of season, which is name of season
+    @PostMapping("/seasons/addSeason") // return id of season, which is name of season
     public String createSeason (
             @RequestParam String hotelIds,
             @RequestParam String name,
@@ -159,6 +157,39 @@ public class EmployeeWorkingHoursController {
         catch (MessagingException e) { e.printStackTrace(); }
 
         return name;
+    }
+
+    @GetMapping("/seasons")
+    public Set<Season> showAllSeasons () {
+
+        List <Season> seasons = seasonRepository.findAll();
+
+        return new HashSet<>(seasons);
+    }
+
+    @PostMapping("/seasons/{id}/delete")
+    public void cancelSeason (@PathVariable Long id) {
+
+        List <TakesPlaceIn> ts = takesPlaceInRepository.findAll();
+        for (TakesPlaceIn t : ts) {
+
+            if (t.getSeason().getId().equals(id)) {
+
+                takesPlaceInRepository.deleteById(t.getId());
+            }
+        }
+
+        List <Season> seasons = seasonRepository.findAll();
+        for (Season season : seasons) {
+
+            if (season.getId().equals(id)) {
+
+                seasonRepository.deleteById(id);
+
+                break;
+            }
+        }
+
     }
 
     public void sendNotificationOnNewSeason (

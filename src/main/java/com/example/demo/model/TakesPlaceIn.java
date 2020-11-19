@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.*;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -12,12 +14,13 @@ public class TakesPlaceIn { // sorry... I know, it looks weird and ugly... but, 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn (name = "season_name")
+    @JsonBackReference
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Season season;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn (name = "hotel_id")
+    @JsonManagedReference
+    @JsonIgnoreProperties({"rooms", "room_types", "employees", "description", "features"})
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Hotel hotel;
 
     @NotBlank
@@ -38,6 +41,8 @@ public class TakesPlaceIn { // sorry... I know, it looks weird and ugly... but, 
     public String getWeekdayPrice () { return weekdayPrice; }
 
     public Long getId () { return id; }
+
+    public void setId (Long id) { this.id = id; }
 
     public void setWeekdayPrice (String weekdayPrice) { this.weekdayPrice = weekdayPrice; }
 

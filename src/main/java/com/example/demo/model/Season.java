@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -26,6 +28,7 @@ public class Season {
     @Size(max = 20)
     private String endDate;
 
+    @JsonManagedReference
     @OneToMany (mappedBy = "season", cascade = CascadeType.ALL)
     private Set <TakesPlaceIn> takesPlaceIns; // sorry... I know, it looks weird and ugly
 
@@ -59,4 +62,8 @@ public class Season {
     public Set <TakesPlaceIn> getTakesPlaceIns () { return takesPlaceIns; }
 
     public void setTakesPlaceIns (Set <TakesPlaceIn> takesPlaceIns) { this.takesPlaceIns = takesPlaceIns; }
+
+    public Long getId () { return id; }
+
+    public void setId (Long id) {this.id = id; }
 }

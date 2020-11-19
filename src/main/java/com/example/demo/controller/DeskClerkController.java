@@ -54,7 +54,7 @@ public class DeskClerkController {
     // this is implemented as a function for button
     // it returns roomId that was set for user
     @PostMapping("/allReserves/{id}/approve") // this one works
-    public Long approveReservation (@PathVariable long id, @RequestParam Long hotelId) {
+    public Long approveReservation (@PathVariable Long id, @RequestParam Long hotelId) {
 
         Reservation reservation = reservationRepository.findById(id).orElseThrow();
 
@@ -85,7 +85,7 @@ public class DeskClerkController {
     // this is implemented as a function for button
     // parameter hotelId and inside code could change depending on front end for desk clerk page
     @PostMapping("/allReserves/{id}/delete") // works
-    public void removeReservation (@PathVariable long id, @RequestParam Long hotelId) {
+    public void removeReservation (@PathVariable Long id, @RequestParam Long hotelId) {
 
         Reservation reservation = reservationRepository.findById(id).orElseThrow();
         Hotel hotel = hotelRepository.findById(hotelId).orElseThrow();
@@ -151,7 +151,7 @@ public class DeskClerkController {
 
     // does not show in advance if some room type is unavailable for check in date <-- add it later
     @PostMapping("/allReserves/{id}/edit")
-    public Long editReservation (@PathVariable long id,
+    public Long editReservation (@PathVariable Long id,
                                  @RequestParam Long hotelId,
                                  @RequestParam String checkInDate,
                                  @RequestParam String checkOutDate,
