@@ -48,6 +48,15 @@ function Main({ children }) {
           >
             HMS 2.0
           </Typography>
+          {auth.role === "manager" && (
+            <Button
+              className={classes.menuButton}
+              color="inherit"
+              onClick={() => history.push("/seasons")}
+            >
+              Seasons
+            </Button>
+          )}
           {auth.role === "user" && (
             <Button
               className={classes.menuButton}

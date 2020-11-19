@@ -11,6 +11,7 @@ import ProfilePage from "./pages/ProfilePage";
 import HotelPage from "./pages/HotelPage";
 import ManagerPage from "./pages/ManagerPage";
 import EmployeePage from "./pages/EmployeePage";
+import SeasonsPage from "./pages/SeasonsPage";
 
 function App() {
   const auth = useSelector((state) => state.auth);
@@ -36,6 +37,7 @@ function App() {
       content = (
         <Main>
           <Route exact path="/" component={ManagerPage} />
+          <Route exact path="/seasons" component={SeasonsPage} />
           <Route exact path="/employee/:id" component={EmployeePage} />
         </Main>
       );
