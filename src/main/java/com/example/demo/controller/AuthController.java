@@ -139,11 +139,11 @@ public class AuthController {
                         Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 //                        roles.add(modRole);
-                        Random rn = new Random(); // Generate random payment
-                        int range = 3001;
-                        int payment = rn.nextInt(range) + 1000;
-                        List<Hotel> hotels = (List<Hotel>) hotelRepository.findAll();
-                        Employee deskclerk = new Employee(user.getUsername(), user.getEmail(), user.getName(),
+                        rn = new Random(); // Generate random payment
+                        range = 3001;
+                        payment = rn.nextInt(range) + 1000;
+                        hotels = (List<Hotel>) hotelRepository.findAll();
+                        deskclerk = new Employee(user.getUsername(), user.getEmail(), user.getName(),
                                                       user.getSurname(), signUpRequest.getPassword(), user.getMobilePhone(), payment, "deskclerk", hotels.get(0));
 
 //                        user.setRoles(roles);
