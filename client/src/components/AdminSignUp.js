@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+
 import { useDispatch } from "react-redux";
+
+import MenuItem from "@material-ui/core/MenuItem";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -13,15 +16,21 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+import MuiPhoneNumber from "material-ui-phone-number";
 
 import api from "../config/api";
-
-import { login } from "../store/reducers/authSlice";
 import { updateAlert } from "../store/reducers/alertSlice";
 
 function Copyright() {
   return (
-    <Typography variant="body2" color="textSecondary" align="center">
+    <Typography
+      variant="body2"
+      color="textSecondary"
+      align="center"
+      style={{ marginBottom: "20px" }}
+    >
       {"Copyright © "}
       <Link color="inherit" href="https://ironsoul.me/">
         HMS
@@ -31,6 +40,17 @@ function Copyright() {
     </Typography>
   );
 }
+
+const roleTypes = [
+  {
+    key: "Manager",
+    value: "admin",
+  },
+  {
+    key: "Desk clerk",
+    value: "mod",
+  },
+];
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -52,18 +72,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn({ toggle }) {
+export default function SignUp({ toggle }) {
+  const classes = useStyles();
   const dispatch = useDispatch();
-  const [fields, setFields] = useState({});
 
+  const [fields, setFields] = useState({});
   const fieldChange = (e) => {
     setFields({ ...fields, [e.target.name]: e.target.value });
   };
 
-  const classes = useStyles();
-
   const isValid = () => {
-    const requiredFields = ["username", "password"];
+    const requiredFields = [
+      "username",
+      "email",
+      "name",
+      "surname",
+      "password",
+      "roleType",
+    ];
 
     const invalidEntry = requiredFields.find((field) => {
       return !fields[field];
@@ -74,18 +100,22 @@ export default function SignIn({ toggle }) {
 
   const submitForm = (e) => {
     e.preventDefault();
-
     api
-      .post("/auth/signin", fields)
-      .then((result) => {
-        const token = result.data.accessToken;
-        dispatch(updateAlert({ target: "success", newValue: "Welcome!" }));
-        dispatch(login({ token, role: "user" }));
-      })
-      .catch(() => {
+      .post("/auth/signup", { ...fields, role: [fields.roleType] })
+      .then(() => {
         dispatch(
-          updateAlert({ target: "error", newValue: "Invalid credentials" })
+          updateAlert({
+            target: "success",
+            newValue: "Successfully registered!",
+          })
         );
+        setTimeout(() => {
+          toggle();
+        }, 2000);
+      })
+      .catch((err) => {
+        const errorMessage = err.response.data.message;
+        dispatch(updateAlert({ target: "error", newValue: errorMessage }));
       });
   };
 
@@ -97,7 +127,7 @@ export default function SignIn({ toggle }) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Sign up
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
@@ -118,6 +148,42 @@ export default function SignIn({ toggle }) {
             margin="normal"
             required
             fullWidth
+            name="email"
+            label="Email"
+            type="email"
+            id="email"
+            value={fields["email"]}
+            onChange={fieldChange}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="name"
+            label="First name"
+            name="name"
+            autoComplete="name"
+            autoFocus
+            value={fields["name"]}
+            onChange={fieldChange}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="surname"
+            label="Last name"
+            id="surname"
+            value={fields["surname"]}
+            onChange={fieldChange}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
             name="password"
             label="Password"
             type="password"
@@ -125,6 +191,24 @@ export default function SignIn({ toggle }) {
             value={fields["password"]}
             onChange={fieldChange}
           />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="roleType"
+            select
+            name="roleType"
+            label="Role type"
+            value={fields["roleType"]}
+            onChange={fieldChange}
+          >
+            {roleTypes.map(({ key, value }) => (
+              <MenuItem key={value} value={value}>
+                {key}
+              </MenuItem>
+            ))}
+          </TextField>
           <Button
             type="submit"
             fullWidth
@@ -134,12 +218,12 @@ export default function SignIn({ toggle }) {
             disabled={!isValid()}
             onClick={submitForm}
           >
-            Sign In
+            Sign Up
           </Button>
           <Grid container>
             <Grid item>
               <Link href="#" variant="body2" onClick={toggle}>
-                {"Don't have an account? Sign Up"}
+                {"Already have an account? Sign In"}
               </Link>
             </Grid>
           </Grid>

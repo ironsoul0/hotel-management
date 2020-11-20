@@ -13,6 +13,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { useHistory } from "react-router-dom";
 
 import api from "../config/api";
 
@@ -53,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn({ toggle }) {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [fields, setFields] = useState({});
 
@@ -76,11 +78,27 @@ export default function SignIn({ toggle }) {
     e.preventDefault();
 
     api
-      .post("/auth/signin", fields)
+      .post("/auth/signinemployee", fields)
       .then((result) => {
-        const token = result.data.accessToken;
-        dispatch(updateAlert({ target: "success", newValue: "Welcome!" }));
-        dispatch(login({ token, role: "user" }));
+        const { data } = result;
+        if (data.includes("Invalid")) {
+          dispatch(
+            updateAlert({ target: "error", newValue: "Invalid credentials" })
+          );
+          return;
+        }
+        if (data.includes("manager")) {
+          dispatch(
+            updateAlert({ target: "success", newValue: "Welcome, manager!" })
+          );
+          dispatch(login({ token: "manager", role: "manager" }));
+        } else {
+          const hotelId = parseInt(data.split(" ")[1]);
+          dispatch(
+            updateAlert({ target: "success", newValue: "Welcome, desk clerk!" })
+          );
+          dispatch(login({ token: "clerk", role: "clerk", hotelId }));
+        }
       })
       .catch(() => {
         dispatch(

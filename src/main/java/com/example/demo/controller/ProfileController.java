@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Hotel;
 import com.example.demo.model.Reservation;
 import com.example.demo.model.Room_type;
 import com.example.demo.model.User;
@@ -7,6 +8,7 @@ import com.example.demo.repository.ReservationRepository;
 import com.example.demo.repository.Room_typeRepository;
 import com.example.demo.repository.UserRepository;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
@@ -115,11 +117,11 @@ public class ProfileController {
         return r;
     }
 
-    @GetMapping("/get-roomtypes/{id}")
-    public Set<Room_type> getBooking(@PathVariable Long id){
-        Reservation r = reservationrepo.findById(id).get();
-        Set<Room_type> lst = r.getRoom_type_id().getHotel_id().getRoom_types();
-        return lst;
+    @JsonIgnore
+    @GetMapping("/get-hotel/{id}")
+    public Hotel getBooking(@PathVariable Long id){
+        Reservation r = reservationrepo.findById(id).orElseThrow();
+        return r.getRoom_type_id().getHotel_id();
     }
 
     @PostMapping("/edit-book/{id}")

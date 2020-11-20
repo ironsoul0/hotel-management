@@ -4,12 +4,18 @@ export const authSlice = createSlice({
   name: "auth",
   initialState: {
     token: localStorage.getItem("token"),
-    role: "user",
+    role: localStorage.getItem("role"),
   },
   reducers: {
     login: (state, action) => {
-      localStorage.setItem("token", action.payload);
-      state.token = action.payload;
+      const { token, role, hotelId } = action.payload;
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", role);
+      localStorage.setItem("hotelId", hotelId);
+
+      state.token = token;
+      state.role = role;
     },
     logout: (state) => {
       localStorage.removeItem("token");
