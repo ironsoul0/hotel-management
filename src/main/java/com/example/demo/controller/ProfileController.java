@@ -31,10 +31,7 @@ import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 // @Controller
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -112,17 +109,21 @@ public class ProfileController {
         return "Success";
     }
 
-    @GetMapping("/profile/edit-book/{id}")
-    public String editBooking(@PathVariable Long id, Model model){
+    @GetMapping("/get-reservation/{id}")
+    public Reservation editBooking(@PathVariable Long id){
         Reservation r = reservationrepo.findById(id).get();
-        Iterable<Room_type> lst = r.getRoom_type_id().getHotel_id().getRoom_types();
-        model.addAttribute("reservation", r);
-        model.addAttribute("roomtypes", lst);
-        return "edit-reservation";
+        return r;
     }
 
-    @PostMapping("/profile/edit-book/{id}")
-    public String bookRoom(@PathVariable Long id, @RequestParam Long roomtype, @RequestParam String myDate, @RequestParam String myDate2, Model model) throws ParseException {
+    @GetMapping("/get-roomtypes/{id}")
+    public Set<Room_type> getBooking(@PathVariable Long id){
+        Reservation r = reservationrepo.findById(id).get();
+        Set<Room_type> lst = r.getRoom_type_id().getHotel_id().getRoom_types();
+        return lst;
+    }
+
+    @PostMapping("/edit-book/{id}")
+    public String bookRoom(@PathVariable Long id, @RequestParam Long roomtype, @RequestParam String myDate, @RequestParam String myDate2) throws ParseException {
         Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(myDate);
         Date date2 = new SimpleDateFormat("yyyy-MM-dd").parse(myDate2);
         User u = userRepository.findByUsername(getUsername()).get();
@@ -133,6 +134,6 @@ public class ProfileController {
         r.setRoom_type_id(rt);
         r.setApproved(false);
         reservationrepo.save(r);
-        return "redirect:/profile";
+        return "Success";
     }
 }

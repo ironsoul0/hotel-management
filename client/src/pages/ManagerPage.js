@@ -77,7 +77,7 @@ function ManagerPage() {
                     {employee.role}
                   </Typography>
                   <Typography variant="body2" component="p">
-                    {employee.payment}$ per month
+                    {employee.payment} ₸ p. h.
                   </Typography>
                 </CardContent>
                 <CardActions>

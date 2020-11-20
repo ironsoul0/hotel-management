@@ -94,7 +94,7 @@ function ProfilePage() {
                     <div className={classes.booking}>
                       <p>
                         <span className={classes.bold}>Date:</span>{" "}
-                        {data.checkinDate} - {data.checkoutDate}
+                        {data.checkinDateToString} - {data.checkoutDateToString}
                       </p>
                       <p>
                         <span className={classes.bold}>Prepaid price:</span>{" "}
@@ -121,7 +121,7 @@ function ProfilePage() {
                         >
                           Delete
                         </Button>
-                        {/* <Button variant="outlined">Edit</Button> */}
+                        <Button variant="outlined">Edit</Button>
                       </Grid>
                     </div>
                   ))}

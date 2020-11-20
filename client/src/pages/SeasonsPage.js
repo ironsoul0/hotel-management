@@ -37,9 +37,6 @@ const useStyles = makeStyles((theme) => ({
   title: {
     fontSize: 14,
   },
-  pos: {
-    marginBottom: 12,
-  },
   loader: {
     textAlign: "center",
   },
@@ -57,6 +54,9 @@ const useStyles = makeStyles((theme) => ({
     margin: "25px 0px 0px 0",
     width: "100px",
     display: "block",
+  },
+  deleteButton: {
+    marginBottom: "10px",
   },
   top: {
     marginTop: "-20px",
@@ -91,14 +91,18 @@ function SeasonPage() {
     "Sunday",
   ];
 
-  useEffect(() => {
+  const getSeasons = () => {
     api.get("/manager/seasons").then((result) => {
       setSeasons(result.data);
     });
+  };
 
+  useEffect(() => {
     api.get("/hotels/").then((result) => {
       setHotels(result.data);
     });
+
+    getSeasons();
   }, []);
 
   const fieldChange = (e) => {
@@ -141,6 +145,9 @@ function SeasonPage() {
     params.append("endDate", fields.endDate);
     params.append("weekdayPrice", getWeekdayPrices());
     api.post("/manager/seasons/addSeason", params).finally(() => {
+      setFields({});
+      setCheckboxes({});
+
       dispatch(
         updateAlert({
           target: "success",
@@ -148,8 +155,25 @@ function SeasonPage() {
         })
       );
 
-      setFields({});
-      setCheckboxes({});
+      getSeasons();
+    });
+  };
+
+  const getTakesPlaceIns = (season) => {
+    const { takesPlaceIns } = season;
+    return takesPlaceIns.map((place) => place.hotel.name).join(", ");
+  };
+
+  const deleteSeason = (seasonId) => {
+    api.post(`/manager/seasons/${seasonId}/delete`).then(() => {
+      dispatch(
+        updateAlert({
+          target: "success",
+          newValue: `Successfully deleted!`,
+        })
+      );
+
+      getSeasons();
     });
   };
 
@@ -255,7 +279,7 @@ function SeasonPage() {
               </Button>
             </CardContent>
           </Card>
-          {[].map((season) => (
+          {seasons.map((season) => (
             <>
               <Card className={classes.root}>
                 <CardContent>
@@ -264,22 +288,24 @@ function SeasonPage() {
                     color="textSecondary"
                     gutterBottom
                   >
-                    {season.hotelName}
+                    {season.startDate} - {season.endDate}
                   </Typography>
                   <Typography variant="h5" component="h2">
-                    {season.name} {season.surname}
+                    {season.seasonName}
                   </Typography>
                   <Typography className={classes.pos} color="textSecondary">
-                    {season.role}
+                    {getTakesPlaceIns(season)}
                   </Typography>
-                  <Typography variant="body2" component="p">
-                    {season.payment}$ per month
-                  </Typography>
+                  {/* <Typography variant="body2" component="p"> */}
+                  {/*   {getTakesPlaceIns(season)} */}
+                  {/* </Typography> */}
                 </CardContent>
                 <CardActions>
                   <Button
-                    size="small"
-                    // onClick={() => history.push(`/employee/${employee.id}`)}
+                    variant="outlined"
+                    color="secondary"
+                    className={classes.deleteButton}
+                    onClick={() => deleteSeason(season.id)}
                   >
                     Delete
                   </Button>

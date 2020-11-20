@@ -9,6 +9,7 @@ import CardContent from "@material-ui/core/CardContent";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import { useParams } from "react-router-dom";
 
@@ -46,6 +47,9 @@ const useStyles = makeStyles((theme) => ({
   button: {
     margin: "25px 0px 0px 0",
     width: "100px",
+    "&:nth-child(1)": {
+      marginRight: "15px",
+    },
   },
   grid: {
     marginTop: "20px",
@@ -131,6 +135,19 @@ function EmployeePage() {
     }
   };
 
+  const deleteWorkingHours = (id) => {
+    api.post(`/manager/schedule/${id}/delete`).then(() => {
+      dispatch(
+        updateAlert({
+          target: "success",
+          newValue: `Successfully deleted!`,
+        })
+      );
+
+      getSchedule();
+    });
+  };
+
   useEffect(() => {
     api.get("/manager/allemployees").then((result) => {
       setEmployee(result.data.find((current) => current.id === parseInt(id)));
@@ -189,23 +206,31 @@ function EmployeePage() {
                     value={schedule[index].date_work}
                     onChange={fieldChange(index)}
                   />
-                  <TextField
-                    name="total_Payment"
-                    label="Total payment"
-                    type="number"
-                    defaultValue={piece.total_Payment}
-                    className={classes.textField}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    value={schedule[index].total_Payment}
-                    onChange={fieldChange(index)}
-                  />
+                  <Tooltip
+                    disableFocusListener
+                    disableTouchListener
+                    title="Put 0 for standard salary"
+                  >
+                    <TextField
+                      name="total_Payment"
+                      label="Total payment"
+                      type="number"
+                      defaultValue={piece.total_Payment}
+                      className={classes.textField}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      value={schedule[index].total_Payment}
+                      placeholder="Salary in ₸ per hour"
+                      onChange={fieldChange(index)}
+                    />
+                  </Tooltip>
                   <TextField
                     name="total_hours"
                     label="Total hours"
                     type="number"
                     defaultValue={piece.total_hours}
+                    placeholder="Hours to work"
                     className={classes.textField}
                     InputLabelProps={{
                       shrink: true,
@@ -214,20 +239,33 @@ function EmployeePage() {
                     onChange={fieldChange(index)}
                   />
                 </Grid>
-                <Button
-                  className={classes.button}
-                  type="submit"
-                  variant={
-                    index === schedule.length - 1 ? "contained" : "outlined"
-                  }
-                  color="primary"
-                  onClick={() =>
-                    saveHours(index, index === schedule.length - 1)
-                  }
-                  disabled={!isValid(index)}
-                >
-                  {index === schedule.length - 1 ? "Create" : "Save"}
-                </Button>
+                <Grid>
+                  <Button
+                    className={classes.button}
+                    type="submit"
+                    variant={
+                      index === schedule.length - 1 ? "contained" : "outlined"
+                    }
+                    color="primary"
+                    onClick={() =>
+                      saveHours(index, index === schedule.length - 1)
+                    }
+                    disabled={!isValid(index)}
+                  >
+                    {index === schedule.length - 1 ? "Create" : "Save"}
+                  </Button>
+                  {index !== schedule.length - 1 && (
+                    <Button
+                      className={classes.button}
+                      type="submit"
+                      variant={"outlined"}
+                      color="secondary"
+                      onClick={() => deleteWorkingHours(schedule[index].id)}
+                    >
+                      Delete
+                    </Button>
+                  )}
+                </Grid>
               </CardContent>
             </Card>
           ))}
