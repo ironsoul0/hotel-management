@@ -39,14 +39,19 @@ const useStyles = makeStyles((theme) => ({
   button: {
     marginBottom: 10,
   },
+  nothing: {
+    marginTop: 10,
+    fontSize: 16,
+  },
 }));
 
 function ClerkPage() {
+  const hotelId = parseInt(localStorage.getItem("hotelId"));
   const classes = useStyles();
   const dispatch = useDispatch();
   const [reservations, setReservations] = useState(null);
   const history = useHistory();
-  const hotelId = parseInt(localStorage.getItem("hotelId"));
+  const [hotelName, setHotelName] = useState("");
 
   const getReservations = () => {
     api.get(`/desk/allReserves?hotelId=${hotelId}`).then((result) => {
@@ -56,6 +61,11 @@ function ClerkPage() {
 
   useEffect(() => {
     getReservations();
+
+    api.get("/hotels/").then((result) => {
+      const target = result.data.find((hotel) => hotel.id === hotelId);
+      setHotelName(target.name);
+    });
   }, []);
 
   const approveReservation = (id) => {
@@ -99,11 +109,16 @@ function ClerkPage() {
 
   return (
     <Container fixed>
-      {reservations ? (
+      {reservations && hotelName ? (
         <>
           <Typography variant="h3" className={classes.bookingName}>
-            My hotel reservations
+            {hotelName}
           </Typography>
+          {reservations.length === 0 && (
+            <Typography className={classes.nothing}>
+              Nothing to display here
+            </Typography>
+          )}
           {reservations.map((reservation) => (
             <>
               <Card className={classes.root}>

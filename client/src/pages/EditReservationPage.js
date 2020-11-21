@@ -13,7 +13,6 @@ import Button from "@material-ui/core/Button";
 import CardContent from "@material-ui/core/CardContent";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
-
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormGroup from "@material-ui/core/FormGroup";
@@ -77,6 +76,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function EditReservationPage() {
+  const hotelId = parseInt(localStorage.getItem("hotelId"));
   const { id } = useParams();
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -97,9 +97,13 @@ function EditReservationPage() {
     setFields({ ...fields, [e.target.name]: e.target.value });
   };
 
-  const getRoomTypes = (hotelId) => {
-    const id = parseInt(hotelId);
-    const target = hotels.find((hotel) => hotel.id === id);
+  const getHotelName = () => {
+    const target = hotels.find((hotel) => hotel.id === hotelId);
+    return target.name;
+  };
+
+  const getRoomTypes = () => {
+    const target = hotels.find((hotel) => hotel.id === hotelId);
 
     return target.room_types.map((room_type) => ({
       id: room_type.room_type_id,
@@ -109,7 +113,6 @@ function EditReservationPage() {
 
   const isValid = () => {
     const requiredFields = [
-      "hotelId",
       "checkInDate",
       "checkOutDate",
       "roomCount",
@@ -126,7 +129,7 @@ function EditReservationPage() {
   const editReservation = () => {
     const params = new URLSearchParams();
 
-    params.append("hotelId", parseInt(fields.hotelId));
+    params.append("hotelId", hotelId);
     params.append("checkInDate", fields.checkInDate);
     params.append("checkOutDate", fields.checkOutDate);
     params.append("roomCount", parseInt(fields.roomCount));
@@ -206,35 +209,20 @@ function EditReservationPage() {
                 </Grid>
               </FormControl>
               <br />
-              <FormControl component="fieldset" className={classes.formControl}>
-                <FormLabel component="legend">Choose a hotel</FormLabel>
-                <RadioGroup
-                  name="hotelId"
-                  value={String(fields.hotelId)}
-                  onChange={fieldChange}
-                >
-                  {hotels.map((hotel) => (
-                    <FormControlLabel
-                      value={String(hotel.id)}
-                      control={<Radio />}
-                      label={hotel.name}
-                    />
-                  ))}
-                </RadioGroup>
-              </FormControl>
-              <br />
-              {fields.hotelId && (
+              {hotelId && (
                 <FormControl
                   component="fieldset"
                   className={classes.formControl}
                 >
-                  <FormLabel component="legend">Choose a room type</FormLabel>
+                  <FormLabel component="legend">
+                    Choose a new room type for {getHotelName()}
+                  </FormLabel>
                   <RadioGroup
                     name="room_typeId"
                     value={String(fields.room_typeId)}
                     onChange={fieldChange}
                   >
-                    {getRoomTypes(fields.hotelId).map((info) => (
+                    {getRoomTypes().map((info) => (
                       <FormControlLabel
                         value={String(info.id)}
                         control={<Radio />}
