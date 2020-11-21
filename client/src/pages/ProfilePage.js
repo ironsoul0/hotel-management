@@ -10,6 +10,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import { updateAlert } from "../store/reducers/alertSlice";
 import api, { base } from "../config/api";
@@ -42,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ProfilePage() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const classes = useStyles();
   const [reservations, setReservations] = useState(null);
@@ -121,7 +123,12 @@ function ProfilePage() {
                         >
                           Delete
                         </Button>
-                        <Button variant="outlined">Edit</Button>
+                        <Button
+                          onClick={() => history.push(`/profile/${data.id}`)}
+                          variant="outlined"
+                        >
+                          Edit
+                        </Button>
                       </Grid>
                     </div>
                   ))}

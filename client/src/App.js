@@ -21,6 +21,7 @@ import AdminLoginPage from "./pages/AdminLoginPage";
 import ClerkPage from "./pages/ClerkPage";
 import CreateReservationPage from "./pages/CreateReservationPage";
 import EditReservationPage from "./pages/EditReservationPage";
+import EditProfilePage from "./pages/EditProfilePage";
 
 function App() {
   const auth = useSelector((state) => state.auth);
@@ -41,6 +42,7 @@ function App() {
         <Main>
           <Route exact path="/" component={MainPage} />
           <Route exact path="/profile" component={ProfilePage} />
+          <Route exact path="/profile/:id" component={EditProfilePage} />
           <Route exact path="/hotel/:id" component={HotelPage} />
           <Redirect to="/" />
         </Main>
