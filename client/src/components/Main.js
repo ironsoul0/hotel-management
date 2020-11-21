@@ -37,6 +37,10 @@ function Main({ children }) {
 
   const history = useHistory();
 
+  const capitalize = (string) => {
+    return string.substr(0, 1).toUpperCase() + string.substr(1);
+  };
+
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.appBar}>
@@ -46,8 +50,17 @@ function Main({ children }) {
             className={classes.title}
             variant="h6"
           >
-            HMS 2.0
+            HMS 2.0 {auth.role !== "user" ? `- ${capitalize(auth.role)}` : ""}
           </Typography>
+          {auth.role === "clerk" && (
+            <Button
+              className={classes.menuButton}
+              color="inherit"
+              onClick={() => history.push("/create")}
+            >
+              Create reservation
+            </Button>
+          )}
           {auth.role === "manager" && (
             <Button
               className={classes.menuButton}

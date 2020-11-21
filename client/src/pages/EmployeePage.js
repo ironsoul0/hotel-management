@@ -84,6 +84,14 @@ function EmployeePage() {
     return !invalidEntry;
   };
 
+  const formatDatework = (datework) => {
+    if (!datework) return "";
+    if (datework.includes("T")) {
+      datework = datework.substr(0, datework.indexOf("T"));
+    }
+    return datework;
+  };
+
   const fieldChange = (index) => {
     return (event) => {
       const { name, value } = event.target;
@@ -203,7 +211,7 @@ function EmployeePage() {
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    value={schedule[index].date_work}
+                    value={formatDatework(schedule[index].date_work)}
                     onChange={fieldChange(index)}
                   />
                   <Tooltip
