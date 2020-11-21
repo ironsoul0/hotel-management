@@ -7,8 +7,11 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import CardMedia from "@material-ui/core/CardMedia";
 
 import { useHistory } from "react-router-dom";
+
+import { base } from "../config/api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,6 +29,14 @@ const useStyles = makeStyles((theme) => ({
   pos: {
     marginBottom: 12,
   },
+  media: {
+    height: 0,
+    width: "50%",
+    paddingTop: "25.25%", // 16:9
+    borderRadius: "15px",
+    opacity: "0.9",
+    margin: "20px 0",
+  },
 }));
 
 function HotelCards({ hotels }) {
@@ -35,6 +46,11 @@ function HotelCards({ hotels }) {
   if (hotels.length === 0) {
     return <Typography>No hotels found</Typography>;
   }
+
+  const getMedia = (hotelName) => {
+    const src = base + `/api/hotels/image/${hotelName}`;
+    return src;
+  };
 
   return (
     <>
@@ -55,6 +71,11 @@ function HotelCards({ hotels }) {
               <Typography variant="h5" component="h2">
                 {hotel.name}
               </Typography>
+              <CardMedia
+                className={classes.media}
+                image={getMedia(hotel.name)}
+                title="Paella dish"
+              />
               <Typography className={classes.pos} color="textSecondary">
                 {hotel.features}
               </Typography>

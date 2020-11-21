@@ -9,12 +9,19 @@ import com.example.demo.repository.ReservationRepository;
 import com.example.demo.repository.Room_typeRepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.support.ServletContextResource;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -92,5 +99,16 @@ public class HotelRestController {
     public String signup(Model model) {
         model.addAttribute("title", "Signup");
         return "about";
+    }
+
+    @RequestMapping(value = "/image/{name}", method = RequestMethod.GET,
+            produces = MediaType.IMAGE_JPEG_VALUE)
+
+    public void getImage(HttpServletResponse response, @PathVariable String name) throws IOException {
+
+        var imgFile = new ClassPathResource("image/" + name + ".jpg");
+
+        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+        StreamUtils.copy(imgFile.getInputStream(), response.getOutputStream());
     }
 }

@@ -16,6 +16,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
+import CardMedia from "@material-ui/core/CardMedia";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -27,7 +28,7 @@ import { useParams } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
 
-import api from "../config/api";
+import api, { base } from "../config/api";
 import { updateAlert } from "../store/reducers/alertSlice";
 
 const useStyles = makeStyles((theme) => ({
@@ -65,6 +66,14 @@ const useStyles = makeStyles((theme) => ({
   textField: {
     marginRight: "15px",
     marginBottom: "20px",
+  },
+  media: {
+    height: 0,
+    width: "50%",
+    paddingTop: "25.25%", // 16:9
+    borderRadius: "15px",
+    opacity: "0.9",
+    margin: "20px 0",
   },
 }));
 
@@ -142,6 +151,11 @@ function HotelPage() {
     return true;
   };
 
+  const getMedia = (hotelName) => {
+    const src = base + `/api/hotels/image/${hotelName}`;
+    return src;
+  };
+
   return (
     <Container fixed>
       {hotel ? (
@@ -158,6 +172,11 @@ function HotelPage() {
               <Typography variant="h4" component="h2">
                 {hotel.name}
               </Typography>
+              <CardMedia
+                className={classes.media}
+                image={getMedia(hotel.name)}
+                title="Paella dish"
+              />
               <Typography className={classes.pos} color="textSecondary">
                 {hotel.features}
               </Typography>
