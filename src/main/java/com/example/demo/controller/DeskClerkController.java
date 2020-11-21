@@ -54,32 +54,71 @@ public class DeskClerkController {
     // this is implemented as a function for button
     // it returns roomId that was set for user
     @PostMapping("/allReserves/{id}/approve") // this one works
-    public Long approveReservation (@PathVariable Long id, @RequestParam Long hotelId) {
+    public Set <Long> approveReservation (@PathVariable Long id, @RequestParam Long hotelId) {
 
         Reservation reservation = reservationRepository.findById(id).orElseThrow();
-
         Hotel hotel = hotelRepository.findById(hotelId).orElseThrow();
-        Set <Room> rooms = hotel.getRooms();
 
-        for (Room r : rooms) {
+        Set <Long> occupiedRoomIds = new HashSet<>();
+        Set <Room_type> room_types = hotel.getRoom_types();
 
-            if
-                    (r.getRoom_type().getRoom_type_id()
-                    .equals(reservation.getRoom_type_id().getRoom_type_id())
-                    && !r.getOccupied()
-            ) {
+        for (Room_type r : room_types) {
 
-                r.setOccupied(true);
-                reservation.setApproved(true);
+            if (r.getRoom_type_id()
+                    .equals(reservation.getRoom_type_id()
+                            .getRoom_type_id())) {
+
+                Set <Room> rooms = r.getRooms();
+
+                for (Room room : rooms) {
+
+                    if (!room.getOccupied()) {
+
+                        occupiedRoomIds.add(room.getId());
+                        room.setOccupied(true);
+                    }
+                }
+
                 hotelRepository.save(hotel);
-                return r.getId();
+
+                break;
             }
         }
 
-        hotelRepository.save(hotel);
+        if (occupiedRoomIds.size() == reservation.getRoom_count()) {
 
+            reservation.setApproved(true);
+            reservationRepository.save(reservation);
 
-        return (long) -1; // specific exception is needed, but for now it is negative value
+            return occupiedRoomIds;
+
+        } else {
+
+            Set <Room> rooms = hotel.getRooms();
+
+            for (Long l : occupiedRoomIds) {
+
+                for (Room r : rooms) {
+
+                    if (r.getId().equals(l)) {
+
+                        r.setOccupied(false);
+                    }
+                }
+            }
+
+            hotelRepository.save(hotel);
+
+            occupiedRoomIds.clear();
+
+            reservation.setApproved(false);
+            reservationRepository.save(reservation);
+
+            Set <Long> notApprovedReservation = new HashSet<>();
+            notApprovedReservation.add((long) -1);
+
+            return notApprovedReservation;
+        }
     }
 
     // this is implemented as a function for button
