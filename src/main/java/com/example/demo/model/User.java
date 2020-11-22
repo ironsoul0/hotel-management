@@ -119,6 +119,14 @@ public class User {
 
     public String getMobilePhone(){ return mobilePhone; }
 
+    public Set<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(Set<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }

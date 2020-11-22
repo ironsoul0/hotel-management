@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @Controller
 public class PdfGenerateController {
@@ -90,8 +91,15 @@ public class PdfGenerateController {
         Text owner = getAsHelveticaBold(getFullname());
         p.add(owner);
         p.add("\n");*/
-
+        List<User> users = userRepository.findAll();
         User u = getUser();
+        for(User user : users) {
+            if (user.getReservations().contains(r)) {
+                u = user;
+                break;
+            }
+        }
+
 
         /*Text username_template = getAsHelvetica("Owner's username: ");
         p.add(username_template);
