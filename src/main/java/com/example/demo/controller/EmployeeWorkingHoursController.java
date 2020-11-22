@@ -279,7 +279,7 @@ public class EmployeeWorkingHoursController {
         message.setText("Dear Guest,\n" +
                 "\n" +
                 "We hope you've been staying positive and testing negative.\n" +
-                "Here is the new season" + season.getSeasonName() + "!\n" +
+                "Here is the new season " + season.getSeasonName() + "!\n" +
                 "The season's start dates is " + season.getStartDate() + " until " + season.getEndDate() + ".\n" +
                 "The season works in the following hotels " + String.join(", ", hotelsName) +
                 ".\n" +

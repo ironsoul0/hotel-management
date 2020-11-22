@@ -139,12 +139,44 @@ public class HotelDebugController {
                 Room room5 = new Room( 402, hotel, c);
                 Room room6 = new Room( 401, hotel, c);
 
+                Room room7 = new Room( 403, hotel, a);
+                Room room8 = new Room( 404, hotel, a);
+
+
+                Room room9 = new Room( 405, hotel, b);
+                Room room10 = new Room( 406, hotel, b);
+
+                Room room11 = new Room( 407, hotel, c);
+                Room room12 = new Room( 408, hotel, c);
+
+                Room room13 = new Room( 409, hotel, a);
+                Room room14 = new Room( 410, hotel, a);
+
+
+                Room room15 = new Room( 411, hotel, b);
+                Room room16 = new Room( 412, hotel, b);
+
+                Room room17 = new Room( 413, hotel, c);
+                Room room18 = new Room( 414, hotel, c);
+
                 roomrepo.save(room1);
                 roomrepo.save(room2);
                 roomrepo.save(room3);
                 roomrepo.save(room4);
                 roomrepo.save(room5);
                 roomrepo.save(room6);
+                roomrepo.save(room7);
+                roomrepo.save(room8);
+                roomrepo.save(room9);
+                roomrepo.save(room10);
+                roomrepo.save(room11);
+                roomrepo.save(room12);
+                roomrepo.save(room13);
+                roomrepo.save(room14);
+                roomrepo.save(room15);
+                roomrepo.save(room16);
+                roomrepo.save(room17);
+                roomrepo.save(room18);
 
                 Employee e1 = new Employee("sherkhan", "sherkhanazim@gmail.com", "Sherkhan", "Azimov", encoder.encode("sherkhan"), "+7 77541111", 7000, "deskclerk", hotel);
                 Employee e2 = new Employee("rustem", "rustem", "Rustem", "Turtayev", encoder.encode("rustem"), "+7 56123", 6000, "deskclerk", hotel);
@@ -190,15 +222,35 @@ public class HotelDebugController {
                 roomtyperepo.save(b);
                 roomtyperepo.save(c);
 
-                Room room1 = new Room( 201, hotel, a, false);
-                Room room2 = new Room( 202, hotel, a, false);
+                Room room1 = new Room( 201, hotel, a);
+                Room room2 = new Room( 202, hotel, a);
 
 
-                Room room3 = new Room( 302, hotel, b, false);
-                Room room4 = new Room( 301, hotel, b, false);
+                Room room3 = new Room( 302, hotel, b);
+                Room room4 = new Room( 301, hotel, b);
 
-                Room room5 = new Room( 402, hotel, c, false);
-                Room room6 = new Room( 401, hotel, c, false);
+                Room room5 = new Room( 402, hotel, c);
+                Room room6 = new Room( 401, hotel, c);
+
+                Room room7 = new Room( 403, hotel, a);
+                Room room8 = new Room( 404, hotel, a);
+
+
+                Room room9 = new Room( 405, hotel, b);
+                Room room10 = new Room( 406, hotel, b);
+
+                Room room11 = new Room( 407, hotel, c);
+                Room room12 = new Room( 408, hotel, c);
+
+                Room room13 = new Room( 409, hotel, a);
+                Room room14 = new Room( 410, hotel, a);
+
+
+                Room room15 = new Room( 411, hotel, b);
+                Room room16 = new Room( 412, hotel, b);
+
+                Room room17 = new Room( 413, hotel, c);
+                Room room18 = new Room( 414, hotel, c);
 
                 roomrepo.save(room1);
                 roomrepo.save(room2);
@@ -206,6 +258,18 @@ public class HotelDebugController {
                 roomrepo.save(room4);
                 roomrepo.save(room5);
                 roomrepo.save(room6);
+                roomrepo.save(room7);
+                roomrepo.save(room8);
+                roomrepo.save(room9);
+                roomrepo.save(room10);
+                roomrepo.save(room11);
+                roomrepo.save(room12);
+                roomrepo.save(room13);
+                roomrepo.save(room14);
+                roomrepo.save(room15);
+                roomrepo.save(room16);
+                roomrepo.save(room17);
+                roomrepo.save(room18);
 
                 Employee e1 = new Employee("danel", "danel", "Danel", "Batyrbek", encoder.encode("danel"), "+7 715541111", 5500, "deskclerk", hotel);
 
@@ -247,15 +311,35 @@ public class HotelDebugController {
                 roomtyperepo.save(b);
                 roomtyperepo.save(c);
 
-                Room room1 = new Room( 201, hotel, a, false);
-                Room room2 = new Room( 202, hotel, a, false);
+                Room room1 = new Room( 201, hotel, a);
+                Room room2 = new Room( 202, hotel, a);
 
 
-                Room room3 = new Room( 302, hotel, b, false);
-                Room room4 = new Room( 301, hotel, b, false);
+                Room room3 = new Room( 302, hotel, b);
+                Room room4 = new Room( 301, hotel, b);
 
-                Room room5 = new Room( 402, hotel, c, false);
-                Room room6 = new Room( 401, hotel, c, false);
+                Room room5 = new Room( 402, hotel, c);
+                Room room6 = new Room( 401, hotel, c);
+
+                Room room7 = new Room( 403, hotel, a);
+                Room room8 = new Room( 404, hotel, a);
+
+
+                Room room9 = new Room( 405, hotel, b);
+                Room room10 = new Room( 406, hotel, b);
+
+                Room room11 = new Room( 407, hotel, c);
+                Room room12 = new Room( 408, hotel, c);
+
+                Room room13 = new Room( 409, hotel, a);
+                Room room14 = new Room( 410, hotel, a);
+
+
+                Room room15 = new Room( 411, hotel, b);
+                Room room16 = new Room( 412, hotel, b);
+
+                Room room17 = new Room( 413, hotel, c);
+                Room room18 = new Room( 414, hotel, c);
 
                 roomrepo.save(room1);
                 roomrepo.save(room2);
@@ -263,6 +347,18 @@ public class HotelDebugController {
                 roomrepo.save(room4);
                 roomrepo.save(room5);
                 roomrepo.save(room6);
+                roomrepo.save(room7);
+                roomrepo.save(room8);
+                roomrepo.save(room9);
+                roomrepo.save(room10);
+                roomrepo.save(room11);
+                roomrepo.save(room12);
+                roomrepo.save(room13);
+                roomrepo.save(room14);
+                roomrepo.save(room15);
+                roomrepo.save(room16);
+                roomrepo.save(room17);
+                roomrepo.save(room18);
                 Employee e1 = new Employee("temirzhan", "temirzhan", "Temirzhan", "Yussupov", encoder.encode("temirzhan"), "+7 775113111", 6000, "deskclerk", hotel);
                 Employee e2 = new Employee("Akmyrza", "Akmyrza", "Akmyrza", "Someone", encoder.encode("Akmyrza"), "+7 4561515", 8000, "cleaner", hotel);
                 employeeRepository.save(e1);
