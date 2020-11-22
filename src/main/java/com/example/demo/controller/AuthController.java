@@ -16,6 +16,7 @@ import com.example.demo.payload.response.MessageResponse;
 import com.example.demo.repository.*;
 import com.example.demo.security.jwt.JwtUtils;
 import com.example.demo.security.service.UserDetailsImpl;
+import com.sun.xml.bind.v2.runtime.output.SAXOutput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -170,10 +171,10 @@ public class AuthController {
 
         Employee employee = employeeRepository.findByUsername(loginRequest.getUsername()).orElseThrow();
 
-        if (employee.getRole().equals("deskclerk") && employee.getPassword().equals(loginRequest.getPassword())){
+        if (employee.getRole().equals("deskclerk") && encoder.matches(loginRequest.getPassword(), employee.getPassword())){
             return "deskclerk " +  employee.getHotelId().toString();
         }
-        else if (employee.getPassword().equals(loginRequest.getPassword())) {
+        else if (employee.getRole().equals("manager") && encoder.matches(loginRequest.getPassword(), employee.getPassword())) {
             return "manager";
         }
 

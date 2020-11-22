@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.model.*;
 import com.example.demo.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +32,9 @@ public class HotelDebugController {
 
     @Autowired
     private EmployeeWorkingHoursRepository employeeWorkingHoursRepository;
+
+    @Autowired
+    private PasswordEncoder encoder;
 
 
 
@@ -142,8 +146,8 @@ public class HotelDebugController {
                 roomrepo.save(room5);
                 roomrepo.save(room6);
 
-                Employee e1 = new Employee("sherkhan", "sherkhanazim@gmail.com", "Sherkhan", "Azimov", "sherkhan", "+7 77541111", 7000, "deskclerk", hotel);
-                Employee e2 = new Employee("rustem", "rustem", "Rustem", "Turtayev", "rustem", "+7 56123", 6000, "deskclerk", hotel);
+                Employee e1 = new Employee("sherkhan", "sherkhanazim@gmail.com", "Sherkhan", "Azimov", encoder.encode("sherkhan"), "+7 77541111", 7000, "deskclerk", hotel);
+                Employee e2 = new Employee("rustem", "rustem", "Rustem", "Turtayev", encoder.encode("rustem"), "+7 56123", 6000, "deskclerk", hotel);
 
                 employeeRepository.save(e1);
                 employeeRepository.save(e2);
@@ -203,7 +207,7 @@ public class HotelDebugController {
                 roomrepo.save(room5);
                 roomrepo.save(room6);
 
-                Employee e1 = new Employee("danel", "danel", "Danel", "Batyrbek", "danel", "+7 715541111", 5500, "deskclerk", hotel);
+                Employee e1 = new Employee("danel", "danel", "Danel", "Batyrbek", encoder.encode("danel"), "+7 715541111", 5500, "deskclerk", hotel);
 
                 employeeRepository.save(e1);
 
@@ -259,7 +263,7 @@ public class HotelDebugController {
                 roomrepo.save(room4);
                 roomrepo.save(room5);
                 roomrepo.save(room6);
-                Employee e1 = new Employee("temirzhan", "temirzhan", "Temirzhan", "Yussupov", "temirzhan", "+7 775113111", 6000, "deskclerk", hotel);
+                Employee e1 = new Employee("temirzhan", "temirzhan", "Temirzhan", "Yussupov", encoder.encode("temirzhan"), "+7 775113111", 6000, "deskclerk", hotel);
 
                 employeeRepository.save(e1);
 
