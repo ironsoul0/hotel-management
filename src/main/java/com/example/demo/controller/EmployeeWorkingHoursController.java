@@ -236,7 +236,7 @@ public class EmployeeWorkingHoursController {
         Message message = new MimeMessage(session);
         message.setFrom(new InternetAddress(email));
 
-        List<Address> as = new ArrayList<>();
+        List<InternetAddress> as = new ArrayList<>();
 
         for (Hotel h : hotels) {
 
@@ -268,7 +268,12 @@ public class EmployeeWorkingHoursController {
             }
         }
 
-        message.addRecipients(Message.RecipientType.TO, (Address[]) as.toArray());
+        Address[] finalAddresses = new Address[as.size()];
+        for (int i = 0 ; i < as.size(); ++i) {
+            finalAddresses[i] = as.get(i);
+        }
+        
+        message.addRecipients(Message.RecipientType.TO, finalAddresses);
         //message.addRecipient(Message.RecipientType.TO, new InternetAddress("rustem.turtayev@nu.edu.kz"));
         message.setSubject("New season!");
         message.setText("Dear user,\n" +
