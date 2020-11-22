@@ -94,6 +94,10 @@ function ProfilePage() {
                   )}
                   {reservations[target].map((data) => (
                     <div className={classes.booking}>
+		      <p>
+                        <span className={classes.bold}>Hotel:</span>{" "}
+                        {data.hotelName}
+                      </p>
                       <p>
                         <span className={classes.bold}>Date:</span>{" "}
                         {data.checkinDateToString} - {data.checkoutDateToString}
