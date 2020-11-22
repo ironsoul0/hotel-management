@@ -35,7 +35,15 @@ public class EmployeeWorkingHoursController {
 
     @GetMapping("/allemployees")
     private List<Employee> showAllEmployees() {
-        return (List<Employee>) employeeRepository.findAll();
+        List<Employee> notmanagers = new ArrayList<>();
+        List<Employee> allemployees = (List<Employee>) employeeRepository.findAll();
+        for (Employee employee : allemployees) {
+            if (!employee.getRole().toLowerCase().equals("manager")) {
+                notmanagers.add(employee);
+            }
+        }
+
+        return (List<Employee>) notmanagers;
     }
 
     @GetMapping("/schedules")
