@@ -211,7 +211,8 @@ public class EmployeeWorkingHoursController {
 
         Set <TakesPlaceIn> takesPlaceIns = season.getTakesPlaceIns();
         Set <Hotel> hotels = new HashSet<>();
-        for (TakesPlaceIn t : takesPlaceIns) { hotels.add(t.getHotel()); }
+        Set <String> hotelsName = new HashSet<>();
+        for (TakesPlaceIn t : takesPlaceIns) { hotels.add(t.getHotel()); hotelsName.add(t.getHotel().getName());}
 
         Properties prop = System.getProperties();
         prop.put("mail.smtp.host", "smtp.gmail.com");
@@ -246,8 +247,7 @@ public class EmployeeWorkingHoursController {
 
                 String targetEmail = e.getEmail();
 
-                if (targetEmail.endsWith("@gmail.com")
-                        || targetEmail.endsWith("@nu.edu.kz"))
+                if (targetEmail.endsWith("@nu.edu.kz"))
                     as.add(new InternetAddress(targetEmail));
             }
 
@@ -261,20 +261,26 @@ public class EmployeeWorkingHoursController {
 
                     String targetEmail = r.getUser_id().getEmail();
 
-                    if (targetEmail.endsWith("@gmail.com")
-                            || targetEmail.endsWith("@nu.edu.kz"))
+                    if (targetEmail.endsWith("@nu.edu.kz"))
                         as.add(new InternetAddress(targetEmail));
                 }
             }
         }
 
+        for(Address address : as) {
+            System.out.println(address.toString());
+        }
+
         message.addRecipients(Message.RecipientType.TO, (Address[]) as.toArray());
-        //message.addRecipient(Message.RecipientType.TO, new InternetAddress("rustem.turtayev@nu.edu.kz"));
+//        message.addRecipient(Message.RecipientType.TO, new InternetAddress("sherkhanazim@gmail.com"));
         message.setSubject("New season!");
-        message.setText("Dear user,\n" +
+        message.setText("Dear Guest,\n" +
                 "\n" +
-                "We hope you've been staying positive and testing negative. We included the following season {name} который действует в следующих отелей и по таким датам!\n" +
-                "\n" +
+                "We hope you've been staying positive and testing negative.\n" +
+                "Here is the new season" + season.getSeasonName() + "!\n" +
+                "The season's start dates is " + season.getStartDate() + " until " + season.getEndDate() + ".\n" +
+                "The season works in the following hotels " + String.join(", ", hotelsName) +
+                ".\n" +
                 "\n" +
                 "Best regards,\n" +
                 "Hotel-management System Team 14");
