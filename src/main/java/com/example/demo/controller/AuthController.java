@@ -128,7 +128,7 @@ public class AuthController {
                         int payment = rn.nextInt(range) + 1000;
                         List<Hotel> hotels = (List<Hotel>) hotelRepository.findAll();
                         Employee deskclerk = new Employee(user.getUsername(), user.getEmail(), user.getName(),
-                                user.getSurname(), signUpRequest.getPassword(), user.getMobilePhone(), payment, "manager", hotels.get(0));
+                                user.getSurname(), encoder.encode(signUpRequest.getPassword()), user.getMobilePhone(), payment, "manager", hotels.get(0));
 
 //                        user.setRoles(roles);
 //                        userRepository.save(user);
@@ -144,7 +144,7 @@ public class AuthController {
                         payment = rn.nextInt(range) + 1000;
                         hotels = (List<Hotel>) hotelRepository.findAll();
                         deskclerk = new Employee(user.getUsername(), user.getEmail(), user.getName(),
-                                                      user.getSurname(), signUpRequest.getPassword(), user.getMobilePhone(), payment, "deskclerk", hotels.get(0));
+                                                      user.getSurname(), encoder.encode(signUpRequest.getPassword()), user.getMobilePhone(), payment, "deskclerk", hotels.get(0));
 
 //                        user.setRoles(roles);
 //                        userRepository.save(user);
