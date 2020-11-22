@@ -101,11 +101,18 @@ public class PdfGenerateController {
         }
 
 
-        /*Text username_template = getAsHelvetica("Owner's username: ");
+        Text username_template = getAsHelvetica("Owner's username: ");
         p.add(username_template);
 
-        Text username = getAsHelveticaBold(getUsername());
+        Text username = getAsHelveticaBold(u.getUsername());
         p.add(username);
+        p.add("\n");
+
+        Text username_fullname_template = getAsHelvetica("Owner's fullname: ");
+        p.add(username_fullname_template);
+
+        Text fullName = getAsHelveticaBold(u.getName() + " " + u.getSurname());
+        p.add(fullName);
         p.add("\n");
 
         Text phone_number_template = getAsHelvetica("Owner's phone number: ");
@@ -120,7 +127,7 @@ public class PdfGenerateController {
 
         Text email = getAsHelveticaBold(u.getEmail());
         p.add(email);
-        p.add("\n");*/
+        p.add("\n");
 
         Text hotel_template = getAsHelvetica("Hotel: ");
         p.add(hotel_template);

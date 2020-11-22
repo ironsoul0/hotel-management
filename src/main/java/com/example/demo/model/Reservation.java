@@ -125,4 +125,8 @@ public class Reservation {
     public String getUserFullName() {
         return user_id.getName() + " " + user_id.getSurname();
     }
+
+    public String getHotelName() {
+        return room_type_id.getHotel_id().getName();
+    }
 }
