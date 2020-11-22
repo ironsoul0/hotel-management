@@ -44,6 +44,8 @@ function Main({ children }) {
     return string.substr(0, 1).toUpperCase() + string.substr(1);
   };
 
+  console.log(auth);
+
   return (
     <div className={classes.root}>
       <AppBar
@@ -57,7 +59,8 @@ function Main({ children }) {
             className={classes.title}
             variant="h6"
           >
-            HMS 2.0 {auth.role && `- ${capitalize(auth.role)}`}
+            Hotel Management System
+            {auth.role && ` - ${capitalize(auth.role)}`}
           </Typography>
           {auth.role === "clerk" && (
             <Button

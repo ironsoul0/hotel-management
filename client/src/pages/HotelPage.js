@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(10),
   },
   formControl: {
-    margin: theme.spacing(3),
+    margin: theme.spacing(2.2),
   },
   button: {
     margin: theme.spacing(1, 1, 0, 0),
@@ -74,6 +74,16 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "15px",
     opacity: "0.9",
     margin: "20px 0",
+  },
+  note: {
+    fontSize: 12,
+    opacity: 0.8,
+    marginBottom: 5,
+  },
+  description: {
+    fontSize: 13,
+    opacity: 0.85,
+    marginTop: 13,
   },
 }));
 
@@ -110,6 +120,14 @@ function HotelPage() {
 
   const handleRadioChange = (event) => {
     setValue(event.target.value);
+  };
+
+  const getRoomType = () => {
+    const room_type_id = parseInt(value);
+    const target = hotel.room_types.find(
+      (current) => current.room_type_id === room_type_id
+    );
+    return target;
   };
 
   const handleSubmit = async (event) => {
@@ -190,9 +208,7 @@ function HotelPage() {
               error={error}
               className={classes.formControl}
             >
-              <FormLabel component="legend">
-                Please choose the room type
-              </FormLabel>
+              <FormLabel component="legend">Available room types</FormLabel>
               <RadioGroup
                 aria-label="quiz"
                 name="quiz"
@@ -208,17 +224,25 @@ function HotelPage() {
                     />
                   );
                 })}
-                {/* <FormControlLabel */}
-                {/*   value="best" */}
-                {/*   control={<Radio />} */}
-                {/*   label="The best!" */}
-                {/* /> */}
-                {/* <FormControlLabel */}
-                {/*   value="worst" */}
-                {/*   control={<Radio />} */}
-                {/*   label="The worst." */}
-                {/* /> */}
               </RadioGroup>
+              {!value && (
+                <Typography className={classes.description}>
+                  Please choose a room type above.
+                </Typography>
+              )}
+              {value && (
+                <>
+                  <Typography className={classes.description}>
+                    Base price: {getRoomType().base_price} ₸
+                  </Typography>
+                  <Typography className={classes.description}>
+                    Capacity: {getRoomType().capacity} people
+                  </Typography>
+                  <Typography className={classes.description}>
+                    {getRoomType().features}
+                  </Typography>
+                </>
+              )}
               <Grid container className={classes.grid}>
                 <TextField
                   name="check-in"
@@ -245,6 +269,10 @@ function HotelPage() {
                   onChange={fieldChange}
                 />
               </Grid>
+              <Typography className={classes.note}>
+                * Please note that the final price will also be affected by the
+                current season.
+              </Typography>
               <Button
                 type="submit"
                 variant="outlined"
