@@ -237,7 +237,7 @@ public class EmployeeWorkingHoursController {
         Message message = new MimeMessage(session);
         message.setFrom(new InternetAddress(email));
 
-        List<Address> as = new ArrayList<>();
+        List<InternetAddress> as = new ArrayList<>();
 
         for (Hotel h : hotels) {
 
@@ -247,7 +247,8 @@ public class EmployeeWorkingHoursController {
 
                 String targetEmail = e.getEmail();
 
-                if (targetEmail.endsWith("@nu.edu.kz"))
+                if (targetEmail.endsWith("@gmail.com")
+                        || targetEmail.endsWith("@nu.edu.kz"))
                     as.add(new InternetAddress(targetEmail));
             }
 
@@ -261,7 +262,8 @@ public class EmployeeWorkingHoursController {
 
                     String targetEmail = r.getUser_id().getEmail();
 
-                    if (targetEmail.endsWith("@nu.edu.kz"))
+                    if (targetEmail.endsWith("@gmail.com")
+                            || targetEmail.endsWith("@nu.edu.kz"))
                         as.add(new InternetAddress(targetEmail));
                 }
             }
@@ -271,8 +273,14 @@ public class EmployeeWorkingHoursController {
             System.out.println(address.toString());
         }
 
-        message.addRecipients(Message.RecipientType.TO, (Address[]) as.toArray());
-//        message.addRecipient(Message.RecipientType.TO, new InternetAddress("sherkhanazim@gmail.com"));
+        Address[] finalAddresses = new Address[as.size()];
+        for (int i = 0 ; i < as.size(); ++i) {
+            finalAddresses[i] = as.get(i);
+        }
+        
+        message.addRecipients(Message.RecipientType.TO, finalAddresses);
+        //message.addRecipient(Message.RecipientType.TO, new InternetAddress("rustem.turtayev@nu.edu.kz"));
+
         message.setSubject("New season!");
         message.setText("Dear Guest,\n" +
                 "\n" +
