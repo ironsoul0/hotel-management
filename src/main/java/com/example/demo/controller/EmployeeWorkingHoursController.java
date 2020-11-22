@@ -244,7 +244,11 @@ public class EmployeeWorkingHoursController {
 
             for (Employee e : employees) {
 
-                as.add(new InternetAddress(e.getEmail()));
+                String targetEmail = e.getEmail();
+
+                if (targetEmail.endsWith("@gmail.com")
+                        || targetEmail.endsWith("@nu.edu.kz"))
+                    as.add(new InternetAddress(targetEmail));
             }
 
             Set <Room_type> room_types = h.getRoom_types();
@@ -255,7 +259,11 @@ public class EmployeeWorkingHoursController {
 
                 for (Reservation r : reservations) {
 
-                    as.add(new InternetAddress(r.getUser_id().getEmail()));
+                    String targetEmail = r.getUser_id().getEmail();
+
+                    if (targetEmail.endsWith("@gmail.com")
+                            || targetEmail.endsWith("@nu.edu.kz"))
+                        as.add(new InternetAddress(targetEmail));
                 }
             }
         }
@@ -263,7 +271,13 @@ public class EmployeeWorkingHoursController {
         message.addRecipients(Message.RecipientType.TO, (Address[]) as.toArray());
         //message.addRecipient(Message.RecipientType.TO, new InternetAddress("rustem.turtayev@nu.edu.kz"));
         message.setSubject("New season!");
-        message.setText("Wow! Here is the new season coming next Sunday from Frogs!");
+        message.setText("Dear user,\n" +
+                "\n" +
+                "We hope you've been staying positive and testing negative. We included the following season {name} который действует в следующих отелей и по таким датам!\n" +
+                "\n" +
+                "\n" +
+                "Best regards,\n" +
+                "Hotel-management System Team 14");
 
         Transport.send(message);
     }
