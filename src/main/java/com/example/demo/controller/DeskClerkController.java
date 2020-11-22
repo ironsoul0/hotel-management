@@ -73,6 +73,9 @@ public class DeskClerkController {
 
                 for (Room room : rooms) {
 
+                    if (occupiedRoomIds.size() == reservation.getRoom_count())
+                        break;
+
                     if (!room.getOccupied()) {
 
                         occupiedRoomIds.add(room.getId());
