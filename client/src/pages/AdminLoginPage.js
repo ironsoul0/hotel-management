@@ -16,11 +16,6 @@ function LoginPage() {
 
   return (
     <>
-      <AppBar position="static" color="secondary">
-        <Toolbar>
-          <Typography variant="h6">Secret admin panel</Typography>
-        </Toolbar>
-      </AppBar>
       {login ? (
         <AdminSignIn toggle={() => setLogin(false)} />
       ) : (

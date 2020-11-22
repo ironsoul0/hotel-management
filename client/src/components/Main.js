@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import { logout } from "../store/reducers/authSlice";
 
@@ -36,6 +36,9 @@ function Main({ children }) {
   const auth = useSelector((state) => state.auth);
 
   const history = useHistory();
+  const location = useLocation();
+
+  const isAdminPanel = location.pathname.includes("vpn-access");
 
   const capitalize = (string) => {
     return string.substr(0, 1).toUpperCase() + string.substr(1);
@@ -43,14 +46,18 @@ function Main({ children }) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" className={classes.appBar}>
+      <AppBar
+        position="static"
+        className={classes.appBar}
+        color={isAdminPanel ? "secondary" : "primary"}
+      >
         <Toolbar>
           <Typography
             onClick={() => history.push("/")}
             className={classes.title}
             variant="h6"
           >
-            HMS 2.0 {auth.role !== "user" ? `- ${capitalize(auth.role)}` : ""}
+            HMS 2.0 {auth.role && `- ${capitalize(auth.role)}`}
           </Typography>
           {auth.role === "clerk" && (
             <Button
@@ -79,13 +86,24 @@ function Main({ children }) {
               Profile
             </Button>
           )}
-          <Button
-            className={classes.menuButton}
-            color="inherit"
-            onClick={() => dispatch(logout())}
-          >
-            Logout
-          </Button>
+          {!auth.role && !isAdminPanel && (
+            <Button
+              className={classes.menuButton}
+              color="inherit"
+              onClick={() => history.push("/authorize")}
+            >
+              Authorize
+            </Button>
+          )}
+          {auth.role && (
+            <Button
+              className={classes.menuButton}
+              color="inherit"
+              onClick={() => dispatch(logout())}
+            >
+              Logout
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
       {children}

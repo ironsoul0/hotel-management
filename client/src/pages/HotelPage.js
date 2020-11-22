@@ -26,7 +26,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 import { useParams } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import api, { base } from "../config/api";
 import { updateAlert } from "../store/reducers/alertSlice";
@@ -78,6 +78,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function HotelPage() {
+  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const classes = useStyles();
   const [hotel, setHotel] = useState(null);
@@ -249,10 +250,10 @@ function HotelPage() {
                 variant="outlined"
                 color="primary"
                 className={classes.button}
-                disabled={!isValid()}
+                disabled={!isValid() || !auth.token}
                 onClick={handleSubmit}
               >
-                Book
+                {auth.token ? "Book" : "Please authorize"}
               </Button>
             </FormControl>
           </Card>
