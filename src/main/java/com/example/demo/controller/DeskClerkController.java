@@ -33,7 +33,8 @@ public class DeskClerkController {
     @GetMapping("/allReserves") // this one works
     public Set<Reservation> showAllReservations (@RequestParam Long hotelId) {
 
-        Hotel hotel = hotelRepository.findById(hotelId).orElseThrow();
+        Hotel hotel;
+        hotel = hotelRepository.findById(hotelId).orElseThrow();
         List<Reservation> reservations = reservationRepository.findAll();
 
         Set <Room_type> hotelRoomTypes = hotel.getRoom_types();

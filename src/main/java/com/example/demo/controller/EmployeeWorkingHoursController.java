@@ -33,6 +33,9 @@ public class EmployeeWorkingHoursController {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("/allemployees")
     private List<Employee> showAllEmployees() {
         List<Employee> notmanagers = new ArrayList<>();
@@ -251,22 +254,13 @@ public class EmployeeWorkingHoursController {
                         || targetEmail.endsWith("@nu.edu.kz"))
                     as.add(new InternetAddress(targetEmail));
             }
+        }
 
-            Set <Room_type> room_types = h.getRoom_types();
-
-            for (Room_type rt : room_types) {
-
-                Set <Reservation> reservations = rt.getReservations();
-
-                for (Reservation r : reservations) {
-
-                    String targetEmail = r.getUser_id().getEmail();
-
-                    if (targetEmail.endsWith("@gmail.com")
-                            || targetEmail.endsWith("@nu.edu.kz"))
-                        as.add(new InternetAddress(targetEmail));
-                }
-            }
+        List<User> users = (List<User>) userRepository.findAll();
+        for (User user : users) {
+            if (user.getEmail().endsWith("@gmail.com")
+                    || user.getEmail().endsWith("@nu.edu.kz"))
+                as.add(new InternetAddress(user.getEmail()));
         }
 
         for(Address address : as) {

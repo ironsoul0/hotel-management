@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -31,8 +32,9 @@ public class Reservation {
     private Room_type room_type_id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id_reservation")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JoinColumn(name = "user_id")
+    @JsonProperty(access = JsonProperty.Access.READ_WRITE)
+    @JsonBackReference
     private User user_id;
 
 
@@ -116,4 +118,11 @@ public class Reservation {
     public void setApproved (boolean approved) { this.approved = approved; }
 
     public boolean getApproved () { return approved; }
+
+    public String getUserUsername() {
+        return user_id.getUsername();
+    }
+    public String getUserFullName() {
+        return user_id.getName() + " " + user_id.getSurname();
+    }
 }

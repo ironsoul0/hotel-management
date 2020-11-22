@@ -1,5 +1,8 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -74,8 +77,9 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id_user"))
     private Set<Role> roles = new HashSet<>();
 
-    /* @OneToMany(mappedBy = "user_id_reservation", cascade = CascadeType.ALL)
-    private Set<Reservation> reservations = new HashSet<>(); */
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user_id", cascade = CascadeType.ALL)
+    private Set<Reservation> reservations = new HashSet<>();
 
     public User() {
     }
