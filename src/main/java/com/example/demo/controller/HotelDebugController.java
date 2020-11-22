@@ -264,8 +264,9 @@ public class HotelDebugController {
                 roomrepo.save(room5);
                 roomrepo.save(room6);
                 Employee e1 = new Employee("temirzhan", "temirzhan", "Temirzhan", "Yussupov", encoder.encode("temirzhan"), "+7 775113111", 6000, "deskclerk", hotel);
-
+                Employee e2 = new Employee("Akmyrza", "Akmyrza", "Akmyrza", "Someone", encoder.encode("Akmyrza"), "+7 4561515", 8000, "cleaner", hotel);
                 employeeRepository.save(e1);
+                employeeRepository.save(e2);
 
                 try {
                     EmployeeWorkingHours ew11 = new EmployeeWorkingHours(e1, "06:00", "12:00",  new SimpleDateFormat("yyyy-MM-dd").parse("2020-12-15"), 6);
@@ -319,6 +320,9 @@ public class HotelDebugController {
                 roomrepo.save(room4);
                 roomrepo.save(room5);
                 roomrepo.save(room6);
+
+                Employee e2 = new Employee("Bekzat", "Bekzat", "Bekzat", "Someone", encoder.encode("Bekzat"), "+7 4561543215", 8000, "manager", hotel);
+                employeeRepository.save(e2);
             }
 
             if (hotel.getName().equals("Park Plaza Westminster Bridge London")) {
@@ -340,6 +344,9 @@ public class HotelDebugController {
                 roomrepo.save(room1);
                 roomrepo.save(room3);
                 roomrepo.save(room5);
+
+                Employee e2 = new Employee("Yeldos", "Yeldos", "Yeldos", "Someone", encoder.encode("Yeldos"), "+7 45432461515", 8000, "cleaner", hotel);
+                employeeRepository.save(e2);
             }
 
             if (hotel.getName().equals("Park Plaza County Hall London")) {
@@ -358,6 +365,8 @@ public class HotelDebugController {
                 roomrepo.save(room1);
                 roomrepo.save(room3);
                 roomrepo.save(room5);
+                Employee e2 = new Employee("ponchik", "ponchik", "ponchik", "Someone", encoder.encode("ponchik"), "+7 4561515", 8000, "cleaner", hotel);
+                employeeRepository.save(e2);
             }
 
             if (hotel.getName().equals("Maritim Hotel München")) {
@@ -392,6 +401,9 @@ public class HotelDebugController {
                 roomrepo.save(room1);
                 roomrepo.save(room3);
                 roomrepo.save(room5);
+
+                Employee e2 = new Employee("manager", "manager", "manager", "Someone", encoder.encode("manager"), "+7 42461515", 10000, "manager", hotel);
+                employeeRepository.save(e2);
             }
         });
 

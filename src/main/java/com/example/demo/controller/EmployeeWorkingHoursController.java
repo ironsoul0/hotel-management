@@ -68,11 +68,14 @@ public class EmployeeWorkingHoursController {
                                      @RequestParam String time_start, @RequestParam String time_end,
                                      @RequestParam(required = false, defaultValue = "0") int total_Payment, @RequestParam int total_hours) throws ParseException {
         EmployeeWorkingHours schedule = employeeWorkingHoursRepository.findById(id).orElseThrow();
-
+        Employee employee = schedule.getEmployee();
         schedule.setTime_start(time_start);
         schedule.setTime_end(time_end);
         schedule.setTotal_hours(total_hours);
-        if (total_Payment != 0) {
+        if (total_Payment == 0) {
+            schedule.setTotal_Payment(employee.getPayment() * total_hours);
+        }
+        else {
             schedule.setTotal_Payment(total_Payment);
         }
         schedule.setDate_work(new SimpleDateFormat("yyyy-MM-dd").parse(date_work));
