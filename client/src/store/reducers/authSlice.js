@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import api from "../../config/api";
+
 export const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -13,6 +15,8 @@ export const authSlice = createSlice({
       localStorage.setItem("token", token);
       localStorage.setItem("role", role);
       localStorage.setItem("hotelId", hotelId);
+
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
 
       state.token = token;
       state.role = role;

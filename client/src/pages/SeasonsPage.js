@@ -234,6 +234,7 @@ function SeasonPage() {
                   {days.map((day) => {
                     return (
                       <TextField
+                        key={day}
                         name={day}
                         label={day}
                         type="number"

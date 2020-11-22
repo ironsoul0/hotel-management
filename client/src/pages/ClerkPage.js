@@ -131,11 +131,15 @@ function ClerkPage() {
                     {reservation.prepaid_price} ₸
                   </Typography>
                   <Typography variant="h5" component="h2">
-                    {reservation.checkinDateToString} -{" "}
-                    {reservation.checkoutDateToString}
+                    {reservation.userFullName}
                   </Typography>
                   <Typography className={classes.pos} color="textSecondary">
-                    {reservation.room_count} room(s)
+                    {reservation.room_count} room(s) for{" "}
+                    {reservation.userUsername}
+                  </Typography>
+                  <Typography variant="body2" component="p">
+                    {reservation.checkinDateToString} -{" "}
+                    {reservation.checkoutDateToString}
                   </Typography>
                 </CardContent>
                 <CardActions>
