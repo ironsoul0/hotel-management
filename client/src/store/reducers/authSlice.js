@@ -23,7 +23,11 @@ export const authSlice = createSlice({
     },
     logout: (state) => {
       localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      localStorage.removeItem("hotelId");
+
       state.token = "";
+      state.role = "";
     },
   },
 });

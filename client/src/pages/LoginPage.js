@@ -16,11 +16,6 @@ function LoginPage() {
 
   return (
     <>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6">Welcome to HMS</Typography>
-        </Toolbar>
-      </AppBar>
       {login ? (
         <SignIn toggle={() => setLogin(false)} />
       ) : (
