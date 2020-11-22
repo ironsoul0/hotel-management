@@ -34,6 +34,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 // @Controller
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -124,6 +125,12 @@ public class ProfileController {
         return r.getRoom_type_id().getHotel_id();
     }
 
+    private long calculatePrice(Date d1, Date d2, int bp){
+        long diffInMils = Math.abs(d2.getTime() - d1.getTime());
+        long diff = TimeUnit.DAYS.convert(diffInMils, TimeUnit.MILLISECONDS);
+        return diff * bp;
+    }
+
     @PostMapping("/edit-book/{id}")
     public String bookRoom(@PathVariable Long id, @RequestParam Long roomtype, @RequestParam String myDate, @RequestParam String myDate2) throws ParseException {
         Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(myDate);
@@ -135,6 +142,9 @@ public class ProfileController {
         r.setCheckoutDate(date2);
         r.setRoom_type_id(rt);
         r.setApproved(false);
+
+        int price = (int) calculatePrice(date1, date2, rt.getBase_price());
+        r.setPrepaid_price(price);
         reservationrepo.save(r);
         return "Success";
     }
