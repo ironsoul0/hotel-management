@@ -73,7 +73,7 @@ function ClerkPage() {
     params.append("hotelId", hotelId);
 
     api.post(`/desk/allReserves/${id}/approve`, params).then(({ data }) => {
-      if (data === -1) {
+      if (data.length === 1 && data[0] === -1) {
         dispatch(
           updateAlert({
             target: "error",
