@@ -60,8 +60,15 @@ function Main({ children }) {
             variant="h6"
           >
             Hotel Management System
-            {auth.role && ` - ${capitalize(auth.role)}`}
+            {auth.role && auth.role !== "user" && ` - ${capitalize(auth.role)}`}
           </Typography>
+          <Button
+            className={classes.menuButton}
+            color="inherit"
+            onClick={() => history.push("/about")}
+          >
+            About
+          </Button>
           {auth.role === "clerk" && (
             <Button
               className={classes.menuButton}

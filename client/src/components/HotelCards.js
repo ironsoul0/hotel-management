@@ -79,7 +79,11 @@ function HotelCards({ hotels }) {
               <Typography className={classes.pos} color="textSecondary">
                 {hotel.features}
               </Typography>
-              <Typography variant="body2" component="p">
+              <Typography
+                className={classes.description}
+                variant="body2"
+                component="p"
+              >
                 {hotel.description}
               </Typography>
             </CardContent>

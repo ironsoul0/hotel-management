@@ -22,6 +22,7 @@ import ClerkPage from "./pages/ClerkPage";
 import CreateReservationPage from "./pages/CreateReservationPage";
 import EditReservationPage from "./pages/EditReservationPage";
 import EditProfilePage from "./pages/EditProfilePage";
+import AboutPage from "./pages/AboutPage";
 
 function App() {
   const auth = useSelector((state) => state.auth);
@@ -32,6 +33,7 @@ function App() {
       <Route exact path="/hotel/:id" component={HotelPage} />
       <Route exact path="/authorize" component={LoginPage} />
       <Route path="/vpn-access" component={AdminLoginPage} />
+      <Route path="/about" component={AboutPage} />
       <Redirect to="/" />
     </Switch>
   );
@@ -44,6 +46,7 @@ function App() {
           <Route exact path="/profile" component={ProfilePage} />
           <Route exact path="/profile/:id" component={EditProfilePage} />
           <Route exact path="/hotel/:id" component={HotelPage} />
+          <Route path="/about" component={AboutPage} />
           <Redirect to="/" />
         </Switch>
       );
@@ -53,6 +56,7 @@ function App() {
           <Route exact path="/" component={ManagerPage} />
           <Route exact path="/seasons" component={SeasonsPage} />
           <Route exact path="/employee/:id" component={EmployeePage} />
+          <Route path="/about" component={AboutPage} />
           <Redirect to="/" />
         </Switch>
       );
@@ -62,6 +66,7 @@ function App() {
           <Route exact path="/" component={ClerkPage} />
           <Route exact path="/create" component={CreateReservationPage} />
           <Route exact path="/edit/:id" component={EditReservationPage} />
+          <Route path="/about" component={AboutPage} />
           <Redirect to="/" />
         </Switch>
       );

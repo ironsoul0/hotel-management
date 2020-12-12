@@ -96,7 +96,7 @@ public class HotelDebugController {
 
         Hotel munich1 = new Hotel("Maritim Hotel München", "Munich", "+9565421354", "Bar, Good Breakfast, Non-smoking rooms", "A large indoor pool with panoramic rooftop views of Munich, an international restaurant and air-conditioned rooms are offered at this hotel. Maritim Hotel München is centrally located, just 300 m away from Munich Main Station.");
 
-        Hotel munich2 = new Hotel("Vier Jahreszeiten Kempinski München", "Munich", "+946541231456", "Spa, Bar, Restaurant", "An elegant spa with pool and panoramic city views are featured at this 5-star hotel. It is centrally located in Munich, a 5-minute walk from Marienplatz Squar");
+        Hotel munich2 = new Hotel("Vier Jahreszeiten Kempinski München", "Munich", "+946541231456", "Spa, Bar, Restaurant", "An elegant spa with pool and panoramic city views are featured at this 5-star hotel. It is centrally located in Munich, a 5-minute walk from Marienplatz Square.");
 
         hotelrepo.save(almaty1);
         hotelrepo.save(almaty2);
