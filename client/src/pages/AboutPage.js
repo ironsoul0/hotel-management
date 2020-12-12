@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "15px",
     opacity: "0.9",
     marginTop: "40px",
+    marginBottom: "20px",
   },
 }));
 

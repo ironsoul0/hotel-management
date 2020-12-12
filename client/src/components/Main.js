@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   appBar: {
-    marginBottom: theme.spacing(10),
+    marginBottom: theme.spacing(7),
   },
 }));
 
