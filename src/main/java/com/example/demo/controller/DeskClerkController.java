@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -192,6 +194,12 @@ public class DeskClerkController {
         return reservation.getId();
     }
 
+    private long calculatePrice(Date d1, Date d2, int bp){
+        long diffInMils = Math.abs(d2.getTime() - d1.getTime());
+        long diff = TimeUnit.DAYS.convert(diffInMils, TimeUnit.MILLISECONDS);
+        return diff * bp;
+    }
+
     // does not show in advance if some room type is unavailable for check in date <-- add it later
     @PostMapping("/allReserves/{id}/edit")
     public Long editReservation (@PathVariable Long id,
@@ -231,6 +239,9 @@ public class DeskClerkController {
         if (roomCount > 0)
             reservation.setRoom_count(roomCount);
 
+        int newprice = (int) calculatePrice(new SimpleDateFormat("yyyy-MM-dd").parse(checkInDate), new SimpleDateFormat("yyyy-MM-dd")
+                .parse(checkOutDate), reservation.getRoom_type_id().getBase_price());
+        reservation.setPrepaid_price(newprice);
         reservationRepository.save(reservation);
         hotelRepository.save(hotel);
 

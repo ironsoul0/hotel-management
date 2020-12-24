@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -58,6 +59,15 @@ public class HotelDebugController {
 //        reservationRepository.save(a);
 //        return "redirect:/reservations";
 //    }
+
+    @GetMapping("/debug/freerooms")
+    public String freeRooms(){
+        List<Room> rooms = (List<Room>) roomrepo.findAll();
+        for (Room room : rooms) {
+            room.setOccupied(false);
+        }
+        return "DONE";
+    }
 
 
 
