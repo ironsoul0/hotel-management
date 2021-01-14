@@ -1,12 +1,7 @@
-
-<!-- PROJECT LOGO -->
-<p align="center">
-
-
 <h3 align="center">Hotel Management System</h3>
 
   <p align="center">
-    Full-stack website implemented using Spring Boot and React.js
+    Full-stack website implemented using Spring Boot and React.js 🥋
     <br />
     <br />
     <a href="https://hms.ironsoul.me">View Demo</a>
@@ -60,7 +55,7 @@ Here are things you want to have on your computer beforehand.
    ```
 3. Install dependencies for a client and start it
    ```sh
-   cd client; npm install; npm start
+   cd client && npm install && npm start
    ```
 
 
