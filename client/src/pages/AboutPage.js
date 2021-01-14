@@ -81,8 +81,9 @@ function MainPage() {
       </Typography>
       <Typography className={classes.information}>
         Brought to you proudly by frogs (Sherkhan Azimov, Danel Batyrbek, Rustem
-        Turtayev, Temirzhan Yussupov). Have fun!
+        Turtayev, Temirzhan Yussupov).
       </Typography>
+      <Typography>Have fun!</Typography>
       <CardMedia className={classes.media} image={frogs} title="Paella dish" />
     </Container>
   );
