@@ -80,7 +80,8 @@ function MainPage() {
         project locally.
       </Typography>
       <Typography className={classes.information}>
-        Brought to you proudly by frogs. Have fun!
+        Brought to you proudly by frogs (Sherkhan Azimov, Danel Batyrbek, Rustem
+        Turtayev, Temirzhan Yussupov). Have fun!
       </Typography>
       <CardMedia className={classes.media} image={frogs} title="Paella dish" />
     </Container>
