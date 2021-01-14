@@ -1,24 +1,5 @@
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Thanks again! Now go create something AMAZING! :D
--->
-
-
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-
 
 <!-- PROJECT LOGO -->
-<br />
 <p align="center">
 
 
@@ -34,15 +15,10 @@
     ·
     <a href="https://github.com/ironsoul0/hotel-management/issues">Request Feature</a>
   </p>
-</p>
-
-
-
 <!-- ABOUT THE PROJECT -->
+
 ## About The Project
-
 ![Screenshot](./assets/screen.png)
-
 This website is a final project we made for our Software Engineering class at Nazarbayev University. 
 
 The project implements a Hotel Management System where guests can book hotel rooms, desk clerks can approve reservations and managers can control hotel employees (for example, working hours of desk clerks).
@@ -59,8 +35,6 @@ In order to get access to the admin panel, you have to log in as a manager or de
 * [Material UI](https://material-ui.com/)
 * [MySQL](https://www.mysql.com/)
 
-
-<!-- GETTING STARTED -->
 ## Getting Started
 
 If you want to start the project locally.
