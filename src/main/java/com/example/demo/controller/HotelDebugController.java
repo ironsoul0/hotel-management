@@ -94,9 +94,9 @@ public class HotelDebugController {
 
         Hotel london2 = new Hotel("Park Plaza County Hall London", "London", "+9435645613", "Spa, Fitness Center, Bar", "Located on London's South Bank, this modern and family-friendly hotel is just a few minutes’ walk from the River Thames and London Eye. The Park Plaza County Hall London offers a bar, gym, and a restaurant.");
 
-        Hotel munich1 = new Hotel("Maritim Hotel München", "Munich", "+9565421354", "Bar, Good Breakfast, Non-smoking rooms", "A large indoor pool with panoramic rooftop views of Munich, an international restaurant and air-conditioned rooms are offered at this hotel. Maritim Hotel München is centrally located, just 300 m away from Munich Main Station.");
+        Hotel munich1 = new Hotel("Maritim Hotel Munchen", "Munich", "+9565421354", "Bar, Good Breakfast, Non-smoking rooms", "A large indoor pool with panoramic rooftop views of Munich, an international restaurant and air-conditioned rooms are offered at this hotel. Maritim Hotel München is centrally located, just 300 m away from Munich Main Station.");
 
-        Hotel munich2 = new Hotel("Vier Jahreszeiten Kempinski München", "Munich", "+946541231456", "Spa, Bar, Restaurant", "An elegant spa with pool and panoramic city views are featured at this 5-star hotel. It is centrally located in Munich, a 5-minute walk from Marienplatz Square.");
+        Hotel munich2 = new Hotel("Vier Jahreszeiten Kempinski Munchen", "Munich", "+946541231456", "Spa, Bar, Restaurant", "An elegant spa with pool and panoramic city views are featured at this 5-star hotel. It is centrally located in Munich, a 5-minute walk from Marienplatz Square.");
 
         hotelrepo.save(almaty1);
         hotelrepo.save(almaty2);
@@ -369,7 +369,7 @@ public class HotelDebugController {
                 employeeRepository.save(e2);
             }
 
-            if (hotel.getName().equals("Maritim Hotel München")) {
+            if (hotel.getName().equals("Maritim Hotel Munchen")) {
                 Room_type a = new Room_type("Double Classic", hotel, 2, 20, "Mountain view, Air Conditioning, Flat-screen TV, Minibar", 100000);
                 Room_type b = new Room_type("Comfort Double", hotel, 2, 20, "Soundproof, Coffee machine, Landmark view", 120000);
                 Room_type c = new Room_type("Comfort Family", hotel, 4, 30, "Mountain view, City view, Minibar, Spa tub", 175000);
@@ -386,7 +386,7 @@ public class HotelDebugController {
                 roomrepo.save(room5);
             }
 
-            if (hotel.getName().equals("Vier Jahreszeiten Kempinski München")) {
+            if (hotel.getName().equals("Vier Jahreszeiten Kempinski Munchen")) {
                 Room_type a = new Room_type("Double Deluxe", hotel, 2, 35, "Mountain view, Air Conditioning, Flat-screen TV, Minibar", 360000);
                 Room_type b = new Room_type("Grand Deluxe", hotel, 3, 35, "Soundproof, Coffee machine, Landmark view", 480000);
                 Room_type c = new Room_type("Junior Suite", hotel, 3, 50, "Mountain view, City view, Minibar, Spa tub", 700000);
